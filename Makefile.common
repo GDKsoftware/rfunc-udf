@@ -1,0 +1,53 @@
+##########################################################################
+#
+#                rfunc UDF library
+#
+##########################################################################
+#
+#  <Copyright>
+#      Copyright 2009 PoleSoft Technologies Group
+#      http://www.polesoft.ru/project/rfunc
+#      mailto:support@polesoft.ru
+#
+#      This library is free software; you can redistribute it and/or
+#      modify it under the terms of the GNU Lesser General Public
+#      License as published by the Free Software Foundation; either
+#      version 2.1 of the License, or (at your option) any later version.
+#      See license.txt for more details.
+#
+#  <Unit> Makefile.am
+#    <Purpose>
+#    <Effects>
+#    <Perfomance>
+##########################################################################
+#  $Revision: 114 $ $Author: coopht $
+#  $Date: 2009-03-15 17:49:11 +0300 (Вск, 15 Мар 2009) $
+##########################################################################
+
+CLEANFILES=*.o
+
+if MAINTAINER_MODE
+   CFLAGS+=-O0 -ggdb3 -Wall -Werror -pedantic
+   CXXFLAGS+=-O0 -ggdb3 -Wall -Werror -pedantic
+else
+   CFLAGS+= -O2 -Wall -pedantic
+   CXXFLAGS+= -O2 -Wall -pedantic
+endif
+
+RFUNC_DEFS=
+
+if R_USE_FILE
+   RFUNC_DEFS+= -DRUSE_FILE
+endif
+
+if R_USE_DATETIME
+   RFUNC_DEFS+= -DRUSE_DATETIME
+endif
+
+if R_GUID_WIN_STYLE
+   RFUNC_DEFS+= -DRGUID_WIN_STYLE
+endif
+
+if R_USE_GUID
+   RFUNC_DEFS+= -DRUSE_GUID
+endif
