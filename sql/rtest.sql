@@ -4,9 +4,9 @@
 		rFunc InterBase UDF library.
 		SQL-script for testing rFunc.
 
-		Copyright 1998-2003 Polaris Software
-		http://rfunc.sourceforge.net
-		mailto:rFunc@mail.ru
+      		Copyright 2009 PoleSoft Technologies Group
+		http://www.polesoft.ru/project/rfunc
+		mailto:support@polesoft.ru
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public

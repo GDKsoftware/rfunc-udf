@@ -5,9 +5,9 @@
 		Update SQL-script for migrate DB from IB 4,5 to IB 6 or later.
                 For InterBase 6 or later.
 
-		Copyright 2003-2007, PSTG
-		http://rfunc.sourceforge.net
-		mailto:rFunc@mail.ru
+      		Copyright 2009 PoleSoft Technologies Group
+		http://www.polesoft.ru/project/rfunc
+		mailto:support@polesoft.ru
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public

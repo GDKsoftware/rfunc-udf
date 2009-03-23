@@ -4,9 +4,9 @@
       rFunc InterBase UDF library.
       Install SQL-script.
 
-      Copyright 1998-2003 Polaris Software
-      http://rfunc.sourceforge.net
-      mailto:rFunc@mail.ru
+      Copyright 2009 PoleSoft Technologies Group
+      http://www.polesoft.ru/project/rfunc
+      mailto:support@polesoft.ru
 
 ====================================================================== */
 

@@ -5,9 +5,9 @@
 		Update SQL-script for migrate DB from rFunc 2.0 to 2.1.
                 For InterBase 5.x.
 
-		Copyright 2003-04 Polaris Software
-		http://rfunc.sourceforge.net
-		mailto:rFunc@mail.ru
+      		Copyright 2009 PoleSoft Technologies Group
+		http://www.polesoft.ru/project/rfunc
+		mailto:support@polesoft.ru
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
