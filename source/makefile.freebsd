@@ -1,0 +1,97 @@
+#====================================================================
+#		File makefile.freebsd
+#
+#		rFunc InterBase UDF library.
+#		Compilation tested with
+#		For FreeBSD
+#
+#		Copyright 1998-2003 Polaris Software
+#		http://rfunc.sourceforge.net
+#		mailto:rFunc@mail.ru
+#
+#	 This library is free software; you can redistribute it and/or
+#	 modify it under the terms of the GNU Lesser General Public
+#	 License as published by the Free Software Foundation; either
+#	 version 2.1 of the License, or (at your option) any later version.
+#	 See license.txt for more details.
+#
+#====================================================================
+
+# FreeBSD
+IBASE=		/usr/interbase
+
+CP=		cp
+RM=		rm -f
+
+TARGETNAME=	rfunc
+IBVERSION=	6
+GDS_NAME=	gds
+#GDS_NAME=	fbclient
+EXTCFLAGS = -DRUSE_DATETIME -DIB_$(IBVERSION)X -DIB_$(IBVENDOR)
+.if defined(REXT)
+OBJ=	$(TARGETNAME).o $(REXT).o
+.else
+OBJ=	$(TARGETNAME).o
+.endif
+
+CC=		gcc
+LD=		ld
+LINK=	gcc
+
+.if $(IBVERSION) == 6
+INSTALLTO=	"$(IBASE)/UDF"
+.else
+INSTALLTO=	/usr/lib
+.endif
+#SDKDIR=/SDK
+
+RFUNCIBUTILLIB=	$(IBASE)/lib/libib_util.so
+
+INCLUDE=	-I/usr/include -I"$(IBASE)$(SDKDIR)/include"
+IBLIB=		/usr/interbase/lib
+
+CFLAGS=		-c -w -DFREEBSD $(EXTCFLAGS) $(INCLUDE)
+LIB_CFLAGS=	-fPIC $(CFLAGS)
+LINK_FLAGS=	-l$(GDS_NAME) -ldl -lcrypt
+LIB_LINK_FLAGS=	-shared -l$(GDS_NAME) -L$(IBLIB)
+
+LIBRARIES=	/usr/lib/libm.so $(RFUNCIBUTILLIB)
+TARGET=		$(TARGETNAME)
+OBJS=		$(OBJ) rblob.o rcalc.o rdatetime.o rmath.o rmisc.o rsecurity.o rstring.o win1251.o
+
+.SUFFIXES: .o .c
+
+.c.o:
+	$(CC) $< $(LIB_CFLAGS) -o $@
+
+.o:
+	$(LINK) -o $@ $< $(LINK_FLAGS)
+
+all:	$(TARGET)
+
+$(TARGET):	$(OBJS)
+	$(LD) $(OBJS) -o $@ $(LIBRARIES) $(LIB_LINK_FLAGS)
+
+rfunc.o:	rfunc.c rfunc.h
+
+rstring.o:	rstring.c rstring.h win1251.h rfunc.h
+
+rdatetime.o:	rdatetime.c rdatetime.h rfunc.h
+
+rcalc.o:	rcalc.c rcalc.h rfunc.h
+
+rblob.o:	rblob.c rblob.h rfunc.h
+
+rsecurity.o:	rsecurity.c rsecurity.h rfunc.h
+
+rmath.o:	rmath.c rmath.h rfunc.h
+
+rmisc.o:	rmisc.c rmisc.h rfunc.h
+
+win1251.o:	win1251.c win1251.h rfunc.h rmath.h
+
+install:
+	$(CP) $(TARGET) $(INSTALLTO)
+
+clean:
+	$(RM) $(OBJS)

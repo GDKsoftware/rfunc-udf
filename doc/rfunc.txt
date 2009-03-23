@@ -1,0 +1,667 @@
+
+[Main] rFunc UDF Library
+       version 2.1.3 RC
+
+    The library represents a set of user's (UDF) string, bit, numerical
+functions, and also for operation with dates&time and BLOBs. And also
+PARSER, i.e. calculator of expressions. Are supported InterBase 4.2, 5.x,
+6.x (Windows, Linux), Firebird 1.x (Windows, Linux, FreeBSD) and Yaffil
+1.x. The library include more than 140 functions and "pseudo-functions" (it
+when some string UDFs have one base function, in main it is functions with
+the LongXXXX name). The library is written on C++ and is delivered with
+source codes.
+
+The order of compilation and installation is described in the readmeeng.txt
+file from the distribution archive.
+
+[Image]functions         [Image]
+
+Legend:
+
+ Symbol    Type of parameter
+ f         DOUBLE PRECISION
+ si        SMALLINT
+ i         INTEGER
+
+ d         DATE for IB4.2 and IB5.x
+           TIMESTAMP for IB6 or later
+ c         CHAR(1)
+ c"        CHAR(32)
+ c*        VARCHAR(176)
+ s         VARCHAR(255)
+ S         VARCHAR(16383)
+ s'        VARCHAR(8)
+ s"        VARCHAR(31)
+ s"'       VARCHAR(38)
+           VARCHAR(8127) for IB4.2
+ S**       VARCHAR(16383) for IB5.x or
+           later
+ B         BLOB
+
+                                   Versions
+ Function                      Type                Returns
+                                   IB*     rFunc**
+ Numerical
+ Abs(f)                        f                   The module of number
+ Ceil(f)                       f                   Minimum greater whole
+
+ Floor(f)                      f                   The maximum smaller
+                                                   whole
+                                   4-7     1.0
+ MaxNum(f1, f2)                f                   Greater of numbers
+ MinNum(f1, f2)                f                   Smaller of numbers
+
+ Power(f1, f2)                 f                   Number f1 in a degree
+                                                   f2
+                                                   The rounded off value f
+                                                   up to i signs, and for
+                                                   want of i > 0 is
+ Round(f, i)                   f   4-7     1.1     rounded off a
+                                                   fractional part, and
+                                                   for want of i < 0 -
+                                                   whole
+                                                   Similarly Round, but if
+                                                   the outcome of roundoff
+ SoftRound(f, i)               f   4-7     1.5.0   is equal 0, the
+                                                   roundoff is not
+                                                   produced.
+                                                   If the parameter has
+ Z(f)                          f   4-7     1.3.0   value NULL, 0. In all
+                                                   other cases that is
+                                                   transferred comes back.
+
+ IIf(i1, i2, i3)               i   4-7     1.3.0   If i1=0, i3, in other
+                                                   cases - i2
+
+ DIf(i, f1, f2)                f   4-7     1.3.0   If i=0, f2, in other
+                                                   cases - f1
+
+ DZero(f1, f2, f3)             f   4-7     1.3.0   Quotient f1 and f2. If
+                                                   f2 = 0, returns f3.
+                                                      The unpretentious
+                                                         analyzer of
+                                                        expressions.
+                                                   Supported functions and
+                                                         operations
+
+                                                   + - * /
+                                                   Sin, Cos, tg, ctg,
+                                                   ArcCos, ArcSin, ArcTg,
+                                                   sh, ch, th,
+                                                   exp, lh, lg, sqrt, sqr,
+                                                   abs(x1)
+                                                   sgn(x1) - the sign of
+                                                   number x1
+                                                   log(x1,x2) - log x1 on
+                                                   the basis x2
+ CalcExpr(S1, S2)                                  power(x1,x2) -
+                                                   exponentation x1 in a
+ For example:                                      degree x2
+ CalcExpr('Sin(                f   4-7     1.3.0   if(expr, x1, x2) - if
+ Pi*:p11/3)*:P2',                                  expr=0, then x2, else
+ 'P11=2;P2=10')                                    x1
+                                                   Min(x1, ...) - minimum
+                                                   from numbers
+                                                   Max(x1, ...) - maximum
+                                                   from numbers
+                                                   Sum(x1, ...) - toting
+                                                   of arguments
+                                                   Avg(x1, ...) - average
+                                                   arithmetic
+                                                   Pi - number Pi.
+
+                                                        For usage of
+                                                   variables in expression
+                                                   - before them the colon
+                                                   is put, and they are
+                                                   described in the second
+                                                   parameter (see
+                                                   example).
+                                                   Check on a correctness
+                                                   of the given
+ ExprIsValid(S1, S2)           i   4-7     1.3.0   expression. Returns 0,
+                                                   if all is right,
+                                                   differently - code of
+                                                   an error.
+
+ Div(i1, i2)                   i   4-7     1.5.0   The whole quotient i1
+                                                   and i2
+
+ Mod(i1, i2)                   i   4-7     1.5.0   Residual from division
+                                                   i1 on i2
+                                                   Initialization of the
+ InitRandom(i)                 i   4-7     2.0.0   generator of
+                                                   pseudorandom numbers.
+
+ GetRandom(i)                  i   4-7     2.0.0   Pseudorandom numbers in
+                                                   a range 0..i.
+
+ IEqual(i1, i2) [Image]        i   4-7     2.1.1   Equality test (1 means
+                                                   equality)
+                                                   Sign of a number (-1 if
+ Sign(f) [Image]               si  4-7     2.1.1   f<0, 0 if f=0, 1 if
+                                                   f>0).
+
+ Sqrt(f) [Image]               f   4-7     2.1.3   The positive square
+                                                   root
+
+ Exp(f) [Image]                f   4-7     2.1.3   Constant e raised to
+                                                   the specified power
+                                                   The logarithm of a
+ Log(f1, f2) [Image]           f   4-7     2.1.3   number f1 to the base
+                                                   f2
+
+ Log10(f) [Image]              f   4-7     2.1.3   Base-10 logarithm of a
+                                                   number
+ Ln(f) [Image]                 f   4-7     2.1.3   The natural logarithm
+
+ E [Image]                     f   4-7     2.1.3   Constant E
+                                                   (2.7182818284590451)
+ Trigonometric [Image]
+ ACos(f)                       f                   The arc cosine
+ ASin(f)                       f                   The arc sine
+ ATan(f)                       f                   The arc tangent
+
+ ATan2(f1, f2)                 f                   The arc tangent of
+                                                   f1/f2
+ Cos(f)                        f                   The cosine
+ CosH(f)                       f   4-7     2.1.3   The hyperbolic cosine
+ Sin(f)                        f                   The sine
+ SinH(f)                       f                   The hyperbolic sine
+ Tan(f)                        f                   The tangent
+ TanH(f)                       f                   The hyperbolic tangent
+
+ Pi                            f                   Constant Pi
+                                                   (3.1415926535897931)
+ String
+ Chr(si)                       c   4-7     1.1     Character on the code
+ Ord(c)                        si  4-7     1.1     The code of character
+ StrReplace(s1, s2, s3)        s           1.2.1
+ LongStrReplace(S1, S**2,          4-7             Substitutes in string
+                               S           1.2.0   s1 a substring s2 on s3
+ S**3)
+
+ StrStuff(s1, i1, i2, s2)      s           1.0     In string s1 deletes i2
+                                   4-7             of characters, since
+                                                   i1, and inserts on this
+ LongStrStuff(S1, i1, i2, S2)  S           1.2.0   place s2
+ LTrim(s)                      s           1.0     Delete blanks at the
+                                   4-7
+ LongLTrim(S)                  S           1.2.1   left
+ RTrim(s)                      s           1.0     Delete blanks on the
+                                   4-7
+ LongRTrim(S)                  S           1.2.1   right
+ StrLen(S)                     i   4-7     1.0     Length of string
+                                                   Position of string s1
+ StrPos(s1, S2)                i   4-7     1.0     in string S2. If not is
+                                                   found, 0.
+ StrRepeat(s, i)               s           1.0     Duplicates string s i
+                                   4-7
+ LongStrRepeat(S, i)           S           1.2.1   times
+                                                   Substring of string s,
+                                                   since character i1 and
+ SubStr(s, i1, i2)             s           1.0     length a maxima i2.
+                                                   I1 < 0 - counting
+                                   4-7             happens from an
+                                                   extremity of string,
+ LongSubStr(S, i1, i2)         S           1.2.1   I2 < 0 - the characters
+                                                   to the left of a point
+                                                   of counting are output.
+ Trim(s)                       s           1.0     Delete all blanks on
+                                   4-7             the right and at the
+ LongTrim(S)                   S           1.2.1   left
+ CIf(i, s1, s2)                s                   If i = 0, s2, in
+                                   4-7     1.3.0
+ LongCIf(i, S1, S2)            S                   remaining cases - s1
+
+ StrCount(s1, S2)              i   4-7     1.3.0   Amount of entrances s1
+                                                   in S2
+                                                   Amount of words in
+                                                   string S, divided in
+                                                   characters from string
+ WordCount(S, s", si)          i   4-7     1.3.0   s". If si <> 0, some
+                                                   separators the contract
+                                                   are considered as a
+                                                   word.
+                                                   i-th word in string S,
+ WordNum(S, i, s", si)         s                   divided in characters
+
+                                   4-7     1.3.0   from string s". If si
+                                                   <> 0, some separators
+ LongWordNum(S, i, s", si)     S                   the contract are
+                                                   considered as a word.
+ RLower(s)                     s           1.4.0   String in lowercase
+                                   4-7
+ LongRLower(S)                 S           1.5.0   (WIN1251 only)
+ RUpper(s)                     s           1.4.0   String in uppercase
+                                   4-7
+ LongRUpper(S)                 S           1.5.0   (WIN1251 only)
+
+ PadLeft(s, i, c)              s                   Supplements string s up
+                                   4-7     2.0.0   to length in i
+                                                   character c at the
+ LongPadLeft(S, i, c)          S                   left.
+
+ PadRight(s, i, c)             s                   Supplements string s up
+                                   4-7     2.0.0   to length in i
+                                                   character c at the
+ LongPadRight(S, i, c)         S                   right.
+ RLatin(s)                     s                   Substitutes characters
+                                   4-7     2.0.0   from win1251 on
+ LongRLatin(S)                 S                   "similar" of a Latin.
+ RTranslit(s)                  s                   Transliteration from
+                                   4-7     2.0.0
+ LongRTranslit(S)              S                   win1251 in a Latin.
+                                                   String comparing (si<0
+ StrCmp(S1, S2) [Image]        si  4-7     2.1.1   - first is less, si>0 -
+                                                   equal, si>0 - first is
+                                                   more)
+ C(s) [Image]                  s                   Returns empty string,
+                                   4-7     2.1.1   if input parameter is
+ LongC(S) [Image]              S                   Null.
+
+ CEqual(S1, S2) [Image]        i   4-7     2.1.1   Equality test (1 means
+                                                   equality)
+
+ RepeatTrim(s1, s2) [Image]    s                   Deletes symbol s2
+                                                   duplication in string
+                                   4-7     2.1.1   s1 .
+ LongRepeatTrim(S1, S2)                            Example:
+ [Image]                       S                   RepeatTrim('1223', '2')
+                                                   = '123'
+
+ ConvertSymbols(s1, s2, s3)                        Exchanges symbols from
+ [Image]                           4-5     1.0     charset s2 to charset
+                               i                   s3 in string s1.
+                                                   Example:
+ LongConvertSymbols(S1, s2,        4-7     2.1.1   ConvertSymbols('1+2=3',
+ s3) [Image]                                       '123', 'abc') = 'a+b=c'
+ Dates & Time
+
+ DayPerMonth(i1, i2)           i   4-7     1.0     Number of days in i1 a
+                                                   month i2 of a year
+                                                   Day of week (1 -
+ Dow(d)                        i   4-7     1.0     Monday, ..., 7 -
+                                                   Sunday)
+
+ ExtractDate(d)                            1.2.3   Extracts date from
+                                                   date+time
+                               d   4-7
+ ExtractTime(d)                            2.0.0   Extracts time from
+                                                   date+time
+ Day(d)                            4-5     1.0
+                               i                   Day of date
+ ExtractDay(d) [Image]             4-7     2.1.1
+ Month(d)                          4-5     1.0
+                               i                   Month of date
+ ExtractMonth(d) [Image]           4-7     2.1.1
+ Year(d)                           4-5     1.0
+                               i                   Year of date
+ ExtractYear(d) [Image]            4-7     2.1.1
+ Hour(d)                           4-5     1.5.2
+                               i                   Hour of time
+ ExtractHour(d) [Image]            4-7     2.1.1
+ Minute(d)                         4-5     1.5.2
+                               i                   Minute of time
+ ExtractMinute(d) [Image]          4-7     2.1.1
+ Second(d)                         4-5     1.5.2
+                               i                   Second of time
+ ExtractSecond(d) [Image]          4-7     2.1.1
+ ExtractMillisecond(d) [Image] i   6-7     2.1.3   Millisecond of time
+ WeekDay(d)                        4-5     2.0.0   Day of week. (0 -
+                               i                   Sunday, 1 - Monday,
+ ExtractWeekDay(d) [Image]         4-7     2.1.1   ..., 6 - Saturday)
+ YearDay(d)                        4-5     2.0.0
+                               i                   Day of year
+ ExtractYearDay(d) [Image]         4-7     2.1.1
+ Quarter(d)                    i   4-7     2.0.0   Quarter of a year
+
+ FirstDayMonth(d)              d   4-7     2.0.0   The first day of a
+                                                   month
+ LastDayMonth(d)               d   4-7     2.0.0   The last day of a month
+
+ IsLeapYear(i)                 i   4-7     2.0.0   1 - leap-year, 0 -
+                                                   unleap
+
+ DaysBetween(d1, d2)           i   4-7     2.0.0   Amount of days between
+                                                   dates
+
+ DtIf(i, d1, d2)               d   4-7     2.0.0   If i = 0, d2, in other
+                                                   cases - d1
+                                                   Change of date on i1
+ IncDate(d, i1, i2, i3)        d   4-7     2.0.1   days, i2 months, i3
+                                                   years.
+                                                   Change of date on i1
+ IncDateTime(d, i1, i2, i3,                        days, i2 months, i3
+ i4, i5, i6) [Image]           d   4-7     2.1.1   years, i4 hours, i5
+                                                   minutes, i6 seconds.
+ MaxDate(d1, d2) [Image]       d   4-7     2.1.1   Greater of dates
+ MinDate(d1, d2) [Image]       d   4-7     2.1.1   Smaller of dates
+
+ DtEqual(d1, d2) [Image]       i   4-7     2.1.1   Equality test (1 means
+                                                   equality)
+ Datatype conversions
+                                                   Conversion of date d in
+                                                    string using a format
+                                                             s.
+                                                     Formatting strings
+                                                      (correspond with
+                                                    c-function strftime):
+                                                   %% - character %,
+                                                   %c - date and time,
+                                                   %x - date,
+                                                   %d - day of a month
+                                                   (01-31),
+                                                   %j - day of year
+                                                   (000-366),
+                                                   %w - day of week (0-6),
+                                                   0 - Sunday,
+                                                   %U - number of week in
+ DateToStr(d, s)                                   one year (00-53),
+                                                   Sunday - the first day
+ For example:                                      of week,
+ DateToStr('10.02.99','%d.%m.                      %W - number of week in
+ %y') = '10.02.99'             s   4-7     1.0     one year (00-53),
+ DateToStr('10.02.04                               Monday - the first day
+ 08:23','%d %B %Y, %X') =                          of week,
+ '10 February 2004, 08:23:00'                      %a - the short name of
+                                                   day of week,
+                                                   %A - the full name of
+                                                   day of week,
+                                                   %m - month (01-12),
+                                                   %b - the short name of
+                                                   day of month,
+                                                   %B - the full name of
+                                                   day of month,
+                                                   %y - year (00-99),
+                                                   %Y - four-digit year,
+                                                   %X - time,
+                                                   %H - hour (00-23),   %I
+                                                   - hour (01-12),
+                                                   %M - minute (00-59),
+                                                   %p - AM or PM,
+                                                   %S - second (00-59).
+
+ EncodeDate(i1, i2, i3)        d   4-7     1.0     Date on format i1.i2.i3
+                                                   = dd.mm.yyyy
+
+ EncodeDateTime(i1, i2, i3,                        Date and time on format
+ i4, i5, i6)                   d   4-7     1.5.2   i1.i2.i3 i4:i5:i6 =
+                                                   dd.mm.yyyy hh:nn:ss
+
+ DoubleToDate(f) [Image]       d   4-7     2.1.2   Converts double to
+                                                   date.
+
+ DoubleToTime(f) [Image]       d   4-7     2.1.2   Converts double to
+                                                   time.
+
+ DateToDouble(d) [Image]       f   4-7     2.1.1   Converts date to
+                                                   double.
+
+ TimeToDouble(d) [Image]       f   4-7     2.1.1   Converts time to
+                                                   double.
+                                                   Conversion of double f
+                                                      to string using a
+                                                          format s.
+                                                     Formatting strings
+                                                      (as in c-function
+                                                         sprintf):
+                                                      % [flags] [width]
+                                                      [.prec] type_char
+                                                   flags:
+                                                     -   left justify
+                                                     +   begin with plus
+                                                         or minus sign
+                                                   blank blank instead of
+                                                         a plus
+                                                     #   alternate
+                                                         conversion:
+                                                         0x (0X) before
+                                                         for x,X type_char
+                                                         always a decimal
+                                                         point for e,E,f
+                                                   width:
+                                                     n   at least n chars,
+                                                         padded by blanks
+                                                     0n  at least n chars,
+                                                         padded by zeros
+                                                   prec:
+                                                   (none)1 for d,i,o,u,x,X
+ FloatToStr(f, s) [Image]                                types
+                                                         6 for e,E,f types
+ For example:                                            all significant
+ FloatToStr(13.5, '%7.3e') =                             digits for g,G
+ '1.350e+01'                                         .0  for d,i,o,u,x
+ FloatToStr(13.5, '%+7.3f') =                            types, precision
+ ' +13.500'                                              set to default
+ FloatToStr(13.5345, '%.5g') = s   4-7     2.1.1         for e,E,f types,
+ '13.534'                                                no decimal point
+ FloatToStr(13.5345, '%.5f') =                       .n  for d,i,o,u,x
+ '13.53450'                                              types, at least n
+ FloatToStr(13, '%05X') =                                digits
+ '0000D'                                                 for e,E,f types,
+ FloatToStr(13, '%#04x') =                               n digits after
+ '0x0d'                                                  the decimal point
+                                                         for g,G, at most
+                                                         n significant
+                                                         digits
+                                                   type_char:
+                                                    d,i  signed decimal
+                                                         integer
+                                                     o   unsigned octal
+                                                         integer
+                                                     u   unsigned decimal
+                                                         integer
+                                                    x,X  unsigned
+                                                         hexadecimal int
+                                                     f   signed value of
+                                                         the form
+                                                         [-]dddd.dddd
+                                                     e   signed value of
+                                                         the form
+                                                         [-]d.dddd or
+                                                         e[+/-]ddd
+                                                     g   signed value in
+                                                         either e or f
+                                                         form, based on
+                                                         given value and
+                                                         precision
+                                                    E,G  same as e,g, but
+                                                         with E for
+                                                         exponent
+                                                   Conversion of integer i
+ IntToStr(i, s) [Image]        s   4-7     2.1.1   to string using a
+                                                   format s (See
+                                                   FloatToStr)
+                                                   Number in words
+ NumInWords(i, ?) [Image]      s   4-7     2.1.3   (WIN1251 only). ? is
+                                                   grammatical gender
+ BLOB
+ B_Line(B, i)                  s
+                                                   i-th line of B
+ B_LongLine(B, i)              S
+ B_Line_Count(B)               i                   Amount of lines
+
+ B_Max_Segment(B)              i                   Maximum length of a
+                                                   segment
+
+ B_Number_Segments(B)          i   4-7     2.0.0   Amount of segments
+                                                   Put a segment in a
+ B_Put_Segment(S)              B                   blob-field (example see
+                                                   in rtest.sql)
+ B_SubStr(B, i1, i2)           s
+                                                   Similar SubStr
+ B_LongSubStr(B, i1, i2)       S
+ B_Total_Length(B)             i                   Amount of bytes in B
+
+ B_StrCmp(B1, B2) [Image]      si  4-7     2.1.2   Comparing of two string
+                                                   BLOBs. Similar StrCmp
+
+ B_StrPos(S, B) [Image]        si  4-7     2.1.2   Search substring in
+                                                   BLOB. Similar StrPos
+
+ B_TextPos(S, B) [Image]       si  4-7     2.1.2   Similar B_StrPos, but
+                                                   not case sensitive
+ Bit
+ BitAnd(i1, i2)                i                   i1 and i2
+ BitNot(i)                     i                   not(i)
+ BitOr(i1, i2)                 i                   i1 or i2
+ BitXor(i1, i2)                i                   i1 xor i2
+                                   4-7     2.0.0
+ GetBit(i1, i2)                i                   i2-th bit of number i1
+                                                   Substitutes i2-th bit
+ SetBit(i1, i2, i3)            i                   of number i1 on i3. i3
+                                                   can accept values 0 and
+                                                   1.
+ API
+                                                   Addition and change of
+                                                   properties of the user.
+ Add_User(i, s1, s"2, s'3,                         API InterBase. Adds
+ s"4, s"5, s"6, s"7, s"8, s'9)                     (changes) the user with
+                                                   the s"2 name on the s1
+ For example:                                      server from UNIX-group
+ Add_User(1, 'ibserver',       i                   s"4. The connection is
+ 'uname', 'password', '',          5-7     1.3.0   produced under protocol
+ 'john', 'jr', 'Doe',                              i (1-TCPIP, 2-NetBEUI,
+ 'sysdba', 'masterke')                             3-SPX, 4-locally) user
+                                                   s"8 with the password
+                                                   s'9. Parameters: s'3 -
+                                                   password, s"5 - name,
+ Modify_User(i, s1, s"2, s'3,                      s"6 - patronymic, s"7 -
+ s"4, s"5, s"6, s"7, s"8, s'9) i                   surname. Returns an
+                                                   exit code (0-normal).
+                                                   Deleting of the user.
+                                                   API IB InterBase.
+                                                   Deletes the user with
+                                                   the s"2 name on the s1
+ Delete_User(i, s1, s"2, s"8,                      server. The connection
+ s'9)                          i   5-7     1.3.0   is produced under
+                                                   protocol i (1-TCPIP,
+                                                   2-NetBEUI, 3-SPX,
+                                                   4-locally) user s"8
+                                                   with the password s'9.
+                                                   The window of the
+                                                   message with
+                                                   possibility of a
+                                   5-7             choice. It is not
+ MsgBox(S1, s2, i)             i   Windows 1.3.0   recommended to use on
+                                   Only            remote servers. API
+                                                   Windows. Outputs the
+                                                   window with header s2
+                                                   and text S1.
+ Special
+
+ LibVersion [Image]            s   4-7     2.1.1   The rFunc library
+                                                   version
+
+ LibName [Image]               s   4-7     2.1.1   The library name
+                                                   (always "rfunc")
+
+ EAN13cs(s) [Image]            si  4-7     2.1.1   Calculation of EAN13's
+                                                   thirteenth digit.
+
+ MD5Sum(S) [Image]             c"  4-7     2.1.3   ?hecksum by MD5
+                                                   algorithm
+                                                   Block-to-block
+                                                   calculation of checksum
+                                                   by MD5 algorithm.
+ MD5Init [Image]               c*                  Usage:
+                                                   - declare a variable
+                                                   context CHAR(176) for
+                                                   temporary result;
+                                                   - declare a variable
+                                                   md5 CHAR(32) for final
+                                                   result;
+                                                   - execute context =
+ MD5Update(c*, S, i) [Image]   c*  4-7     2.1.3   md5Init();
+                                                   - in loop (or as
+                                                   needed) execute context
+                                                   = md5Update(context, S,
+                                                   SLen), where are
+                                                   context -
+                                                   understandably,
+                                                   S - regular input
+ MD5Final(c*) [Image]          c"                  string,
+                                                   SLen - processing
+                                                   length;
+                                                   - execute md5 =
+                                                   md5Final(context);
+ CreateGUID [Image]            s"' 4-7     2.1.3   GUID as string
+ File [Image]
+ This functions is optional. They are not compiled without setting
+ special option (see readmeeng.txt). Use this functions set very
+ carefully. Applying of this functions may damage or delete files on your
+ server disk.
+                                                   Create file with name
+                                                   s. Create mode is i
+                                                   (combination of
+ FCreate(s, i)                 i                   FS_xxx). Returns file
+                                                   handle or a negative
+                                                   number if error
+                                                   occured.
+                                                   Open file with name s.
+                                                   Access flags are
+                                                   specified by i1. i2 is
+ FOpen(s, i1, i2)              i                   mode for create file
+                                                   (i1=FO_CREAT). Returns
+                                                   file handle or a
+                                                   negative number if
+                                                   error occured.
+                                           2.1.2
+ FRead(i1, i2)                                     Reads i2 bytes from
+ LongFRead(i1, i2)             s   4-7             file with handle i1.
+                                                   Writes bytes from
+                                                   string S into file with
+ FWrite(i, S)                  i                   handle i. Returns
+                                                   number of written
+                                                   bytes.
+                                                   Sets the file pointer
+                                                   associated with i1 to a
+ FSeek(i1, i2, i3)             i                   new position that is i2
+                                                   bytes from the file
+                                                   location given by i3.
+
+ FClose(i)                     i                   Close file with handle
+                                                   i. Returns 0.
+
+ FRemove(s)                    i           2.1.3   Deletes file with name
+                                                   s.
+ FSize(s)                      i           2.1.3   Size of file
+                                                   Open for reading only.
+                                                   Open for writing only.
+ Functions-constants for i1                        Open for reading and
+ parameter of FOpen:                               writing.
+ FO_RDONLY                                         If the file does not
+ FO_WRONLY                                         exist, the file is
+ FO_RDWR                                   2.1.2   created.
+ FO_CREAT                                          If the file exists, its
+ FO_TRUNC                                          length is truncated to
+ FO_EXCL                                           0.
+                                                   Exclusive open. Used
+                                                   only with FO_CREAT.
+                                                   File pointer will be
+ FO_APPEND                                 2.1.3   set to the end of the
+                                                   file prior to each
+                                                   write.
+ Functions-constants for i3
+ parameter of FSeek:                               File beginning.
+ FSEEK_SET                     i   4-7     2.1.2   Current file pointer
+ FSEEK_CUR                                         position.
+ FSEEK_END                                         End-of-file.
+ Functions-constants for i3
+ parameter of FOpen and i2 of
+ FCreate:
+ FS_IREAD                      i   4-7     2.1.3   Owner can read
+ FS_IWRITE                                         Owner can write
+ FS_IEXEC                                          Owner can execute
+
+* - Firebird 1.x and Yaffil 1.x are equals Interbase 6
+** - First appearance of a function
+
+[Image]changes history   [Image]
+
+Please, on all questions and remarks connected with rFunc UDF Library,
+access to rFunc@mail.ru or forums.
+
+[Image]
+Copyright © 2003 Polaris Software

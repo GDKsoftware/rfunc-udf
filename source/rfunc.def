@@ -1,0 +1,143 @@
+;/*====================================================================
+;		rfunc.def
+;
+;		rFunc InterBase UDF library.
+;		Blob functions.
+;
+;		Copyright 1998-2003 Polaris Software
+;		http://rfunc.sourceforge.net
+;		mailto:rFunc@mail.ru
+;
+;====================================================================== */
+LIBRARY		rfunc
+DESCRIPTION	'rfunc.dll'
+DATA	READ WRITE
+EXPORTS
+;
+;	Version functions
+;
+	fn_libname
+	fn_libversion
+;
+;	Date&Time functions
+;
+	fn_year
+	fn_month
+	fn_day
+	fn_yearday
+	fn_weekday
+	fn_hour
+	fn_minute
+	fn_second
+	fn_quarter
+	fn_isleapyear
+	fn_datetostr
+	fn_encodedate
+	fn_encodedatetime
+	fn_extractdate
+	fn_extracttime
+	fn_dow
+	fn_daypermonth
+	fn_firstdaymonth
+	fn_lastdaymonth
+	fn_daysbetween
+	fn_incdate
+	fn_incdatetime
+	fn_maxdate
+	fn_mindate
+	fn_timetodouble
+	fn_datetodouble
+	fn_doubletodate
+	fn_doubletotime
+;
+;	Math functions
+;
+	fn_abs
+	fn_maxnum
+	fn_minnum
+	fn_ceil
+	fn_floor
+	fn_power
+	fn_round
+	fn_softround
+	fn_div
+	fn_mod
+	fn_z
+	fn_dividezero
+	fn_initRandom
+	fn_getRandom
+	fn_getBit
+	fn_setBit
+	fn_bitAnd
+	fn_bitOr
+	fn_bitXor
+	fn_bitNot
+	fn_sign
+;
+;	String functions
+;
+	fn_chr
+	fn_ord
+	fn_ltrim
+	fn_rtrim
+	fn_trim
+	fn_repeattrim
+	fn_substr
+	fn_strrepeat
+	fn_longstrrepeat
+	fn_strstuff
+	fn_longstrstuff
+	fn_strreplace
+	fn_longstrreplace
+	fn_strpos
+	fn_strlen
+	fn_strcount
+	fn_strcmp
+	fn_wordcount
+	fn_wordnum
+	fn_padright
+	fn_longpadright
+	fn_padleft
+	fn_longpadleft
+	fn_c
+	fn_floattostr
+	fn_inttostr
+	fn_convertsymbols
+;
+;	Miscellaneous functions
+;
+	fn_iif
+	fn_dif
+	fn_cif
+	fn_dtif
+	fn_iequal
+;	fn_dequal
+	fn_cequal
+	fn_dtequal
+	fn_msgbox
+	fn_ean13cs
+;
+;	User manipulations
+;
+	fn_add_user
+	fn_modify_user
+	fn_delete_user
+;
+;	Simple parser
+;
+	fn_CalcExpr
+	fn_ExprIsValid
+;
+;	Blob functions
+;
+	fn_b_number_segments
+	fn_b_max_segment
+	fn_b_total_length
+	fn_b_line_count
+	fn_b_substr
+	fn_b_longsubstr
+	fn_b_line
+	fn_b_longline
+	fn_b_put_segment
+	fn_b_strcmp
+	fn_b_strpos

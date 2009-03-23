@@ -1,0 +1,239 @@
+====================================================================
+      File changeseng.txt
+
+      rFunc UDF Library for InterBase.
+      Changes history.
+
+      Copyright 1998-2003 Polaris Software
+      http://rfunc.sourceforge.net
+      mailto:rFunc@mail.ru
+
+====================================================================
+Legend:
++  new
+-  deleted
+#  changed
+*  fixed error
+====================================================================
+Version 2.1.4.1 RC2 xx.xx.2004
+--------------
+ 1.+ Added BCCheckDigit - check sum for EAN-8, EAN-13 and EAN-14 (ITF-14),
+     including american codes UPC-A and UPC-E.
+ 2.* Parser fixed. abs -> fabs.
+ 3.* Any BLOB-functions (b_substr, b_line) crashed with BLOB's  
+     max_segment_size = 65535.
+
+Version 2.1.3.1 RC 25.11.2003
+---------------
+ 1.# Now memory for a resulting string is allocated equally so much, how many
+     it is necessary.
+ 2.* WordCount returned invalid result, if third parameter is equals 1.
+ 3.* Fixed StrStuff and LongStrStuff. Last symbol not deleted.
+ 4.+ b_TextPos function - case unsensitive search of substring in BLOB.
+ 5.+ fRemove function - file remove function.
+ 6.+ Trigonometric functions - acos, asin, atan, atan2, cos, cosh,
+     sin, sinh, tan, tanh, and also sqrt, exp, log, ln, log10.
+ 7.* ExprIsValid fixed. Connection lost if invalid parameter.
+ 8.# Added the mode parameter to fopen function as mask for creating file.
+ 9.+ Constants for file's functions:
+     fo_append - write to end of file (for fopen).
+     fs_iread, fs_iwrite, fs_iexec - set access for owner's read/write/execute.
+       (fcreate and fopen functions)
+10.+ Math constants: e, pi.
+11.+ ExtractMillisecond function for IB6 or later.
+12.+ md5sum function - calc checksum by MD5 algorithm.
+13.+ Functions md5Init, md5Update, md5Final for block-to-block calculation of checksum by MD5 algorithm.
+14.* Changed a type of the second parameter in NumInWords function to char(1).
+     Valid values: N - Neuter, M - Masculine, F - Feminine, P - Plural.
+15.+ CreateGUID function. A result format depends on the RGUID_WIN_STYLE compiler param.
+     A linux style is used as default.
+16.* A makefile format was changed. All options moved to rfunc.conf.
+     Attention! Default options affects!
+17.+ fSize function - a file size.
+.
+Version 2.1.2.4 Beta2  20.10.2003
+---------------
+ 1.+ b_StrCmp function - comparing of two string BLOB.
+     -1 - first is less,
+     0  - equal,
+     1  - first is more.
+ 2.+ b_StrPos function - search substring in BLOB.
+     BLOB is readed segmentary by b->blob_max_segment + strlen(s) + 1L segment size
+     during search.
+ 3.+ DoubleToDate and DoubleToTime functions - converts number to date and time.
+ 4.+ File operation functions: fcreate, fopen, fread, fwrite, fseek, fclose
+ 5.+ Functions-constants for file open modes:
+     fseek_cur, fseek_end, fseek_set
+     fo_rdonly, fo_wronly, fo_rdwr
+     fo_creat, fo_trunc, fo_excl
+.
+Version 2.1.1.1  11.06.2003
+---------------
+ 1.# IncDate function rewrited. Now it works so:
+	- first year, then month, then day changes;
+	- if the date is a last day of month, then new date again becomes a last day of month
+          after year and month changed. After that days incremented.
+	- if day is larger then days number in month after after year and month changed,
+	  then day becomes a last day of month.
+ 2.+ StrCmp(str1, str2) function - string comparing.
+ 3.+ C, LongC functions - returns empty string, if input parameter is Null.
+ 4.+ MaxDate and MinDate functions - big and smaller dates.
+ 5.+ Support of COMPILE_DATETIME macro for compile the date funtions in IB6 (default).
+ 6.+ iEqual(i1, i2), dtEqual(dt1, dt2), /*??? dEqual(d1, d2), commented for doubles yet */
+	cEqual(str1, str2) functions - equality test.
+ 7.+ FloatToStr(d, fmt), IntToStr(d, fmt) functions - formats float and integer numbers.
+ 8.# Support of ukrainian letters "³²¿¯ºª" in rUpper, rLower, rTranslit, rLatin functions.
+ 9.* b_SubStr, b_LongSubStr, SubStr, StrRepeat, LongStrRepeat are fixed. In some places
+	operator return ""; changed to more valid.
+10.* Import of entry points from gds32 is by name now, not by number.
+11.* ib_util.h is using from $(IBASE)/include. implib parameter fixed for it's using.
+12.* Declaration errors fixed for Chr, b_SubStr, b_LongSubStr, b_Line, b_LongLine functions.
+     FREE_IT keyword added.
+13.+ ExtractXXXX added (for example, ExtractDay, ExtractMonth). There are same as
+	Day, Month and etc. For all Interbase versions.
+     ExtractXXXX are full analogs of EXTRACT(XXXX FOR date) in Dialect 3.
+14.+ IncDateTime function - date & time increment.
+15.+ Sign function - number sign.
+16.* Parser fixed. IF function isn't worked properly.
+17.+ NumInWords function - number in words (win1251).
+18.+ RepeatTrim and LongRepeatTrim functions - deletes symbol duplication in string.
+19.+ ConvertSymbols and LongConvertSymbols functions - exchanges symbols from first charset to second charset.
+20.# b_Line, b_LongLine not returns 0x0D and 0x0A symbols now.
+21.* Parameters transfer error fixed in CalcExpr function.
+22.+ makefiles for Solaris and FreeBSD.
+23.* All date functions fixed (memory leaks).
+24.+ TimeToDouble and DateToDouble functions - converts time (date) to double.
+25.# make-files changed for linking with fbclient.
+26.+ EAN13cs function - calculation of EAN13's thirteenth digit.
+.
+Version 2.0.1.2  20.07.2001
+---------------
+1.+ incdate.
+    Example:
+      select IncDate('11.07.2001', -17, 14, -2), IncDate('11.07.2001', 0, 12, 0)
+      from rdb$database;
+2.* Quarter function.
+.
+Version 2.0.0.2  31.05.2001
+---------------
+1.+ blob-functions:
+      b_number_segments, b_max_segment, b_total_length, b_line_count,
+      b_substr, b_longsubstr, b_line, b_longline, b_put_segment.
+2.# The extension of possibilities of the substr function:
+       m < 0 - counting happens from an extremity of string,
+       n < 0 - characters to the left of a point of counting are output.
+    Example:
+      select job_title, substr(job_title, -2, -3) from job;
+      Result:
+      Manager    age
+      Engineer   nee
+3.+ initRandom, getRandom.
+   (!!! The availability of parameters in both calls of functions is stipulated
+        by a difference in operation of functions under Win32 and Linux !!!).
+4.+ yearday, weekday, quarter, firstdaymonth, lastdaymonth, isleapyear, daysbetween, ExtractTime.
+5.# malloc is changed to ib_util_malloc for IB5.x and later.
+6.+ bit-functions:
+      getBit, setBit, bitAnd, bitOr, bitXor, bitNot.
+7.# All functions are separated on units:
+      rblob - blob-fields,
+      rcalc - parser,
+      rdatetime - date and time,
+      rmath - math,
+      rmisc - miscellany,
+      rsecurity - system,
+      rstring - string.
+8.# CSTRING(255) is replaced with CSTRING(256), and CSTRING(16383) is replaced with CSTRING(16384)
+9.+ IB 6.0, Firebird 0.9 support.
+10.+ dtif is analog iif, only works with dates.
+11.+ padright, padleft, longpadright, longpadleft,
+     rtranslit, longrtranslit, rlatin, longrlatin.
+12.# rupper, rlower are accelerated;
+   * strcount -  input parameters were confused by places.
+13.+ rtest.sql - script for testing and demonstrating of operation of the library.
+.
+Version 1.5.2  10.03.2000
+-------------
+1.+ Linux support.
+2.# All int declarations are replaced with long.
+3.+ EncodeDateTime, Hour, Minute, Second functions.
+.
+Version 1.5.1  17.02.2000
+-------------
+1.* SubStr - it was impossible to cut last character from string.
+.
+Version 1.5.0  20.01.2000
+-------------
+1.+ SoftRound, Div, Mod, LongRUpper, LongRLower.
+.
+Version 1.4.0  27.11.99
+-------------
+1.+ rUpper, rLower functions.
+2.# The type of the flag parameter is replaced with SMALLINT for
+    WordNum, LongWordNum, WordCount.
+.
+Version 1.3.2  17.11.99
+-------------
+1.* ltrim, rtrim, trim functions.
+.
+Version 1.3.1  16.11.99
+-------------
+1.* SubStr.
+2.# add_user, modify_user, delete_user functions don't compile for IB 4.2 client.
+.
+Version 1.3.0  12.11.99
+-------------
+1.+ Following functions:
+      Z, dif, iif, cif, DZero, StrCount, WordCount, WordNum,
+      user functions: add_user, modify_user, delete_user,
+      MsgBox.
+    CalcExpr(s, inVar) - the unpretentious analyzer of expressions.
+        Operations:
+        + - * /
+        Functions:
+        Sin, Cos, tg, ctg, AcrCos, ArcSin, ArcTg, sh, ch, th,
+        exp, lh, lg, sqrt, sqr, abs
+        sgn - number sign
+        log - log on the arbitrary basis
+        power - exponentation
+        if(expr, x1, x2)
+        Min(x1, ...) - with a unlimited amount of parameters
+        Max(x1, ...)
+        Sum(x1, ...) - toting of arguments
+        Avg(x1, ...) - average
+        Pi.
+      Usage example:
+        CalcExpr('Sin( Pi*:p11/3)*:P2', 'P11=2;P2=10')
+    ExprIsVal(s, inVar) - Check on a correctness of the given expression.
+.
+Version 1.2.3  26.03.99
+-------------
+1.+ ExtractDate.
+.
+Version 1.2.2  22.03.99
+-------------
+1.* Round.
+.
+Version 1.2.1  18.02.99
+-------------
+1.# In calls of functions of operation with long strings the type of strings is
+    changed on CSTRING(16383).
+2.* LongStrStuff, LongStrReplace.
+3.+ StrReplace, LongStrRepeat.
+4.# Parameters changed:
+     StrLen, StrPos - from CSTRING(255) to CSTRING(16383)
+     SubStr - from SMALLINT to INTEGER.
+5.+ LongLTrim, LongRTrim, LongTrim, LongSubStr pseudofunctions.
+6.* rfunc.bor.
+.
+Version 1.2.0  10.02.99
+-------------
+1.+ LongStrStuff, LongStrReplace.
+.
+Version 1.1  05.10.98
+-----------
+1.* StrStuff.
+2.+ Ord, Chr, Round.
+.
+Version 1.0
+-----------
++ Supports IB 5.x. First public version.

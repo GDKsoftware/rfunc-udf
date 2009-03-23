@@ -1,0 +1,34 @@
+.tahdr {  background-color: #339966; font-family: Verdana, Tahoma, Arial, sans-serif; color: #FFFFFF; font-weight: bold; font-size: 16px}
+.tahdr1 { background-color: #66CC99; font-family: Verdana, Tahoma, Arial, sans-serif; color: #FFFFFF; font-weight: bold; font-size: 14px; text-align: center}
+.tahdr2 {  font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; text-align: center; color: #003333; background: #FFFFCC}
+.tatxt {  font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 14px; color: #003333; background: #CCFFCC}
+.tatxt2 { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 14px; color: #003333; background: #99FFCC}
+.tatxtc { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 14px; color: #003333; background: #CCFFCC ; text-align: center}
+.tatxt2c { font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 14px; color: #003333; background: #99FFCC ; text-align: center}
+.tasep {  background: #33CC99}
+.taback {  background: #666666}
+.tacomp {  font: 16px Arial, Helvetica, sans-serif; color: #003333; background: #CCCCCC}
+.tanws {  color: #003333; font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 12px; background: #CCFFCC}
+.tanws2 { color: #003333; font-family: Verdana, Tahoma, Arial, sans-serif; font-size: 12px; background: #99FFCC}
+.txtxt {  font: 14px Verdana, Tahoma, Arial, sans-serif; color: #003333}
+.txtxtc { font: 14px Verdana, Tahoma, Arial, sans-serif; color: #003333 ; text-align: center}
+.txhdr { font-family: Tahoma, Verdana, Arial, sans-serif; font-size: 18px; color: #003333; background: #99FFCC; text-align: center; font-weight: normal}
+.txfix { font: 14px "Courier New", Courier, mono; color: #003333 }
+.txunder {
+	text-decoration: underline;
+}
+.txred {  color: #FF0000; font-weight: bold}
+.txgrn {  color: #339966; font-weight: bold}
+.txblue { color: #99FFFF}
+.txbig {  font-size: 18px; font-weight: bold}
+.pghdr { background-color: #339966; font-family: Arial, Helvetica, sans-serif; color: #FFFFFF; font-weight: bold; font-size: 24px; text-align: center}
+.pghdr2 { background-color: #339999; font-family: Arial, Helvetica, sans-serif; color: #FFFFFF; font-weight: bold; font-size: 24px; text-align: center }
+.prghdr { font-family: Arial, Helvetica, sans-serif; color: #339966; font-weight: bold; font-size: 24px; text-align: center }
+.cprght {  font: 10px Verdana, Tahoma, Arial, sans-serif; color: #666666; text-align: right}
+body {
+	background: #FFFFFF;
+	border: 0px 0;
+	margin: 5px;
+	padding: 0px;
+	font: 14px Verdana, Tahoma, Arial, sans-serif;
+}

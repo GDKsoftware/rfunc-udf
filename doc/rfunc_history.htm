@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd"><HTML><!-- #BeginTemplate "/Templates/program.dwt" --><!-- DW6 --><HEAD>
+<!-- #BeginEditable "CharSet" -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- #EndEditable -->
+<META NAME="Author" CONTENT="AriaFan"><!-- #BeginEditable "doctitle" -->
+<TITLE>rFunc UDF Library - Changes history</TITLE>
+<!-- #EndEditable -->
+<LINK REL="SHORTCUT ICON" HREF="favicon.ico">
+<LINK REL="stylesheet" HREF="polesoft.css">
+</HEAD>
+<BODY LINK="#339966" VLINK="#3300FF" TEXT="#003333">
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=2 WIDTH="100%"><TR>
+      <TD WIDTH="6%" CLASS="pghdr2"><A HREF="index.html" TARGET="_parent"><IMG HEIGHT=34 WIDTH=34 SRC="img/home.gif" ALIGN="TOP" BORDER=0 ALT="Main"></A></TD>
+      <TD WIDTH="94%" CLASS="pghdr2"><!-- #BeginEditable "Header" --><SPAN CLASS="txblue">rFunc</SPAN> UDF Library<br>
+Changes history<!-- #EndEditable --> 
+      </TD>
+    </TR>
+</TABLE>
+<BR><!-- #BeginEditable "Body" -->
+      <DIV CLASS="txfix">Legend:<BR>
+  + new<BR>
+  - deleted<BR>
+  # changed<BR>
+  * fixed error<BR>
+  ====================================================================<BR>
+  Version 2.1.3.1 RC 25.11.2003<br>
+  ---------------<br>
+1.# Now memory for a resulting string is allocated equally so much, how many <br>
+it is necessary.<br>
+2.* WordCount returned invalid result, if third parameter is equals 1.<br>
+3.* Fixed StrStuff and LongStrStuff. Last symbol not deleted.<br>
+4.+ b_TextPos function - case unsensitive search of substring in BLOB.<br>
+5.+ fRemove function - file remove function.<br>
+6.+ Trigonometric functions - acos, asin, atan, atan2, cos, cosh,<br>
+sin, sinh, tan, tanh, and also sqrt, exp, log, ln, log10.<br>
+7.* ExprIsValid fixed. Connection lost if invalid parameter.<br>
+8.# Added the mode parameter to fopen function as mask for creating file.<br>
+9.+ Constants for file's functions:<br>
+fo_append - write to end of file (for fopen).<br>
+fs_iread, fs_iwrite, fs_iexec - set access for owner's read/write/execute.<br>
+(fcreate and fopen functions)<br>
+10.+ Math constants: e, pi.<br>
+11.+ ExtractMillisecond function for IB6 or later.<br>
+12.+ md5sum function - calc checksum by MD5 algorithm.<br>
+13.+ Functions md5Init, md5Update, md5Final for block-to-block calculation of checksum by MD5 algorithm.<br>
+14.* Changed a type of the second parameter in NumInWords function to char(1).<br>
+Valid values: N - Neuter, M - Masculine, F - Feminine, P - Plural.<br>
+15.+ CreateGUID function. A result format depends on the RGUID_WIN_STYLE compiler param.<br>
+A linux style is used as default.<br>
+16.* A makefile format was changed. All options moved to rfunc.conf.<br>
+Attention! Default options affects!<br>
+17.+ fSize function - a file size.<br>
+.<br>
+  <a name="beta"></a>Version 2.1.2.4 Beta2 20.10.2003<br>
+---------------<br>
+1.+ b_StrCmp function - comparing of two string BLOB.<br>
+-1 - first is less,<br>
+0 - equal,<br>
+1 - first is more.<br>
+2.+ b_StrPos function - search substring in BLOB.<br>
+BLOB is readed segmentary by b-&gt;blob_max_segment + strlen(s) + 1L segment size<br>
+during search.<br>
+3.+ DoubleToDate and DoubleToTime functions - converts number to date and time.<br>
+4.+ File operation functions: fcreate, fopen, fread, fwrite, fseek, fclose<br>
+5.+ Functions-constants for file open modes:<br>
+fseek_cur, fseek_end, fseek_set<br>
+fo_rdonly, fo_wronly, fo_rdwr<br>
+fo_creat, fo_trunc, fo_excl<br>
+.<br>
+Version 2.1.1.1 11.06.2003<br>
+---------------<br>
+1.# IncDate function rewrited. Now it works so:<br>
+- first year, then month, then day changes;<br>
+- if the date is a last day of month, then new date again becomes a last day of month<br>
+after year and month changed. After that days incremented.<br>
+- if day is larger then days number in month after after year and month changed,<br>
+then day becomes a last day of month.<br>
+2.+ StrCmp(str1, str2) function - string comparing.<br>
+3.+ C, LongC functions - returns empty string, if input parameter is Null.<br>
+4.+ MaxDate and MinDate functions - big and smaller dates.<br>
+5.+ Support of COMPILE_DATETIME macro for compile the date funtions in IB6 (default).<br>
+6.+ iEqual(i1, i2), dtEqual(dt1, dt2), /*??? dEqual(d1, d2), commented for doubles yet */<br>
+cEqual(str1, str2) functions - equality test.<br>
+7.+ FloatToStr(d, fmt), IntToStr(d, fmt) functions - formats float and integer numbers.<br>
+8.# Support of ukrainian letters &quot;&sup3;&sup2;&iquest;&macr;&ordm;&ordf;&quot; in rUpper, rLower, rTranslit, rLatin functions.<br>
+9.* b_SubStr, b_LongSubStr, SubStr, StrRepeat, LongStrRepeat are fixed. In some places<br>
+operator return &quot;&quot;; changed to more valid.<br>
+10.* Import of entry points from gds32 is by name now, not by number.<br>
+11.* ib_util.h is using from $(IBASE)/include. implib parameter fixed for it's using.<br>
+12.* Declaration errors fixed for Chr, b_SubStr, b_LongSubStr, b_Line, b_LongLine functions.<br>
+FREE_IT keyword added.<br>
+13.+ ExtractXXXX added (for example, ExtractDay, ExtractMonth). There are same as<br>
+Day, Month and etc. For all Interbase versions.<br>
+ExtractXXXX are full analogs of EXTRACT(XXXX FOR date) in Dialect 3.<br>
+14.+ IncDateTime function - date &amp; time increment.<br>
+15.+ Sign function - number sign.<br>
+16.* Parser fixed. IF function isn't worked properly.<br>
+17.+ NumInWords function - number in words (win1251).<br>
+18.+ RepeatTrim and LongRepeatTrim functions - deletes symbol duplication in string.<br>
+19.+ ConvertSymbols and LongConvertSymbols functions - exchanges symbols from first charset to second charset.<br>
+20.# b_Line, b_LongLine not returns 0x0D and 0x0A symbols now.<br>
+21.* Parameters transfer error fixed in CalcExpr function.<br>
+22.+ makefiles for Solaris and FreeBSD.<br>
+23.* All date functions fixed (memory leaks).<br>
+24.+ TimeToDouble and DateToDouble functions - converts time (date) to double.<br>
+25.# make-files changed for linking with fbclient.<br>
+26.+ EAN13cs function - calculation of EAN13's thirteenth digit.<br>
+.<br>
+<a name="stable"></a>Version 2.0.1.2 20.07.2001<br>
+---------------<br>
+1.+ incdate.<br>
+Example:<br>
+select IncDate('11.07.2001', -17, 14, -2), IncDate('11.07.2001', 0, 12, 0)<br>
+from rdb$database;<br>
+2.* Quarter function.<br>
+.<br>
+Version 2.0.0.2 31.05.2001<br>
+---------------<br>
+1.+ blob-functions:<br>
+b_number_segments, b_max_segment, b_total_length, b_line_count,<br>
+b_substr, b_longsubstr, b_line, b_longline, b_put_segment.<br>
+2.# The extension of possibilities of the substr function:<br>
+m &lt; 0 - counting happens from an extremity of string,<br>
+n &lt; 0 - characters to the left of a point of counting are output.<br>
+Example:<br>
+select job_title, substr(job_title, -2, -3) from job;<br>
+Result:<br>
+Manager age<br>
+Engineer nee<br>
+3.+ initRandom, getRandom.<br>
+(!!! The availability of parameters in both calls of functions is stipulated<br>
+by a difference in operation of functions under Win32 and Linux !!!).<br>
+4.+ yearday, weekday, quarter, firstdaymonth, lastdaymonth, isleapyear, daysbetween, ExtractTime.<br>
+5.# malloc is changed to ib_util_malloc for IB5.x and later.<br>
+6.+ bit-functions:<br>
+getBit, setBit, bitAnd, bitOr, bitXor, bitNot.<br>
+7.# All functions are separated on units:<br>
+rblob - blob-fields,<br>
+rcalc - parser,<br>
+rdatetime - date and time,<br>
+rmath - math,<br>
+rmisc - miscellany,<br>
+rsecurity - system,<br>
+rstring - string.<br>
+8.# CSTRING(255) is replaced with CSTRING(256), and CSTRING(16383) is replaced with CSTRING(16384)<br>
+9.+ IB 6.0, Firebird 0.9 support.<br>
+10.+ dtif is analog iif, only works with dates.<br>
+11.+ padright, padleft, longpadright, longpadleft,<br>
+rtranslit, longrtranslit, rlatin, longrlatin.<br>
+12.# rupper, rlower are accelerated;<br>
+* strcount - input parameters were confused by places.<br>
+13.+ rtest.sql - script for testing and demonstrating of operation of the library.<br>
+.<br>
+Version 1.5.2 10.03.2000<br>
+-------------<br>
+1.+ Linux support.<br>
+2.# All int declarations are replaced with long.<br>
+3.+ EncodeDateTime, Hour, Minute, Second functions.<br>
+.<br>
+Version 1.5.1 17.02.2000<br>
+-------------<br>
+1.* SubStr - it was impossible to cut last character from string.<br>
+.<br>
+Version 1.5.0 20.01.2000<br>
+-------------<br>
+1.+ SoftRound, Div, Mod, LongRUpper, LongRLower.<br>
+.<br>
+Version 1.4.0 27.11.99<br>
+-------------<br>
+1.+ rUpper, rLower functions.<br>
+2.# The type of the flag parameter is replaced with SMALLINT for<br>
+WordNum, LongWordNum, WordCount.<br>
+.<br>
+Version 1.3.2 17.11.99<br>
+-------------<br>
+1.* ltrim, rtrim, trim functions.<br>
+.<br>
+Version 1.3.1 16.11.99<br>
+-------------<br>
+1.* SubStr.<br>
+2.# add_user, modify_user, delete_user functions don't compile for IB 4.2 client.<br>
+.<br>
+Version 1.3.0 12.11.99<br>
+-------------<br>
+1.+ Following functions:<br>
+Z, dif, iif, cif, DZero, StrCount, WordCount, WordNum,<br>
+user functions: add_user, modify_user, delete_user,<br>
+MsgBox.<br>
+CalcExpr(s, inVar) - the unpretentious analyzer of expressions.<br>
+Operations:<br>
++ - * /<br>
+Functions:<br>
+Sin, Cos, tg, ctg, AcrCos, ArcSin, ArcTg, sh, ch, th,<br>
+exp, lh, lg, sqrt, sqr, abs<br>
+sgn - number sign<br>
+log - log on the arbitrary basis<br>
+power - exponentation<br>
+if(expr, x1, x2)<br>
+Min(x1, ...) - with a unlimited amount of parameters<br>
+Max(x1, ...)<br>
+Sum(x1, ...) - toting of arguments<br>
+Avg(x1, ...) - average<br>
+Pi.<br>
+Usage example:<br>
+CalcExpr('Sin( Pi*:p11/3)*:P2', 'P11=2;P2=10')<br>
+ExprIsVal(s, inVar) - Check on a correctness of the given expression.<br>
+.<br>
+Version 1.2.3 26.03.99<br>
+-------------<br>
+1.+ ExtractDate.<br>
+.<br>
+Version 1.2.2 22.03.99<br>
+-------------<br>
+1.* Round.<br>
+.<br>
+Version 1.2.1 18.02.99<br>
+-------------<br>
+1.# In calls of functions of operation with long strings the type of strings is<br>
+changed on CSTRING(16383).<br>
+2.* LongStrStuff, LongStrReplace.<br>
+3.+ StrReplace, LongStrRepeat.<br>
+4.# Parameters changed:<br>
+StrLen, StrPos - from CSTRING(255) to CSTRING(16383)<br>
+SubStr - from SMALLINT to INTEGER.<br>
+5.+ LongLTrim, LongRTrim, LongTrim, LongSubStr pseudofunctions.<br>
+6.* rfunc.bor.<br>
+.<br>
+Version 1.2.0 10.02.99<br>
+-------------<br>
+1.+ LongStrStuff, LongStrReplace.<br>
+.<br>
+Version 1.1 05.10.98<br>
+-----------<br>
+1.* StrStuff.<br>
+2.+ Ord, Chr, Round.<br>
+.<br>
+Version 1.0<br>
+-----------<br>
++ Support IB 5.x. First public version.</div><!-- #EndEditable --> 
+<P CLASS="cprght"><img src="img/pixelgr.gif" width="100%" height="1"><br>
+  Copyright &copy; 2003 Polaris Software
+</p></BODY><!-- #EndTemplate --></HTML>
+ 

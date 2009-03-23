@@ -1,0 +1,159 @@
+#====================================================================
+#		File makefile.bc
+#
+#		rFunc InterBase UDF library.
+#
+#		Copyright 1998-2007, PSTG
+#		http://rfunc.sourceforge.net
+#		mailto:rFunc@mail.ru
+#
+#	 This library is free software; you can redistribute it and/or
+#	 modify it under the terms of the GNU Lesser General Public
+#	 License as published by the Free Software Foundation; either
+#	 version 2.1 of the License, or (at your option) any later version.
+#	 See license.txt for more details.
+#
+#====================================================================
+
+# Windows
+!include rfunc.conf
+
+!if !$d(TARGETNAME)
+TARGETNAME	= rfunc
+!endif
+
+OBJS		= $(TARGETNAME).obj
+!if $d(REXT)
+OBJS		= $(OBJS) $(REXT).obj
+!endif
+
+!if !$d(IBVENDOR)
+IBVENDOR	= FIREBIRDSQL
+!endif
+
+!if !$d(IBVERSION)
+IBVERSION	= 6
+!endif
+
+!if !$d(GDS_NAME)
+GDS_NAME	= fbclient
+!endif
+
+EXTCFLAGS	= -DIB_$(IBVERSION)X -DIB_$(IBVENDOR) $(USERCFLAGS)
+!if !$d(RUSE_GUID) || $(RUSE_GUID) != No
+EXTCFLAGS	= $(EXTCFLAGS) -DRUSE_GUID
+!endif
+
+!if $(RGUID_WIN_STYLE) == Yes
+EXTCFLAGS	= $(EXTCFLAGS) -DRGUID_WIN_STYLE
+!endif
+
+!if !$d(RUSE_DATETIME) || $(RUSE_DATETIME) != No
+EXTCFLAGS	= $(EXTCFLAGS) -DRUSE_DATETIME
+!endif
+
+!if $(RUSE_FILE) == Yes
+EXTCFLAGS	= $(EXTCFLAGS) -DRUSE_FILE
+OBJS		= $(OBJS) rfile.obj
+!endif
+
+CP		= copy
+RM		= del
+
+CC		= "$(BCDIR)/bin/bcc32"
+LD		= "$(BCDIR)/bin/ilink32"
+IMPLIB		= "$(BCDIR)/bin/implib"
+RC		= "$(BCDIR)/bin/brc32"
+
+!if $(IBVERSION) == 6
+INSTALLTO	= "$(IBASE)/UDF"
+!if $(IBVENDOR) == BORLAND
+SDKDIR		=/SDK
+!endif
+!else
+INSTALLTO	= "$(IBASE)/bin"
+!endif
+
+!if $(IBVERSION) == 4
+!undef RFUNCIBUTILLIB
+!undef IBUTIL
+!else
+RFUNCIBUTILLIB	= ib_util.lib
+!if $(IBVERSION) == 6
+IBUTIL=		"$(IBASE)/bin/ib_util.dll"
+!else
+IBUTIL=		"$(IBASE)/lib/ib_util.dll"
+!endif
+!endif
+RFUNCGDS32LIB	= $(GDS_NAME).lib
+GDS32			= "$(SYSDIR)/$(GDS_NAME).dll"
+
+INCLUDE			= -I"$(IBASE)$(SDKDIR)/include";"$(BCDIR)/include";"$(BCDIR)/include/windows"
+CFLAGS			= -x- -RT- -O1 -c -v- -w+ -a4 -tWM -u+ -DWIN32 $(EXTCFLAGS) $(INCLUDE)
+LINKFLAGS		= -x -Tpd -j"$(BCDIR)/lib"
+IMPLIBFLAGS		= -f
+RCFLAGS			= -r
+
+LIBRARIES	= import32.lib cw32mt.lib $(RFUNCIBUTILLIB) $(RFUNCGDS32LIB)
+STARTUP		= c0d32.obj
+TARGET		= $(TARGETNAME).dll
+OBJS		= $(OBJS) rblob.obj rcalc.obj rdatetime.obj rmath.obj rmisc.obj rsecurity.obj rstring.obj win1251.obj rmd5c.obj
+
+.SUFFIXES: .e .c .obj .dll
+
+.c.obj:
+	$(CC) $(CFLAGS) $<
+
+.obj.dll:
+	$(LD) $(LINKFLAGS) $(STARTUP) $<,$*,,$(LIBRARIES),$(MODULEDEF),
+
+.rc.res:
+	$(RC) $(RCFLAGS) $<
+
+all:	$(TARGET)
+
+$(TARGET):	$(OBJS) $(MODULEDEF) $(RFUNCIBUTILLIB) $(RFUNCGDS32LIB) $(TARGETNAME)$(IBVERSION).res
+	$(LD) $(LINKFLAGS) $(STARTUP) $(OBJS),$(TARGET),,$(LIBRARIES),$(MODULEDEF),$(TARGETNAME)$(IBVERSION)
+
+!if $(IBVERSION) != 4
+$(RFUNCIBUTILLIB):	$(IBUTIL)
+	$(IMPLIB) $(IMPLIBFLAGS) -a $(RFUNCIBUTILLIB) $(IBUTIL)
+!endif
+
+$(RFUNCGDS32LIB):	$(GDS32)
+	$(IMPLIB) $(IMPLIBFLAGS) $(RFUNCGDS32LIB) $(GDS32)
+
+rfunc.obj:	rfunc.c rfunc.h
+
+rstring.obj:	rstring.c rstring.h rmath.h rfunc.h
+
+rdatetime.obj:	rdatetime.c rdatetime.h win1251.h rfunc.h
+
+rcalc.obj:	rcalc.c rcalc.h rfunc.h
+
+rblob.obj:	rblob.c rblob.h rstring.h win1251.h rfunc.h
+
+rsecurity.obj:	rsecurity.c rsecurity.h rfunc.h
+
+rmath.obj:	rmath.c rmath.h rfunc.h
+
+rmisc.obj:	rmisc.c rmisc.h rfunc.h
+
+win1251.obj:	win1251.c win1251.h rfunc.h rmath.h
+
+rfile.obj:	rfile.c rfile.h rfunc.h
+
+rmd5c.obj:	rmd5c.c rmd5.h rfunc.h
+
+$(TARGETNAME)$(IBVERSION).res: $(TARGETNAME)$(IBVERSION).rc
+
+install:
+	$(CP) $(TARGET) $(INSTALLTO)
+
+clean:
+	-@if exist *.bak $(RM) *.bak	>nul
+	-@if exist *.obj $(RM) *.obj	>nul
+	-@if exist *.lib $(RM) *.lib	>nul
+	-@if exist $(TARGETNAME).i* $(RM) $(TARGETNAME).i*	>nul
+	-@if exist $(TARGETNAME).tds $(RM) $(TARGETNAME).tds	>nul
+	-@if exist $(TARGETNAME)$(IBVERSION).res $(RM) $(TARGETNAME)$(IBVERSION).res	>nul

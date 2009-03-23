@@ -1,0 +1,1452 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd"><HTML><!-- #BeginTemplate "/Templates/program.dwt" --><!-- DW6 --><HEAD>
+<!-- #BeginEditable "CharSet" -->
+<!-- #EndEditable -->
+<META NAME="Author" CONTENT="AriaFan"><!-- #BeginEditable "doctitle" -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<TITLE>rFunc UDF Library</TITLE>
+<!-- #EndEditable -->
+<LINK REL="SHORTCUT ICON" HREF="favicon.ico">
+<LINK REL="stylesheet" HREF="polesoft.css">
+</HEAD>
+<BODY LINK="#339966" VLINK="#3300FF" TEXT="#003333">
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=2 WIDTH="100%"><TR>
+      <TD WIDTH="6%" CLASS="pghdr2"><A HREF="index.html" TARGET="_parent"><IMG HEIGHT=34 WIDTH=34 SRC="img/home.gif" ALIGN="TOP" BORDER=0 ALT="Main"></A></TD>
+      <TD WIDTH="94%" CLASS="pghdr2"><!-- #BeginEditable "Header" --><SPAN CLASS="txblue">rFunc</SPAN> UDF Library<BR>
+version 2.1.3 RC <!-- #EndEditable --> 
+      </TD>
+    </TR>
+</TABLE>
+<BR>
+<!-- #BeginEditable "Body" -->&nbsp;&nbsp;&nbsp; The library represents a set of user's 
+  (UDF) string, bit, numerical functions, and also for operation with dates&amp;time 
+  and BLOBs. And also PARSER, i.e. calculator of expressions. Are supported InterBase 
+  4.2, 5.x, 6.x (Windows, Linux), Firebird 
+  1.x  (Windows, Linux, FreeBSD) and Yaffil 1.x. The library include more than <SPAN CLASS="txred">140</SPAN><SPAN CLASS="txtxt"> functions and &quot;pseudo-functions&quot; (it when some string UDFs have one 
+  base function, in main it is functions with the LongXXXX name). The library 
+  is written on C++ and is delivered with source codes.<BR>
+  </SPAN><SPAN CLASS="txtxt"><BR>
+  The order of compilation and installation is described in the readmeeng.txt 
+file from the distribution archive.<br>
+<br>
+  </SPAN>
+  <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 WIDTH=259>
+        <TR> 
+          
+    <TD WIDTH=12> <IMG HEIGHT=24 WIDTH=12 ALIGN="TOP" SRC="img/round.gif" BORDER=0></TD>
+          
+    <TD WIDTH=235 CLASS="txhdr">functions</TD>
+          
+    <TD WIDTH=12> <IMG HEIGHT=24 WIDTH=12 ALIGN="TOP" SRC="img/round2.gif" BORDER=0></TD>
+        </TR>
+</TABLE>
+      
+<P><SPAN CLASS="txtxt">Legend:</SPAN></p>
+<TABLE BORDER=0 CELLSPACING=3 CELLPADDING=1 WIDTH="52%">
+  <TR class="txunder">
+          <TD CLASS="txtxtc" HEIGHT="15">Symbol</TD>
+          <TD CLASS="txtxt" HEIGHT="15">Type of parameter </TD>
+  </TR>
+  <TR> 
+          
+    <TD WIDTH="25%" CLASS="txtxtc" HEIGHT="15">f</TD>
+    <TD WIDTH="75%" CLASS="txtxt" HEIGHT="15">DOUBLE PRECISION 
+    </TD>
+  </TR>
+  <TR> 
+    <TD WIDTH="25%" CLASS="txtxtc"> 
+      si</TD>
+    <TD WIDTH="75%" CLASS="txtxt">SMALLINT </TD>
+  </TR>
+  <TR> 
+    <TD WIDTH="25%" CLASS="txtxtc">i</TD>
+    <TD WIDTH="75%" CLASS="txtxt">INTEGER </TD>
+  </TR>
+  <TR> 
+    <TD WIDTH="25%" CLASS="txtxtc">d</TD>
+    <TD WIDTH="75%" CLASS="txtxt">DATE for IB4.2 and IB5.x<br>
+    TIMESTAMP for IB6 or later </TD>
+  </TR>
+  <TR>
+    <TD CLASS="txtxtc">c</TD>
+    <TD CLASS="txtxt">CHAR(1)</TD>
+  </TR>
+  <TR>
+    <TD CLASS="txtxtc">c&quot;</TD>
+    <TD CLASS="txtxt">CHAR(32)</TD>
+  </TR>
+  <TR>
+    <TD CLASS="txtxtc">c*</TD>
+    <TD CLASS="txtxt">VARCHAR(176)</TD>
+  </TR>
+  <TR> 
+    <TD WIDTH="25%" CLASS="txtxtc">s</TD>
+    <TD WIDTH="75%" CLASS="txtxt">VARCHAR(255)</TD>
+  </TR>
+  <TR>
+    <TD CLASS="txtxtc">S</TD>
+    <TD CLASS="txtxt">VARCHAR(16383)</TD>
+  </TR>
+  <TR> 
+    <TD WIDTH="25%" CLASS="txtxtc"> 
+      s' </TD>
+    <TD WIDTH="75%" CLASS="txtxt">VARCHAR(8)</TD>
+  </TR>
+  <TR> 
+    <TD WIDTH="25%" CLASS="txtxtc">s&quot;</TD>
+    <TD WIDTH="75%" CLASS="txtxt">VARCHAR(31)</TD>
+  </TR>
+  <TR>
+    <TD CLASS="txtxtc">s&quot;'</TD>
+    <TD CLASS="txtxt">VARCHAR(38) </TD>
+  </TR>
+  <TR> 
+    <TD WIDTH="25%" CLASS="txtxtc"> 
+      S** </TD>
+    <TD WIDTH="75%" CLASS="txtxt">VARCHAR(8127) for IB4.2<br>
+    VARCHAR(16383) for IB5.x or later </TD>
+  </TR>
+  <TR> 
+    <TD WIDTH="25%" CLASS="txtxtc">B</TD>
+    <TD WIDTH="75%" CLASS="txtxt">BLOB</TD>
+  </TR>
+</TABLE>
+    <br>
+    <DIV ALIGN="CENTER">
+        
+  <TABLE WIDTH="98%" BORDER=0 CELLPADDING=2 CELLSPACING=1 CLASS="taback">
+    <TR>
+      <TD width="31%" rowspan="2" CLASS="tahdr1"> Function</TD>
+      <TD WIDTH="6%" rowspan="2" CLASS="tahdr1"> Type</TD>
+      <TD colspan="2" CLASS="tahdr1">Versions</TD>
+      <TD WIDTH="44%" rowspan="2" CLASS="tahdr1"> Returns</TD>
+    </TR>
+    <TR> 
+      <TD width="9%" CLASS="tahdr1">IB*</TD>
+      <TD WIDTH="10%" CLASS="tahdr1">rFunc**</TD>
+    </TR>
+    <TR> 
+      <TD COLSPAN=5 CLASS="tahdr2"> Numerical</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>Abs</B>(f)</TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD rowspan="6" CLASS="tatxtc">4-7</TD>
+      <TD rowspan="6" CLASS="tatxtc">1.0</TD>
+      <TD CLASS="tatxt">The module of number</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>Ceil</B>(f)</TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2">Minimum greater whole</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>Floor</B>(f) </TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxt">The maximum smaller whole</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>MaxNum</B>(f1, f2) </TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2">Greater of numbers </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>MinNum</B>(f1, f2) </TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxt">Smaller of numbers </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>Power</B>(f1, f2) </TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2">Number f1 in a degree f2</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>Round</B>(f, i) </TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.1</TD>
+      <TD CLASS="tatxt">The rounded off value f up to i signs, and 
+        for want of i &gt; 0 is rounded off a fractional part, and for want of 
+        i &lt; 0 - whole</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>SoftRound</B>(f, i) </TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.5.0</TD>
+      <TD CLASS="tatxt2">Similarly Round, but if the outcome of roundoff 
+        is equal 0, the roundoff is not produced. </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>Z</B>(f) </TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.3.0</TD>
+      <TD CLASS="tatxt">If the parameter has value NULL, 0. In all 
+        other cases that 
+        is transferred comes back. </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>IIf</B>(i1, i2, i3) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.3.0</TD>
+      <TD CLASS="tatxt2">If i1=0, i3, in other cases - i2</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>DIf</B>(i, f1, f2) </TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.3.0</TD>
+      <TD CLASS="tatxt">If i=0, f2, in other cases - f1</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>DZero</B>(f1, f2, f3) </TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.3.0</TD>
+      <TD CLASS="tatxt2">Quotient f1 and f2. If f2 = 0, returns f3. 
+      </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>CalcExpr</B>(S1, S2)<BR>
+        <BR>
+        For example:<BR>
+        <em>CalcExpr('Sin( Pi*:p11/3)*:P2', 'P11=2;P2=10')</em> </TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.3.0</TD>
+      <TD CLASS="tatxt"> <div align="center">The unpretentious analyzer 
+        of expressions. <BR>        
+        <span class="txunder">Supported functions and operations</span></div><br>
+    + - * /<BR>
+          Sin, Cos, tg, ctg, ArcCos, ArcSin, ArcTg, sh, ch, th,<BR>
+          exp, lh, lg, sqrt, sqr, abs(x1)<BR>
+          sgn(x1) - the sign of number x1<BR>
+          log(x1,x2) - log x1 on the basis x2<BR>
+          power(x1,x2) - exponentation x1 in a degree x2<BR>
+          if(expr, x1, x2) - if expr=0, then x2, else x1<BR>
+          Min(x1, ...) - minimum from numbers<BR>
+          Max(x1, ...) - maximum from numbers<BR>
+          Sum(x1, ...) - toting of arguments<BR>
+          Avg(x1, ...) - average arithmetic<BR>
+          Pi - number Pi.<BR>
+          <BR>
+&nbsp;&nbsp;&nbsp;&nbsp; For usage of variables in expression - before 
+          them the colon is put, and they are described in the second parameter 
+          (see example).</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>ExprIsValid</B>(S1, S2) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.3.0</TD>
+      <TD CLASS="tatxt2">Check on a correctness of the given expression. 
+        Returns 0, if all is right, differently - code of an error.</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>Div</B>(i1, i2) </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.5.0</TD>
+      <TD CLASS="tatxt">The whole quotient i1 and i2 </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>Mod</B>(i1, i2) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.5.0</TD>
+      <TD CLASS="tatxt2">Residual from division i1 on i2</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>InitRandom</B>(i)  
+      </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.0.0</TD>
+      <TD CLASS="tatxt">Initialization of the generator of pseudorandom 
+        numbers.</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>GetRandom</B>(i)</TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.0.0</TD>
+      <TD CLASS="tatxt2">Pseudorandom numbers in a range 0..i. </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>IEqual</B>(i1, i2) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.1</TD>
+      <TD CLASS="tatxt">Equality test (1 means equality)</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>Sign</B>(f) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">si</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.1</TD>
+      <TD CLASS="tatxt2">Sign of a number (-1 if f&lt;0, 0 if f=0, 1 if f&gt;0). </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>Sqrt</B>(f) <span class="tatxt2"><img src="img/new.gif" width="34" height="21" align="top"></span></TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.3</TD>
+      <TD CLASS="tatxt">The positive square root</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>Exp</B>(f) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.3</TD>
+      <TD CLASS="tatxt2">Constant e raised to the specified power</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>Log</B>(f1, f2) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.3</TD>
+      <TD CLASS="tatxt">The logarithm of a number f1 to the base f2 </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>Log10</B>(f) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.3</TD>
+      <TD CLASS="tatxt2">Base-10 logarithm of a number</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>Ln</B>(f) <span class="tatxt2"><img src="img/new.gif" width="34" height="21" align="top"></span></TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.3</TD>
+      <TD CLASS="tatxt">The natural logarithm</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>E </B><img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.3</TD>
+      <TD CLASS="tatxt2">Constant E (2.7182818284590451) </TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=5 CLASS="tahdr2">Trigonometric <img src="img/new.gif" width="34" height="21" align="top"></TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>ACos</B>(f) </TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD rowspan="11" CLASS="tatxtc">4-7</TD>
+      <TD rowspan="11" CLASS="tatxtc">2.1.3</TD>
+      <TD CLASS="tatxt">The arc cosine</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>ASin</B>(f) </TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2">The arc sine</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>ATan</B>(f) </TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxt">The arc tangent</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>ATan2</B>(f1, f2) </TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2">The arc tangent of f1/f2</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>Cos</B>(f) </TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxt">The cosine</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>CosH</B>(f) </TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2">The hyperbolic cosine</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>Sin</B>(f) </TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxt">The sine</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>SinH</B>(f) </TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2">The hyperbolic sine</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>Tan</B>(f) </TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxt">The tangent</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>TanH</B>(f) </TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2">The hyperbolic tangent</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>Pi</B></TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxt">Constant Pi (3.1415926535897931) </TD>
+    </TR>
+    <TR> 
+      <TD COLSPAN=5 CLASS="tahdr2">String</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>Chr</B>(si) </TD>
+      <TD CLASS="tatxtc">c</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.1</TD>
+      <TD CLASS="tatxt">Character on the code </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>Ord</B>(c) </TD>
+      <TD CLASS="tatxt2c">si</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.1</TD>
+      <TD CLASS="tatxt2">The code of character </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>StrReplace</B>(s1, s2, s3) </TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.2.1</TD>
+      <TD ROWSPAN=2 CLASS="tatxt">Substitutes in string s1 a substring 
+        s2 on s3 </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt">LongStrReplace(S1, S<SUP>**</SUP>2, S<SUP>**</SUP>3) 
+      </TD>
+      <TD CLASS="tatxtc">S</TD>
+      <TD CLASS="tatxtc">1.2.0</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>StrStuff</B>(s1, i1, i2, s2) </TD>
+      <TD CLASS="tatxt2c">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2">In string s1 deletes i2 of characters, 
+        since i1, and inserts on this place s2</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2">LongStrStuff(S1, i1, i2, S2) </TD>
+      <TD CLASS="tatxt2c">S</TD>
+      <TD CLASS="tatxt2c">1.2.0</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>LTrim</B>(s) </TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt">Delete blanks at the left</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt">LongLTrim(S) </TD>
+      <TD CLASS="tatxtc">S</TD>
+      <TD CLASS="tatxtc">1.2.1</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>RTrim</B>(s) </TD>
+      <TD CLASS="tatxt2c">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2">Delete blanks on the right </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2">LongRTrim(S) </TD>
+      <TD CLASS="tatxt2c">S</TD>
+      <TD CLASS="tatxt2c">1.2.1</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>StrLen</B>(S) </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.0</TD>
+      <TD CLASS="tatxt">Length of string</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><strong><a name="strpos"></a>StrPos</strong>(s1, S2) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.0</TD>
+      <TD CLASS="tatxt2">Position of string s1 in string S2. If not 
+        is found, 0. </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>StrRepeat</B>(s, i) </TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt">Duplicates string s i times </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt">LongStrRepeat(S, i) </TD>
+      <TD CLASS="tatxtc">S</TD>
+      <TD CLASS="tatxtc">1.2.1</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><A NAME="substr"></A><B>SubStr</B>(s, i1, 
+        i2)</TD>
+      <TD CLASS="tatxt2c">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2">Substring of string s, since character 
+        i1 and length a maxima i2.<BR>
+        I1 &lt; 0 - counting happens from an extremity of string,<BR>
+        I2 &lt; 0 - the characters to the left of a point of counting are output. 
+      </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2">LongSubStr(S, i1, i2)  
+      </TD>
+      <TD CLASS="tatxt2c">S</TD>
+      <TD CLASS="tatxt2c">1.2.1</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>Trim</B>(s) </TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt">Delete all blanks on the right 
+        and at the left</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt">LongTrim(S) </TD>
+      <TD CLASS="tatxtc">S</TD>
+      <TD CLASS="tatxtc">1.2.1</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>CIf</B>(i, s1, s2) </TD>
+      <TD CLASS="tatxt2c">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2c">4-7</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2c">1.3.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2">If i = 0, s2, in remaining cases 
+        - s1 </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2">LongCIf(i, S1, S2) </TD>
+      <TD CLASS="tatxt2c">S</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>StrCount</B>(s1, S2)  
+      </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.3.0</TD>
+      <TD CLASS="tatxt">Amount of entrances s1 in S2 </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>WordCount</B>(S, s&quot;, si) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.3.0</TD>
+      <TD CLASS="tatxt2">Amount of words in string S, divided in 
+        characters from string s&quot;. If si &lt;&gt; 0, some separators the 
+        contract are considered as a word.</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>WordNum</B>(S, i, s&quot;, si) </TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">4-7</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">1.3.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt">i-th word in string S, divided 
+        in characters from string s&quot;. If si &lt;&gt; 0, some separators the 
+        contract are considered as a word. </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt">LongWordNum(S, i, s&quot;, si) </TD>
+      <TD CLASS="tatxtc">S</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>RLower</B>(s) </TD>
+      <TD CLASS="tatxt2c">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.4.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2">String in lowercase (WIN1251 only) 
+      </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2">LongRLower(S) </TD>
+      <TD CLASS="tatxt2c">S</TD>
+      <TD CLASS="tatxt2c">1.5.0</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>RUpper</B>(s) </TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.4.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt">String in uppercase (WIN1251 only) 
+      </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt">LongRUpper(S) </TD>
+      <TD CLASS="tatxtc">S</TD>
+      <TD CLASS="tatxtc">1.5.0</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>PadLeft</B>(s, i, c)  
+      </TD>
+      <TD CLASS="tatxt2c">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2c">4-7</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2c">2.0.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2">Supplements string s up to length 
+        in i character c at the left.</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2">LongPadLeft(S, i, c)  
+      </TD>
+      <TD CLASS="tatxt2c">S</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>PadRight</B>(s, i, c)  
+      </TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">4-7</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">2.0.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt">Supplements string s up to length 
+        in i character c at the right.</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt">LongPadRight(S, i, c)  
+      </TD>
+      <TD CLASS="tatxtc">S</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>RLatin</B>(s)  
+      </TD>
+      <TD CLASS="tatxt2c">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2c">4-7</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2c">2.0.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2">Substitutes characters from win1251 
+        on &quot;similar&quot; of a Latin. </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2">LongRLatin(S)  
+      </TD>
+      <TD CLASS="tatxt2c">S</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>RTranslit</B>(s)  
+      </TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">4-7</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">2.0.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt">Transliteration from win1251 in 
+        a Latin. </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt">LongRTranslit(S)  
+      </TD>
+      <TD CLASS="tatxtc">S</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B><a name="strcmp" id="strcmp"></a>StrCmp</B>(S1, S2) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">si</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.1</TD>
+      <TD CLASS="tatxt2">String comparing (si&lt;0 - first is less,
+si=0 - equal, si&gt;0 - first is more)</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>C</B>(s) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">4-7</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">2.1.1</TD>
+      <TD ROWSPAN=2 CLASS="tatxt">Returns empty string, if input parameter is Null. </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt">LongC(S) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">S</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>CEqual</B>(S1, S2) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.1</TD>
+      <TD CLASS="tatxt2">Equality test (1 means equality)</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>RepeatTrim</B>(s1, s2) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">4-7</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">2.1.1</TD>
+      <TD ROWSPAN=2 CLASS="tatxt">Deletes symbol s2 duplication in string s1 .<br>
+        Example:<br>
+        <em>RepeatTrim('1223', '2') = '123'</em> </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt">LongRepeatTrim(S1, S2) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">S</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>ConvertSymbols</B>(s1, s2, s3) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD rowspan="2" CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-5</TD>
+      <TD CLASS="tatxt2c">1.0</TD>
+      <TD rowspan="2" CLASS="tatxt2">Exchanges symbols from charset s2 to charset s3 in string s1.<br>        Example:<br>
+        <em>ConvertSymbols('1+2=3', '123', 'abc') = 'a+b=c'</em></TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2">LongConvertSymbols(S1, s2, s3) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.1</TD>
+    </TR>
+    <TR> 
+      <TD COLSPAN=5 CLASS="tahdr2"> Dates &amp; Time</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>DayPerMonth</B>(i1, i2) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.0</TD>
+      <TD CLASS="tatxt2">Number of days in i1 a month i2 of a year</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>Dow</B>(d) </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.0</TD>
+      <TD CLASS="tatxt">Day of week (1 - Monday, ..., 7 - Sunday)</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>ExtractDate</B>(d) </TD>
+      <TD rowspan="2" CLASS="tatxt2c">d</TD>
+      <TD rowspan="2" CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.2.3</TD>
+      <TD CLASS="tatxt2">Extracts date from date+time </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>ExtractTime</B>(d) </TD>
+      <TD CLASS="tatxt2c">2.0.0</TD>
+      <TD CLASS="tatxt2">Extracts time from date+time </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt">Day(d) </TD>
+      <TD rowspan="2" CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">4-5</TD>
+      <TD CLASS="tatxtc">1.0</TD>
+      <TD rowspan="2" CLASS="tatxt">Day of date</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>ExtractDay</B>(d) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.1</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2">Month(d) </TD>
+      <TD rowspan="2" CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-5</TD>
+      <TD CLASS="tatxt2c">1.0</TD>
+      <TD rowspan="2" CLASS="tatxt2">Month of date</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>ExtractMonth</B>(d) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.1</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt">Year(d) </TD>
+      <TD rowspan="2" CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">4-5</TD>
+      <TD CLASS="tatxtc">1.0</TD>
+      <TD rowspan="2" CLASS="tatxt">Year of date</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>ExtractYear</B>(d) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.1</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2">Hour(d) </TD>
+      <TD rowspan="2" CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-5</TD>
+      <TD CLASS="tatxt2c">1.5.2</TD>
+      <TD rowspan="2" CLASS="tatxt2">Hour of time</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>ExtractHour</B>(d) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.1</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt">Minute(d)</TD>
+      <TD rowspan="2" CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">4-5</TD>
+      <TD CLASS="tatxtc">1.5.2</TD>
+      <TD rowspan="2" CLASS="tatxt">Minute of time</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>ExtractMinute</B>(d) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.1</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2">Second(d)</TD>
+      <TD rowspan="2" CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-5</TD>
+      <TD CLASS="tatxt2c">1.5.2</TD>
+      <TD rowspan="2" CLASS="tatxt2">Second of time</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>ExtractSecond</B>(d) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.1</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>ExtractMillisecond</B>(d) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">6-7</TD>
+      <TD CLASS="tatxtc">2.1.3</TD>
+      <TD CLASS="tatxt">Millisecond of time</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2">WeekDay(d)</TD>
+      <TD rowspan="2" CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-5</TD>
+      <TD CLASS="tatxt2c">2.0.0</TD>
+      <TD rowspan="2" CLASS="tatxt2">Day of week. (0 - Sunday, 1 - Monday, ..., 6 - Saturday)</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>ExtractWeekDay</B>(d) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.1</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt">YearDay(d)</TD>
+      <TD rowspan="2" CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">4-5</TD>
+      <TD CLASS="tatxtc">2.0.0</TD>
+      <TD rowspan="2" CLASS="tatxt">Day of year</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>ExtractYearDay</B>(d) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.1</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>Quarter</B>(d)  
+      </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.0.0</TD>
+      <TD CLASS="tatxt2">Quarter of a year </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>FirstDayMonth</B>(d)  
+      </TD>
+      <TD CLASS="tatxtc">d</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.0.0</TD>
+      <TD CLASS="tatxt">The first day of a month</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>LastDayMonth</B>(d)  
+      </TD>
+      <TD CLASS="tatxt2c">d</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.0.0</TD>
+      <TD CLASS="tatxt2">The last day of a month </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>IsLeapYear</B>(i)  
+      </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.0.0</TD>
+      <TD CLASS="tatxt">1 - leap-year, 0 - unleap </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>DaysBetween</B>(d1, d2)  
+      </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.0.0</TD>
+      <TD CLASS="tatxt2">Amount of days between dates </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>DtIf</B>(i, d1, d2)  
+      </TD>
+      <TD CLASS="tatxtc">d</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.0.0</TD>
+      <TD CLASS="tatxt">If i = 0, d2, in other cases - d1 </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>IncDate</B>(d, i1, i2, i3)  
+      </TD>
+      <TD CLASS="tatxt2c">d</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.0.1</TD>
+      <TD CLASS="tatxt2">Change of date on i1 days, i2 months, i3 years.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>IncDateTime</B>(d, i1, i2, i3, i4, i5, i6) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">d</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.1</TD>
+      <TD CLASS="tatxt">Change of date on i1 days, i2 months, i3 years, i4 hours, i5 minutes, i6 seconds.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>MaxDate</B>(d1, d2) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">d</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.1</TD>
+      <TD CLASS="tatxt2">Greater of dates </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>MinDate</B>(d1, d2) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">d</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.1</TD>
+      <TD CLASS="tatxt">Smaller of dates </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>DtEqual</B>(d1, d2) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.1</TD>
+      <TD CLASS="tatxt2">Equality test (1 means equality)</TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=5 CLASS="tahdr2">Datatype conversions</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>DateToStr</B>(d, s)<BR>
+          <BR>
+    For example: <em>DateToStr('10.02.99','%d.%m.%y') = '10.02.99'<BR>
+    DateToStr('10.02.04 08:23','%d %B %Y, %X') = <BR>
+    '10 February 2004, 08:23:00'</em> </TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.0</TD>
+      <TD CLASS="tatxt"><DIV ALIGN="CENTER"> Conversion of date d in string using  a format s.<BR>
+          <span class="txunder">Formatting strings</span><BR>
+        (correspond with c-function <em>strftime</em>):<br>
+      </DIV>
+        %% - character %,<BR>
+      %c - date and time,<BR>
+      %x - date,<BR>
+      %d - day of a month (01-31),<BR>
+      %j - day of year (000-366),<BR>
+      %w - day of week (0-6), 0 - Sunday,<BR>
+      %U - number of week in one year (00-53), Sunday - the first day of week,<BR>
+      %W - number of week in one year (00-53), Monday - the first day of week,<BR>
+      %a - the short name of day of week,<BR>
+      %A - the full name of day of week,<BR>
+      %m - month (01-12),<BR>
+      %b - the short name of day of month,<BR>
+      %B - the full name of day of month,<BR>
+      %y - year (00-99),&nbsp;&nbsp;&nbsp; %Y - four-digit year,<BR>
+      %X - time,<BR>
+      %H - hour (00-23),&nbsp;&nbsp; %I - hour (01-12),<BR>
+      %M - minute (00-59),<BR>
+      %p - AM or PM,<BR>
+      %S - second (00-59). 
+      </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>EncodeDate</B>(i1, i2, i3) </TD>
+      <TD CLASS="tatxt2c">d</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">1.0</TD>
+      <TD CLASS="tatxt2">Date on format i1.i2.i3 = dd.mm.yyyy</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>EncodeDateTime</B>(i1, i2, i3, i4, i5, i6) </TD>
+      <TD CLASS="tatxtc">d</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">1.5.2</TD>
+      <TD CLASS="tatxt">Date and time on format<BR>
+    i1.i2.i3 i4:i5:i6 = dd.mm.yyyy hh:nn:ss</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B><b>DoubleTo</b>Date</B>(f) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">d</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.2</TD>
+      <TD CLASS="tatxt2">Converts double to date.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B><b>Double</b>ToTime</B>(f) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">d</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.2</TD>
+      <TD CLASS="tatxt">Converts double to time.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>DateToDouble</B>(d) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">f</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.1</TD>
+      <TD CLASS="tatxt2">Converts date to double.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>TimeToDouble</B>(d) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">f</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.1</TD>
+      <TD CLASS="tatxt">Converts time to double.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>FloatToStr</B>(f, s) <img src="img/new.gif" width="34" height="21" align="top"><p>For example:<br>
+          <em class="tatxt2">FloatToStr(13.5, '%7.3e') = '1.350e+01'<br>
+      FloatToStr(13.5, '%+7.3f') = ' +13.500'<br>
+FloatToStr(13.5345, '%.5g') = '13.534'<br>
+FloatToStr(13.5345, '%.5f') = '13.53450'<br>
+FloatToStr(13, '%05X') = '0000D'<br>
+FloatToStr(13, '%#04x') = '0x0d'      </em></p></TD>
+      <TD CLASS="tatxt2c">s</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.1</TD>
+      <TD CLASS="tatxt2"><div align="center">Conversion of double f to string using a format s.<br>        
+          <span class="txunder">Formatting strings</span><br>      
+      (as in c-function <em>sprintf</em>):
+        <br>
+        <span class="txfix">% [flags] [width] [.prec] type_char</span><br></div> 
+        <table width="100%"  border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td colspan="2">flags:</td>
+          </tr>
+          <tr>
+            <td width="17%" align="center" valign="top">-</td>
+            <td width="83%">left justify</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">+</td>
+            <td>begin with plus or minus sign </td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">blank</td>
+            <td>blank instead of a plus</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">#</td>
+            <td>alternate conversion:<br>              
+              0x (0X) before for x,X type_char<br>
+             always a decimal point for e,E,f</td>
+          </tr>
+          <tr>
+            <td colspan="2">width:</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top"><em>n</em></td>
+            <td>at least n chars, padded by blanks </td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">0<em>n</em></td>
+            <td>at least n chars, padded by zeros </td>
+          </tr>
+          <tr>
+            <td colspan="2">prec:</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">(none)</td>
+            <td>1 for d,i,o,u,x,X types<br>
+6 for e,E,f types<br>
+all significant digits for g,G</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">.0</td>
+            <td>for d,i,o,u,x types, precision set to default<br>
+            for e,E,f types, no decimal point</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">.<em>n</em></td>
+            <td>for d,i,o,u,x types, at least n digits<br>
+            for e,E,f types, n digits after the decimal point<br>
+            for g,G, at most n significant
+digits</td>
+          </tr>
+          <tr>
+            <td colspan="2">type_char:</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">d,i</td>
+            <td>signed decimal integer</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">o</td>
+            <td>unsigned octal integer</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">u</td>
+            <td>unsigned decimal integer</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">x,X</td>
+            <td>unsigned hexadecimal int</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">f</td>
+            <td>signed value of the form [-]dddd.dddd</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">e</td>
+            <td>signed value of the form [-]d.dddd or e[+/-]ddd</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">g</td>
+            <td>signed value in either e or f form, based on given value and precision</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">E,G</td>
+            <td>same as e,g, but with E for exponent</td>
+          </tr>
+        </table>      </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>IntToStr</B>(i, s) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.1</TD>
+      <TD CLASS="tatxt">Conversion of integer i to string using a format s (See FloatToStr)</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>NumInWords</B>(i, &#1089;) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">s</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.3</TD>
+      <TD CLASS="tatxt2">Number in words (WIN1251 only). &#1089; is grammatical gender</TD>
+    </TR>
+    <TR> 
+      <TD COLSPAN=5 CLASS="tahdr2">BLOB</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>B_Line</B>(B, i) </TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD ROWSPAN=9 CLASS="tatxtc">4-7</TD>
+      <TD ROWSPAN=9 CLASS="tatxtc">2.0.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt">i-th line of B </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt">B_LongLine(B, i) </TD>
+      <TD CLASS="tatxtc">S</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>B_Line_Count</B>(B) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2">Amount of lines</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>B_Max_Segment</B>(B) </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxt">Maximum length of a segment</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>B_Number_Segments</B>(B) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2">Amount of segments</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>B_Put_Segment</B>(S) </TD>
+      <TD CLASS="tatxtc">B</TD>
+      <TD CLASS="tatxt">Put a segment in a blob-field (example see 
+        in rtest.sql) </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>B_SubStr</B>(B, i1, i2) </TD>
+      <TD CLASS="tatxt2c">s</TD>
+      <TD ROWSPAN=2 CLASS="tatxt2">Similar <A HREF="#substr">SubStr</A> 
+      </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2">B_LongSubStr(B, i1, i2) </TD>
+      <TD CLASS="tatxt2c">S</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>B_Total_Length</B>(B) </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxt">Amount of bytes in B </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>B_StrCmp</B>(B1, B2) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">si</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.2</TD>
+      <TD CLASS="tatxt2">Comparing of two string BLOBs. Similar <a href="#strcmp">StrCmp</a> </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>B_Str</B><b>Pos</b>(S, B) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">si</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.2</TD>
+      <TD CLASS="tatxt">Search substring in BLOB. Similar <a href="#strpos">StrPos</a> </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>B_TextPos</B>(S, B) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">si</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.2</TD>
+      <TD CLASS="tatxt2">Similar B_StrPos, but not case sensitive</TD>
+    </TR>
+    <TR> 
+      <TD COLSPAN=5 CLASS="tahdr2">Bit</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>BitAnd</B>(i1, i2) </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD rowspan="6" CLASS="tatxtc">4-7</TD>
+      <TD rowspan="6" CLASS="tatxtc">2.0.0</TD>
+      <TD CLASS="tatxt">i1 and i2 </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>BitNot</B>(i) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2">not(i) </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>BitOr</B>(i1, i2) </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxt">i1 or i2 </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>BitXor</B>(i1, i2) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2">i1 xor i2 </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>GetBit</B>(i1, i2) </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxt">i2-th bit of number i1 </TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>SetBit</B>(i1, i2, i3) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2">Substitutes i2-th bit of number i1 on i3. 
+        i3 can accept values 0 and 1. </TD>
+    </TR>
+    <TR> 
+      <TD COLSPAN=5 CLASS="tahdr2">API</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><P><B>Add_User</B>(i, s1, s&quot;2, s'3, s&quot;4, s&quot;5, s&quot;6, s&quot;7, s&quot;8, s'9)<BR>
+          <BR>
+          For example:<BR>
+          <em>Add_User(1, 'ibserver', 'uname', 'password', '', 'john', 'jr', 'Doe', 
+          'sysdba', 'masterke')</em> <BR>
+        </P>
+      </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">5-7</TD>
+      <TD ROWSPAN=2 CLASS="tatxtc">1.3.0</TD>
+      <TD ROWSPAN=2 CLASS="tatxt">Addition and change of properties 
+        of the user. API InterBase. Adds (changes) the user with the s&quot;2 
+        name and s'3 password on the s1 server from UNIX-group s&quot;4. The connection is produced 
+        under protocol i (1-TCPIP, 2-NetBEUI, 3-SPX, 4-locally) user s&quot;8 
+        with the password s'9. Parameters: s&quot;5 - name, s&quot;6 
+        - patronymic, s&quot;7 - surname. Returns an exit code (0-normal).</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>Modify_User</B>(i, s1, s&quot;2, s'3, s&quot;4, 
+        s&quot;5, s&quot;6, s&quot;7, s&quot;8, s'9) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt"><B>Delete_User</B>(i, s1, s&quot;2, s&quot;8, s'9) </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">5-7</TD>
+      <TD CLASS="tatxtc">1.3.0</TD>
+      <TD CLASS="tatxt">Deleting of the user. API IB InterBase. Deletes 
+        the user with the s&quot;2 name on the s1 server. The connection is produced 
+        under protocol i (1-TCPIP, 2-NetBEUI, 3-SPX, 4-locally) user s&quot;8 
+        with the password s'9.</TD>
+    </TR>
+    <TR> 
+      <TD CLASS="tatxt2"><B>MsgBox</B>(S1, s2, i) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">5-7<br>        Windows<br>
+        Only </TD>
+      <TD CLASS="tatxt2c">1.3.0</TD>
+      <TD CLASS="tatxt2"><P>The window of the message with possibility of a choice. It is not recommended 
+          to use on remote servers. API Windows. Outputs the window with header 
+          s2 and text S1.</P>
+      </TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=5 CLASS="tahdr2">Special</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>LibVersion</B> <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">s</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.1</TD>
+      <TD CLASS="tatxt">The rFunc library version </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>LibName</B> <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxt2c">s</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.1</TD>
+      <TD CLASS="tatxt2">The library name (always &quot;rfunc&quot;) </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>EAN13cs</B>(s) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">si</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.1</TD>
+      <TD CLASS="tatxt">Calculation of EAN13's thirteenth digit.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>MD5Sum</B>(S) <span class="tatxt"><img src="img/new.gif" width="34" height="21" align="top"></span></TD>
+      <TD CLASS="tatxt2c">c&quot;</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.3</TD>
+      <TD CLASS="tatxt2">&#1057;hecksum by MD5 algorithm</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><strong>MD5Init</strong> <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">c*</TD>
+      <TD rowspan="3" CLASS="tatxtc">4-7</TD>
+      <TD rowspan="3" CLASS="tatxtc">2.1.3</TD>
+      <TD rowspan="3" CLASS="tatxt"> Block-to-block calculation of checksum by MD5 algorithm.<br>
+Usage:<br>
+    - declare a variable <em>context CHAR(176)</em> for temporary result;<br>
+    - declare a variable <em>md5 CHAR(32)</em> for final result;<br>
+    - execute <em>context = md5Init();</em><br>
+    - in loop (or as needed) execute <em>context = md5Update(context, S, SLen)</em>, where are <br>
+    context - understandably,<br>
+    S - regular input string,<br>
+    SLen - processing length;<br>
+    - execute <em>md5 = md5Final(context);</em></TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>MD5Update</B>(c*, S, i) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">c*</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>MD5Final</B>(c*) <img src="img/new.gif" width="34" height="21" align="top"></TD>
+      <TD CLASS="tatxtc">c&quot;</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>CreateGUID </B><span class="tatxt"><img src="img/new.gif" width="34" height="21" align="top"></span></TD>
+      <TD CLASS="tatxt2c">s&quot;'</TD>
+      <TD CLASS="tatxt2c">4-7</TD>
+      <TD CLASS="tatxt2c">2.1.3</TD>
+      <TD CLASS="tatxt2">GUID as string</TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=5 CLASS="tahdr2">File <img src="img/new.gif" width="34" height="21" align="top"></TD>
+    </TR>
+    <TR>
+      <TD COLSPAN=5 CLASS="tatxt2">This functions is <strong>optional</strong>. They are not compiled without setting special option (see readmeeng.txt). Use this functions set very <strong>carefully</strong>. Applying of this functions may damage or delete files on your server disk.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>FCreate</B>(s, i) </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD rowspan="9" CLASS="tatxtc">4-7</TD>
+      <TD rowspan="7" CLASS="tatxtc">2.1.2</TD>
+      <TD CLASS="tatxt">Create file with name s. Create mode is i (combination of <a href="#fs_xxx">FS_xxx</a>). Returns file handle or a negative number if error occured.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>FOpen</B>(s, i1, i2) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2">Open file with name s. Access flags are specified by i1. i2 is mode for create file (i1=FO_CREAT). Returns file handle or a negative number if error occured.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>FRead</B>(i1, i2) </TD>
+      <TD rowspan="2" CLASS="tatxtc">s</TD>
+      <TD rowspan="2" CLASS="tatxt">Reads i2 bytes from file with handle i1.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt">LongFRead(i1, i2) </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>FWrite</B>(i, S) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2">Writes bytes from string S into file with handle i. Returns number of written bytes.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><B>FSeek</B>(i1, i2, i3) </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxt">Sets the file pointer associated with i1 to a new position that is i2 bytes from the file location given by i3.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt2"><B>FClose</B>(i) </TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2">Close file with handle i. Returns 0. </TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><strong>FRemove</strong>(s)</TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">2.1.3</TD>
+      <TD CLASS="tatxt">Deletes file with name s.</TD>
+    </TR>
+    <TR>
+        <TD CLASS="tatxt2"><strong>FSize</strong>(s)</TD>
+      <TD CLASS="tatxt2c">i</TD>
+      <TD CLASS="tatxt2c">2.1.3</TD>
+        <TD valign="bottom" CLASS="tatxt2">Size of file</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt">Functions-constants for i1 parameter of <span class="txunder">FOpen</span>:<br>
+        <strong>FO_RDONLY<br>
+      FO_WRONLY<br>
+      FO_RDWR<br>
+      FO_CREAT<br>
+      FO_TRUNC<br>
+      FO_EXCL</strong></TD>
+      <TD rowspan="2" CLASS="tatxtc">&nbsp;</TD>
+      <TD rowspan="2" CLASS="tatxtc">&nbsp;</TD>
+      <TD CLASS="tatxtc">2.1.2</TD>
+      <TD valign="bottom" CLASS="tatxt">Open for reading only.<br>
+        Open for writing only.<br>
+        Open for reading and writing.<br>
+        If the file does not exist, the file is created.<br>
+        If the file exists, its length is truncated to 0.<br>
+      Exclusive open. Used only with FO_CREAT.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><strong>FO_APPEND</strong></TD>
+      <TD CLASS="tatxtc">2.1.3</TD>
+      <TD valign="bottom" CLASS="tatxt">File pointer will be set to the end of the file prior to each write.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><p>Functions-constants for i3 parameter of <span class="txunder">FSeek</span>:<br>
+          <strong>FSEEK_SET<br>        
+          FSEEK_CUR<br>
+          FSEEK_END</strong><br>
+      </p>      </TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.2</TD>
+      <TD valign="bottom" CLASS="tatxt">File beginning.<br>
+      Current file pointer position.<br>
+      End-of-file.</TD>
+    </TR>
+    <TR>
+      <TD CLASS="tatxt"><a name="fs_xxx"></a>Functions-constants for i3 parameter of <span class="txunder">FOpen</span> and i2 of <span class="txunder">FCreate</span>:<br>
+        <strong>FS_IREAD<br>
+FS_IWRITE<br>
+FS_IEXEC</strong></TD>
+      <TD CLASS="tatxtc">i</TD>
+      <TD CLASS="tatxtc">4-7</TD>
+      <TD CLASS="tatxtc">2.1.3</TD>
+      <TD valign="bottom" CLASS="tatxt">Owner can read<br>
+        Owner can write<br>
+      Owner can execute</TD>
+    </TR>
+  </TABLE>
+</DIV>
+		
+    <br>
+* - Firebird 1.x and Yaffil 1.x are equals Interbase 6<br>
+** - First appearance of a function<br>
+<br>
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 WIDTH=259>
+          <TR> 
+            
+    <TD WIDTH=12> <IMG HEIGHT=24 WIDTH=12 ALIGN="TOP" SRC="img/round.gif" BORDER=0></TD>
+          
+    <TD WIDTH=235 CLASS="txhdr"><A HREF="rfunc_history.htm">changes history</A></TD>
+            
+    <TD WIDTH=12> <IMG HEIGHT=24 WIDTH=12 ALIGN="TOP" SRC="img/round2.gif" BORDER=0></TD>
+          </TR>
+</TABLE>
+<P CLASS="txtxt">Please, on all 
+  questions and remarks connected with rFunc UDF Library, access to <A HREF="mailto:rfunc@mail.ru">rFunc@mail.ru</A> or <a href="http://sourceforge.net/forum/?group_id=49556">forums</a>.</p>
+<!-- #EndEditable --> 
+<P CLASS="cprght"><img src="img/pixelgr.gif" width="100%" height="1"><br>
+  Copyright &copy; 2003 Polaris Software
+</p></BODY><!-- #EndTemplate --></HTML>
+ 

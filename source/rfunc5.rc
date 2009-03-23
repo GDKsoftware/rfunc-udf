@@ -1,0 +1,48 @@
+/*====================================================================
+		rfunc5.rc
+
+		rFunc InterBase UDF library.
+		Resourse file.
+
+		Copyright 1998-2003 Polaris Software
+		http://rfunc.sourceforge.net
+		mailto:rFunc@mail.ru
+
+	 This library is free software; you can redistribute it and/or
+	 modify it under the terms of the GNU Lesser General Public
+	 License as published by the Free Software Foundation; either
+	 version 2.1 of the License, or (at your option) any later version.
+	 See license.txt for more details.
+
+====================================================================== */
+
+LANGUAGE LANG_RUSSIAN,1
+
+1 VERSIONINFO LOADONCALL MOVEABLE DISCARDABLE IMPURE
+FILEVERSION 2, 1, 3, 1
+PRODUCTVERSION 5, 6, 0, 29
+FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+FILEOS VOS__WINDOWS32
+FILETYPE VFT_DLL
+{
+	BLOCK "StringFileInfo"
+	{
+		BLOCK "041904E3"
+		{
+			VALUE "CompanyName", "Polaris Software\000"
+			VALUE "FileDescription", "UDF library for IB Database\000"
+			VALUE "FileVersion", "2.1.3.1\000"
+			VALUE "InternalName", "RFUNC\000"
+			VALUE "LegalCopyright", "Copyright \251 1998-2003 Polaris Software\000"
+			VALUE "OriginalFilename", "RFUNC.DLL\000"
+			VALUE "ProductVersion", "5.6.0.29\000"
+			VALUE "E-Mail", "rfunc@mail.ru\000"
+			VALUE "HomePage", "http://rfunc.sourceforge.net\000"
+		}
+	}
+	BLOCK "VarFileInfo"
+	{
+		VALUE "Translation", 1049, 1251
+	}
+}
+
