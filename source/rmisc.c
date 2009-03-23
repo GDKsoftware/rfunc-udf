@@ -1,26 +1,33 @@
-/*====================================================================
-		rmisc.c
+/** \file  rmisc.c
+    
+    \brief Miscellaneous functions.
 
-		rFunc InterBase UDF library.
-		Miscellaneous functions.
+ **************************************************************************
+ *                                                                        *
+ *                  rfunc InterBase UDF library                           *
+ *                                                                        *
+ **************************************************************************
+    \Copyright
+      Copyright 2009 PoleSoft Technologies Group
+      http://www.polesoft.ru/project/rfunc
+      mailto:support@polesoft.ru
 
-		Copyright 1998-2004 Polaris Software
-		http://rfunc.sourceforge.net
-		mailto: rFunc@mail.ru
-
-	 This library is free software; you can redistribute it and/or
-	 modify it under the terms of the GNU Lesser General Public
-	 License as published by the Free Software Foundation; either
-	 version 2.1 of the License, or (at your option) any later version.
-	 See license.txt for more details.
-
-====================================================================== */
-
+      This library is free software; you can redistribute it and/or
+      modify it under the terms of the GNU Lesser General Public
+      License as published by the Free Software Foundation; either
+      version 2.1 of the License, or (at your option) any later version.
+      See license.txt for more details.
+      
+ **************************************************************************
+ Last Changes:
+   $Revision: 112 $ $Author: coopht $
+   $Date: 2009-03-15 17:36:36 +0300 (Вск, 15 Мар 2009) $
+ **************************************************************************/
 #include <stdlib.h>
 #include <stdio.h>
 #include "rfunc.h"
 #include "rmisc.h"
-
+#include <string.h>
 #if defined WIN32
 #include <windows.h>
 #include <winuser.h>
@@ -65,11 +72,11 @@ ARGLIST(long *i1)
 ARGLIST(long *i2)
 { return (*i1 == *i2) ? 1 : 0; }
 
-//???dEqual(d1, d2)
-//???long	EXPORT fn_dequal(ARG(double*, d1), ARG(double*, d2))
-//???ARGLIST(double *d1)
-//???ARGLIST(double *d2)
-//???{ return (*d1 == *d2) ? 1 : 0; }
+/* ???dEqual(d1, d2) */
+/* ???long	EXPORT fn_dequal(ARG(double*, d1), ARG(double*, d2)) */
+/* ???ARGLIST(double *d1) */
+/* ???ARGLIST(double *d2) */
+/* ???{ return (*d1 == *d2) ? 1 : 0; } */
 
 long	EXPORT fn_cequal(ARG(char*, str1), ARG(char*, str2))
 ARGLIST(char *str1)
@@ -144,7 +151,7 @@ char*	EXPORT fn_CreateGUID()
 #if defined RGUID_WIN_STYLE
 		"{%.8X-%.4X-%.4X-%.2X%.2X-%.2X%.2X%.2X%.2X%.2X%.2X}",
 #else
-		"%.8x-%.4x-%.4x-%.2x%.2x-%.2x%.2x%.2x%.2x%.2x%.2x",
+		"%.8lx-%.4x-%.4x-%.2x%.2x-%.2x%.2x%.2x%.2x%.2x%.2x",
 #endif /* RGUID_WIN_STYLE */
 		pguid.D1, pguid.D2, pguid.D3, pguid.D4[0], pguid.D4[1], pguid.D4[2], pguid.D4[3],
     	pguid.D4[4], pguid.D4[5], pguid.D4[6], pguid.D4[7]);

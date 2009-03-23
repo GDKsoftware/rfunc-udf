@@ -1,21 +1,28 @@
-/*====================================================================
-		rdatetime.c
+/** \file  rdatetime.c
+    
+    \brief Date&Time functions.
 
-		rFunc InterBase UDF library.
-		Date&Time functions.
+ **************************************************************************
+ *                                                                        *
+ *                          rfunc UDF library                             *
+ *                                                                        *
+ **************************************************************************
+    \Copyright
+      Copyright 2009 PoleSoft Technologies Group
+      http://www.polesoft.ru/project/rfunc
+      mailto:support@polesoft.ru
 
-		Copyright 1998-2003 Polaris Software
-		http://rfunc.sourceforge.net
-		mailto:rFunc@mail.ru
-
-	 This library is free software; you can redistribute it and/or
-	 modify it under the terms of the GNU Lesser General Public
-	 License as published by the Free Software Foundation; either
-	 version 2.1 of the License, or (at your option) any later version.
-	 See license.txt for more details.
-
-====================================================================== */
-
+      This library is free software; you can redistribute it and/or
+      modify it under the terms of the GNU Lesser General Public
+      License as published by the Free Software Foundation; either
+      version 2.1 of the License, or (at your option) any later version.
+      See license.txt for more details.
+      
+ **************************************************************************
+ Last Changes:
+   $Revision: 127 $ $Author: coopht $
+   $Date: 2009-03-22 00:39:58 +0300 (Р’СЃРє, 22 РњР°СЂ 2009) $
+ **************************************************************************/
 #include <ibase.h>
 #include <time.h>
 #include <stdlib.h>
@@ -119,7 +126,22 @@ ARGLIST(ISC_QUAD *d)
 long	EXPORT fn_isleapyear(ARG(long, *ayear))
 ARGLIST(long* ayear)
 {
-	return (long) isleap(*ayear);
+  return (long) isleap(*ayear);
+}
+
+/*
+ * This function was added for wrapping strftime bug in gcc-3.x.x.
+ *
+ * Some buggy versions of gcc complain about the use  of  %c:
+ *      warning:  `%c'  yields  only last 2 digits of year in some
+ *      locales.  Of course programmers are encouraged to use  %c,
+ *      it  gives  the preferred date and time representation. One
+ *      meets all kinds of strange obfuscations to circumvent this
+ *      gcc  problem.
+ */
+size_t my_strftime(char *s, size_t m, const char *f, const struct tm *t)
+{
+  return strftime(s, m, f, t);
 }
 
 char* EXPORT fn_datetostr(ARG(ISC_QUAD*, d), ARG(char*, fmt))
@@ -132,7 +154,9 @@ ARGLIST(char *fmt)
 #if defined(RLOCALE)
 	setlocale(LC_ALL, "");
 #endif
-	if (!strftime(buffer, shortlen - 1, fmt, &tm1)) buffer[0] = '\0';
+	if (!my_strftime(buffer, shortlen - 1, fmt, &tm1))
+	  buffer[0] = '\0';
+
 	return buffer;
 }
 
@@ -253,11 +277,11 @@ struct tm * _incdate(struct tm* tm1, long d, long m, long y)
 	yy = tm1->tm_year += IB_START_YEAR;
 
 	dpm = fn_daypermonth(&mm, &yy) - dd;
-	// ГОД
+	/* Р“РћР” */
 	yy += y;
 
-	// МЕСЯЦ
-	// Прибавляем или вычитаем года
+	/* РњР•РЎРЇР¦
+	   РџСЂРёР±Р°РІР»СЏРµРј РёР»Рё РІС‹С‡РёС‚Р°РµРј РіРѕРґР° */
 	dsign = (mm + m < 1) ? -1 : 1;
 
 	x = div(dsign * (mm + m - 1), 12);
@@ -272,22 +296,22 @@ struct tm * _incdate(struct tm* tm1, long d, long m, long y)
 		mm = 12 - x.rem + 1;
 	}
 
-	// ДЕНЬ
-	// Если день был последним днем в месяце - он должен и остаться последним
-	// днем после изменения года и месяца.
+	/* Р”Р•РќР¬
+	 Р•СЃР»Рё РґРµРЅСЊ Р±С‹Р» РїРѕСЃР»РµРґРЅРёРј РґРЅРµРј РІ РјРµСЃСЏС†Рµ - РѕРЅ РґРѕР»Р¶РµРЅ Рё РѕСЃС‚Р°С‚СЊСЃСЏ РїРѕСЃР»РµРґРЅРёРј 
+	 РґРЅРµРј РїРѕСЃР»Рµ РёР·РјРµРЅРµРЅРёСЏ РіРѕРґР° Рё РјРµСЃСЏС†Р°. */
 	if (!dpm)
 		dd = fn_daypermonth(&mm, &yy);
 	else
 		dd = tm1->tm_mday;
-	// Если дата вываливается за конец месяца после изменения года и месяца -
-	// ставим последнее число месяца.
+	/* Р•СЃР»Рё РґР°С‚Р° РІС‹РІР°Р»РёРІР°РµС‚СЃСЏ Р·Р° РєРѕРЅРµС† РјРµСЃСЏС†Р° РїРѕСЃР»Рµ РёР·РјРµРЅРµРЅРёСЏ РіРѕРґР° Рё РјРµСЃСЏС†Р° - */
+	/* СЃС‚Р°РІРёРј РїРѕСЃР»РµРґРЅРµРµ С‡РёСЃР»Рѕ РјРµСЃСЏС†Р°. */
 	dd = (dd > fn_daypermonth(&mm, &yy)) ? fn_daypermonth(&mm, &yy) : dd;
 
-	// Прибавить дни или вычесть?
+	 /* РџСЂРёР±Р°РІРёС‚СЊ РґРЅРё РёР»Рё РІС‹С‡РµСЃС‚СЊ? */
 	dd += d;
 	dsign = (dd < 0) ? 0 : 1;
-	// З.Ы. Было бы неплохо сразу проверять на 365 дней, чтобы проскакивать год
-	// при необходимости
+	/* Р—.Р«. Р‘С‹Р»Рѕ Р±С‹ РЅРµРїР»РѕС…Рѕ СЃСЂР°Р·Сѓ РїСЂРѕРІРµСЂСЏС‚СЊ РЅР° 365 РґРЅРµР№, С‡С‚РѕР±С‹ РїСЂРѕСЃРєР°РєРёРІР°С‚СЊ РіРѕРґ */
+	/* РїСЂРё РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё */
 	if (dsign==1)
 	{
 		while ((dpm = fn_daypermonth(&mm, &yy)) < dd)
@@ -358,8 +382,8 @@ ARGLIST(long *secs)
 	tm1.tm_hour += *hours;
 	tm1.tm_min += *mins;
 	tm1.tm_sec += *secs;
-// Высчитаем количество прибавляемых дней.
-	// Прибавляем или вычитаем секунды
+/* Р’С‹СЃС‡РёС‚Р°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРёР±Р°РІР»СЏРµРјС‹С… РґРЅРµР№. */
+/* 	РџСЂРёР±Р°РІР»СЏРµРј РёР»Рё РІС‹С‡РёС‚Р°РµРј СЃРµРєСѓРЅРґС‹ */
 	x = div(tm1.tm_sec, 60);
 	if (x.rem < 0)
 	{
@@ -371,7 +395,7 @@ ARGLIST(long *secs)
 		tm1.tm_min += x.quot;
 		tm1.tm_sec = x.rem;
 	}
-// минуты в часы
+/* РјРёРЅСѓС‚С‹ РІ С‡Р°СЃС‹ */
 	x = div(tm1.tm_min, 60);
 	if (x.rem < 0)
 	{
@@ -383,7 +407,7 @@ ARGLIST(long *secs)
 		tm1.tm_hour += x.quot;
 		tm1.tm_min = x.rem;
 	}
-// часы в сутки
+/* С‡Р°СЃС‹ РІ СЃСѓС‚РєРё */
 	x = div(tm1.tm_hour, 24);
 	if (x.rem < 0)
 	{

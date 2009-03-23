@@ -1,28 +1,53 @@
-/* MD5C.C - RSA Data Security, Inc., MD5 message-digest algorithm
- */
+/** \file  md5c.c
+    
+    \brief MD5 message-digest algorithm.
 
-/* Copyright (C) 1991-2, RSA Data Security, Inc. Created 1991. All
-rights reserved.
+ **************************************************************************
+ *                                                                        *
+ *                  rfunc InterBase UDF library                           *
+ *                                                                        *
+ **************************************************************************
+    \Copyright
+      Copyright 2009 PoleSoft Technologies Group
+      http://www.polesoft.ru/project/rfunc
+      mailto:support@polesoft.ru
 
-License to copy and use this software is granted provided that it
-is identified as the "RSA Data Security, Inc. MD5 Message-Digest
-Algorithm" in all material mentioning or referencing this software
-or this function.
+      This library is free software; you can redistribute it and/or
+      modify it under the terms of the GNU Lesser General Public
+      License as published by the Free Software Foundation; either
+      version 2.1 of the License, or (at your option) any later version.
+      See license.txt for more details.
 
-License is also granted to make and use derivative works provided
-that such works are identified as "derived from the RSA Data
-Security, Inc. MD5 Message-Digest Algorithm" in all material
-mentioning or referencing the derived work.
+      *******************************************************************
 
-RSA Data Security, Inc. makes no representations concerning either
-the merchantability of this software or the suitability of this
-software for any particular purpose. It is provided "as is"
-without express or implied warranty of any kind.
+      MD5C.C - RSA Data Security, Inc., MD5 message-digest algorithm
 
-These notices must be retained in any copies of any part of this
-documentation and/or software.
- */
+      Copyright (C) 1991-2, RSA Data Security, Inc. Created 1991. All
+      rights reserved.
 
+      License to copy and use this software is granted provided that it
+      is identified as the "RSA Data Security, Inc. MD5 Message-Digest
+      Algorithm" in all material mentioning or referencing this software
+      or this function.
+      
+      License is also granted to make and use derivative works provided
+      that such works are identified as "derived from the RSA Data
+      Security, Inc. MD5 Message-Digest Algorithm" in all material
+      mentioning or referencing the derived work.
+      
+      RSA Data Security, Inc. makes no representations concerning either
+      the merchantability of this software or the suitability of this
+      software for any particular purpose. It is provided "as is"
+      without express or implied warranty of any kind.
+
+      These notices must be retained in any copies of any part of this
+      documentation and/or software.
+      
+ **************************************************************************
+ Last Changes:
+   $Revision: 112 $ $Author: coopht $
+   $Date: 2009-03-15 17:36:36 +0300 (Вск, 15 Мар 2009) $
+ **************************************************************************/
 #include <string.h>
 #include <stdio.h>
 #include "rfunc.h"
@@ -359,16 +384,16 @@ ARGLIST(char* buffer)
 	UINT4	ch;
 	
 	for (j = 0; j < 4; j++)
-		sscanf(&buffer[j*8], "%8x", &context->state[j]);
+		sscanf(&buffer[j*8], "%8lx", &context->state[j]);
 	for (j = 0; j < 2; j++)
-		sscanf(&buffer[4*8+j*8], "%8x", &context->count[j]);
+		sscanf(&buffer[4*8+j*8], "%8lx", &context->count[j]);
 	for (j = 0; j < MD5_CTX_BUFFER_LEN; j++)
 	{
-		sscanf(&buffer[6*8+j*2], "%2x", &ch);
+		sscanf(&buffer[6*8+j*2], "%2lx", &ch);
 		context->buffer[j] = (unsigned char) ch;
 	}
-//	MD5_memcpy
-//		((POINTER)context, (POINTER)buffer, sizeof(MD5_CTX));
+	/* MD5_memcpy */
+	/* 	((POINTER)context, (POINTER)buffer, sizeof(MD5_CTX)); */
 }
 
 static void	CTXToBuffer(ARG(char *, buffer), ARG(MD5_CTX *, context))
@@ -378,14 +403,14 @@ ARGLIST(MD5_CTX* context)
 	int	j;
 	
 	for (j = 0; j < 4; j++)
-		sprintf(&buffer[j*8], "%08X", context->state[j]);
+		sprintf(&buffer[j*8], "%08lX", context->state[j]);
 	for (j = 0; j < 2; j++)
-		sprintf(&buffer[4*8+j*8], "%08X", context->count[j]);
+		sprintf(&buffer[4*8+j*8], "%08lX", context->count[j]);
 	for (j = 0; j < MD5_CTX_BUFFER_LEN; j++)
 		sprintf(&buffer[6*8+j*2], "%02X", context->buffer[j]);
 	buffer[6*8+MD5_CTX_BUFFER_LEN*2] = '\0';
-//	MD5_memcpy
-//		((POINTER)buffer, (POINTER)context, sizeof(MD5_CTX));
+	/* MD5_memcpy */
+	/* 	((POINTER)buffer, (POINTER)context, sizeof(MD5_CTX)); */
 }
 
 char*	EXPORT fn_md5init()

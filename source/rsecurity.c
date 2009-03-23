@@ -1,21 +1,28 @@
-/*====================================================================
-		rsecurity.c
+/** \file  rsecurity.c
+    
+    \brief User manipulations.
 
-		rFunc InterBase UDF library.
-		User manipulations.
+ **************************************************************************
+ *                                                                        *
+ *                  rfunc InterBase UDF library                           *
+ *                                                                        *
+ **************************************************************************
+    \Copyright
+      Copyright 2009 PoleSoft Technologies Group
+      http://www.polesoft.ru/project/rfunc
+      mailto:support@polesoft.ru
 
-		Copyright 1998-2003 Polaris Software
-		http://rfunc.sourceforge.net
-		mailto: rFunc@mail.ru
-
-	 This library is free software; you can redistribute it and/or
-	 modify it under the terms of the GNU Lesser General Public
-	 License as published by the Free Software Foundation; either
-	 version 2.1 of the License, or (at your option) any later version.
-	 See license.txt for more details.
-
-====================================================================== */
-
+      This library is free software; you can redistribute it and/or
+      modify it under the terms of the GNU Lesser General Public
+      License as published by the Free Software Foundation; either
+      version 2.1 of the License, or (at your option) any later version.
+      See license.txt for more details.
+      
+ **************************************************************************
+ Last Changes:
+   $Revision: 112 $ $Author: coopht $
+   $Date: 2009-03-15 17:36:36 +0300 (Вск, 15 Мар 2009) $
+ **************************************************************************/
 #include "rfunc.h"
 
 #if defined IB_5X
@@ -48,9 +55,9 @@ ARGLIST(char *dba_password)
 		case 3: sec.protocol = sec_protocol_spx; break;
 #endif
 		case 4: sec.protocol = sec_protocol_local; break;
-//    else return -1;
+   /* else return -1; */
 	}
-//  if (!*password) return -2;
+  /* if (!*password) return -2; */
 	sec.server = server;
 	sec.user_name = user_name;
 	sec.password = password;

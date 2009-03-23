@@ -1,21 +1,28 @@
-/*====================================================================
-		rcalc.c
+/** \file  rcalc.c
+    
+    \brief Simple parser.
 
-		rFunc InterBase UDF library.
-		Simple parser.
+ **************************************************************************
+ *                                                                        *
+ *                          rfunc UDF library                             *
+ *                                                                        *
+ **************************************************************************
+    \Copyright
+      Copyright 2009 PoleSoft Technologies Group
+      http://www.polesoft.ru/project/rfunc
+      mailto:support@polesoft.ru
 
-		Copyright 1998-2003 Polaris Software
-		http://rfunc.sourceforge.net
-		mailto: rFunc@mail.ru
-
-	 This library is free software; you can redistribute it and/or
-	 modify it under the terms of the GNU Lesser General Public
-	 License as published by the Free Software Foundation; either
-	 version 2.1 of the License, or (at your option) any later version.
-	 See license.txt for more details.
-
-====================================================================== */
-
+      This library is free software; you can redistribute it and/or
+      modify it under the terms of the GNU Lesser General Public
+      License as published by the Free Software Foundation; either
+      version 2.1 of the License, or (at your option) any later version.
+      See license.txt for more details.
+      
+ **************************************************************************
+ Last Changes:
+   $Revision: 112 $ $Author: coopht $
+   $Date: 2009-03-15 17:36:36 +0300 (Вск, 15 Мар 2009) $
+ **************************************************************************/
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>

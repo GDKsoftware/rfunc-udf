@@ -1,21 +1,28 @@
-/*====================================================================
-		rstring.h
+/** \file  rstring.h
+    
+    \brief String functions.
 
-		rFunc InterBase UDF library.
-		String functions.
+ **************************************************************************
+ *                                                                        *
+ *                  rfunc InterBase UDF library                           *
+ *                                                                        *
+ **************************************************************************
+    \Copyright
+      Copyright 2009 PoleSoft Technologies Group
+      http://www.polesoft.ru/project/rfunc
+      mailto:support@polesoft.ru
 
-		Copyright 1998-2003 Polaris Software
-		http://rfunc.sourceforge.net
-		mailto: rFunc@mail.ru
-
-	 This library is free software; you can redistribute it and/or
-	 modify it under the terms of the GNU Lesser General Public
-	 License as published by the Free Software Foundation; either
-	 version 2.1 of the License, or (at your option) any later version.
-	 See license.txt for more details.
-
-====================================================================== */
-
+      This library is free software; you can redistribute it and/or
+      modify it under the terms of the GNU Lesser General Public
+      License as published by the Free Software Foundation; either
+      version 2.1 of the License, or (at your option) any later version.
+      See license.txt for more details.
+      
+ **************************************************************************
+ Last Changes:
+   $Revision: 112 $ $Author: coopht $
+   $Date: 2009-03-15 17:36:36 +0300 (Вск, 15 Мар 2009) $
+ **************************************************************************/
 #ifndef _RSTRING_H
 #define _RSTRING_H
 
@@ -58,5 +65,36 @@ char*	EXPORT fn_floattostr(ARG(double*, d), ARG(char*, fmt));
 char*	EXPORT fn_inttostr(ARG(long*, l), ARG(char*, fmt));
 
 char*	EXPORT fn_convertsymbols(ARG(char*, s), ARG(char*, source), ARG(char*, target));
+
+/* TODO: may be it's better to create separate file for xml procedures? */
+char * EXPORT fn_xmlencent (ARG (char *, str));
+
+char * EXPORT fn_xmldecent (ARG (char *, str));
+
+int EXPORT fn_strnpos (ARG (char*, str1), 
+		       ARG (char*, str2), 
+		       ARG (int*, pos), 
+		       ARG (int*, num));
+
+int EXPORT fn_strposr (ARG (char*, str1), ARG (char*, str2));
+
+char * EXPORT str2hex (ARG (char*, str));
+
+char * EXPORT hex2str (ARG (char*, str));
+
+int EXPORT fn_strnposr (ARG (char*, str1), 
+			ARG (char*, str2), 
+			ARG (int*, pos),
+			ARG (int*, num));
+
+char * EXPORT fn_substrr (ARG (char* ,str), ARG (size_t*, from), ARG (size_t*, len));
+
+char * EXPORT fn_strmirror (ARG (char*, str));
+
+char * EXPORT fn_cr();
+char * EXPORT fn_lf();
+char * EXPORT fn_crlf();
+char * EXPORT fn_tab();
+char * EXPORT fn_stresc (ARG(char*, str));
 
 #endif /* _RSTRING_H */

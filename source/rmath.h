@@ -1,21 +1,28 @@
-/*====================================================================
-		rmath.h
+/** \file  rmath.h
+    
+    \brief Math functions.
 
-		rFunc InterBase UDF library.
-		Math functions.
+ **************************************************************************
+ *                                                                        *
+ *                  rfunc InterBase UDF library                           *
+ *                                                                        *
+ **************************************************************************
+    \Copyright
+      Copyright 2009 PoleSoft Technologies Group
+      http://www.polesoft.ru/project/rfunc
+      mailto:support@polesoft.ru
 
-		Copyright 1998-2003 Polaris Software
-		http://rfunc.sourceforge.net
-		mailto:rFunc@mail.ru
-
-	 This library is free software; you can redistribute it and/or
-	 modify it under the terms of the GNU Lesser General Public
-	 License as published by the Free Software Foundation; either
-	 version 2.1 of the License, or (at your option) any later version.
-	 See license.txt for more details.
-
-====================================================================== */
-
+      This library is free software; you can redistribute it and/or
+      modify it under the terms of the GNU Lesser General Public
+      License as published by the Free Software Foundation; either
+      version 2.1 of the License, or (at your option) any later version.
+      See license.txt for more details.
+      
+ **************************************************************************
+ Last Changes:
+   $Revision: 112 $ $Author: coopht $
+   $Date: 2009-03-15 17:36:36 +0300 (Р’СЃРє, 15 РњР°СЂ 2009) $
+ **************************************************************************/
 #ifndef _RMATH_H
 #define _RMATH_H
 
@@ -57,26 +64,26 @@ double EXPORT fn_acos(ARG(double*, x));
 double EXPORT fn_asin(ARG(double*, x));
 double EXPORT fn_atan(ARG(double*, x));
 double EXPORT fn_atan2(ARG(double*, y), ARG(double*, x));
-//Функция  atan2() вычисляет арктангенс двух переменных: x и
-//y.   Это  похоже  на  вычисление  арктангенса  y  /  x  за
-//сключением  того,  что знак обоих аргументов используется
-//для определения квадранта результата.
-//
-//ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ
-//Функция  atan2()   возвращает   результат   вычисления   в
-//радианах,  который  находится  в  диапазоне  от  -Пи до Пи
-//включительно.
+/* Р¤СѓРЅРєС†РёСЏ  atan2() РІС‹С‡РёСЃР»СЏРµС‚ Р°СЂРєС‚Р°РЅРіРµРЅСЃ РґРІСѓС… РїРµСЂРµРјРµРЅРЅС‹С…: x Рё */
+/* y.   Р­С‚Рѕ  РїРѕС…РѕР¶Рµ  РЅР°  РІС‹С‡РёСЃР»РµРЅРёРµ  Р°СЂРєС‚Р°РЅРіРµРЅСЃР°  y  /  x  Р·Р° */
+/* СЃРєР»СЋС‡РµРЅРёРµРј  С‚РѕРіРѕ,  С‡С‚Рѕ Р·РЅР°Рє РѕР±РѕРёС… Р°СЂРіСѓРјРµРЅС‚РѕРІ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ */
+/* РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РєРІР°РґСЂР°РЅС‚Р° СЂРµР·СѓР»СЊС‚Р°С‚Р°. */
+
+/* Р’РћР—Р’Р РђР©РђР•РњРћР• Р—РќРђР§Р•РќРР• */
+/* Р¤СѓРЅРєС†РёСЏ  atan2()   РІРѕР·РІСЂР°С‰Р°РµС‚   СЂРµР·СѓР»СЊС‚Р°С‚   РІС‹С‡РёСЃР»РµРЅРёСЏ   РІ */
+/* СЂР°РґРёР°РЅР°С…,  РєРѕС‚РѕСЂС‹Р№  РЅР°С…РѕРґРёС‚СЃСЏ  РІ  РґРёР°РїР°Р·РѕРЅРµ  РѕС‚  -РџРё РґРѕ РџРё */
+/* РІРєР»СЋС‡РёС‚РµР»СЊРЅРѕ. */
 double EXPORT fn_cos(ARG(double*, x));
 double EXPORT fn_cosh(ARG(double*, x));
 double EXPORT fn_exp(ARG(double*, x));
-//Функция exp() возвращает  значение  числа  'e'  (основание
-//натурального логарифма), возведенного в степень x.
+/* Р¤СѓРЅРєС†РёСЏ exp() РІРѕР·РІСЂР°С‰Р°РµС‚  Р·РЅР°С‡РµРЅРёРµ  С‡РёСЃР»Р°  'e'  (РѕСЃРЅРѕРІР°РЅРёРµ */
+/* РЅР°С‚СѓСЂР°Р»СЊРЅРѕРіРѕ Р»РѕРіР°СЂРёС„РјР°), РІРѕР·РІРµРґРµРЅРЅРѕРіРѕ РІ СЃС‚РµРїРµРЅСЊ x. */
 double EXPORT fn_log(ARG(double*, x), ARG(double*, y));
-//Функция log() возвращает логарифм x по основанию y.
+/* Р¤СѓРЅРєС†РёСЏ log() РІРѕР·РІСЂР°С‰Р°РµС‚ Р»РѕРіР°СЂРёС„Рј x РїРѕ РѕСЃРЅРѕРІР°РЅРёСЋ y. */
 double EXPORT fn_ln(ARG(double*, x));
-//Функция ln() возвращает натуральный логарифм x.
+/* Р¤СѓРЅРєС†РёСЏ ln() РІРѕР·РІСЂР°С‰Р°РµС‚ РЅР°С‚СѓСЂР°Р»СЊРЅС‹Р№ Р»РѕРіР°СЂРёС„Рј x. */
 double EXPORT fn_log10(ARG(double*, x));
-//Функция log10() возвращает десятичный логарифм x.
+/* Р¤СѓРЅРєС†РёСЏ log10() РІРѕР·РІСЂР°С‰Р°РµС‚ РґРµСЃСЏС‚РёС‡РЅС‹Р№ Р»РѕРіР°СЂРёС„Рј x. */
 double EXPORT fn_sin(ARG(double*, x));
 double EXPORT fn_sinh(ARG(double*, x));
 double EXPORT fn_sqrt(ARG(double*, x));
@@ -86,5 +93,7 @@ double EXPORT fn_tanh(ARG(double*, x));
 /* Constants rounded for 21 decimals. */
 double	EXPORT fn_e ();
 double	EXPORT fn_pi();
+
+double EXPORT fn_fact (ARG(double*, x));
 
 #endif /* _RMATH_H */

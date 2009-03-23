@@ -1,21 +1,28 @@
-/*====================================================================
-		rmisc.h
+/** \file  misc.h
+    
+    \brief Miscellaneous functions.
 
-		rFunc InterBase UDF library.
-		Miscellaneous functions.
+ **************************************************************************
+ *                                                                        *
+ *                  rfunc InterBase UDF library                           *
+ *                                                                        *
+ **************************************************************************
+    \Copyright
+      Copyright 2009 PoleSoft Technologies Group
+      http://www.polesoft.ru/project/rfunc
+      mailto:support@polesoft.ru
 
-		Copyright 1998-2004 Polaris Software
-		http://rfunc.sourceforge.net
-		mailto: rFunc@mail.ru
-
-	 This library is free software; you can redistribute it and/or
-	 modify it under the terms of the GNU Lesser General Public
-	 License as published by the Free Software Foundation; either
-	 version 2.1 of the License, or (at your option) any later version.
-	 See license.txt for more details.
-
-====================================================================== */
-
+      This library is free software; you can redistribute it and/or
+      modify it under the terms of the GNU Lesser General Public
+      License as published by the Free Software Foundation; either
+      version 2.1 of the License, or (at your option) any later version.
+      See license.txt for more details.
+      
+ **************************************************************************
+ Last Changes:
+   $Revision: 112 $ $Author: coopht $
+   $Date: 2009-03-15 17:36:36 +0300 (Вск, 15 Мар 2009) $
+ **************************************************************************/
 #ifndef _RMISC_H
 #define _RMISC_H
 
@@ -27,7 +34,7 @@ char* EXPORT fn_cif(ARG(long*, a), ARG(char*, b), ARG(char*, c));
 ISC_QUAD*	EXPORT fn_dtif(ARG(long*, a), ARG(ISC_QUAD*, b), ARG(ISC_QUAD*, c));
 
 long	EXPORT fn_iequal(ARG(long*, i1), ARG(long*, i2));
-//???long	EXPORT fn_dequal(ARG(double*, d1), ARG(double*, d2));
+/*FIXME: ???long	EXPORT fn_dequal(ARG(double*, d1), ARG(double*, d2)); */
 long	EXPORT fn_cequal(ARG(char*, str1), ARG(char*, str2));
 long	EXPORT fn_dtequal(ARG(ISC_QUAD*, dt1), ARG(ISC_QUAD*, dt2));
 

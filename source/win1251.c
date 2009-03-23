@@ -1,21 +1,28 @@
-/*====================================================================
-		rstring.c
+/** \file  win1251.c
+    
+    \brief win1251 string functions.
 
-		rFunc InterBase UDF library.
-		String functions.
+ **************************************************************************
+ *                                                                        *
+ *                  rfunc InterBase UDF library                           *
+ *                                                                        *
+ **************************************************************************
+    \Copyright
+      Copyright 2009 PoleSoft Technologies Group
+      http://www.polesoft.ru/project/rfunc
+      mailto:support@polesoft.ru
 
-		Copyright 1998-2003 Polaris Software
-		http://rfunc.sourceforge.net
-		mailto: rFunc@mail.ru
-
-	 This library is free software; you can redistribute it and/or
-	 modify it under the terms of the GNU Lesser General Public
-	 License as published by the Free Software Foundation; either
-	 version 2.1 of the License, or (at your option) any later version.
-	 See license.txt for more details.
-
-====================================================================== */
-
+      This library is free software; you can redistribute it and/or
+      modify it under the terms of the GNU Lesser General Public
+      License as published by the Free Software Foundation; either
+      version 2.1 of the License, or (at your option) any later version.
+      See license.txt for more details.
+      
+ **************************************************************************
+ Last Changes:
+   $Revision: 112 $ $Author: coopht $
+   $Date: 2009-03-15 17:36:36 +0300 (Вск, 15 Мар 2009) $
+ **************************************************************************/
 #include <string.h>
 #include <stdlib.h>
 #include "rfunc.h"
@@ -79,7 +86,7 @@ unsigned char latin_win1251[] = {
 0x72,0x73,0x74,0x75,0x66,0x68,0x63,0x63,0x73,0x73,0x5f,0x69,0x5f,0x65,0x75,0x6a
 };
 
-#define TYP_win1251_len	72 //66
+#define TYP_win1251_len	72 /*66 */
 
 char *TYP_win1251[TYP_win1251_len] = {
 	"a", "b", "v", "g", "d", "e", "yo", "zh", "z", "i",
@@ -205,8 +212,13 @@ ARGLIST(unsigned char *s)
 		*ptr = (unsigned char) toupper((int) *ptr);
 		ptr++;
 	}
-#else
-	while (*ptr) *ptr = upper_win1251[(short)*ptr++];
+#else	
+
+	while (*ptr) 
+	{
+	  *ptr = upper_win1251 [(short)*ptr];
+	  ptr++;
+	}
 #endif /* RLOCALE */
 	return s;
 }
@@ -224,7 +236,11 @@ ARGLIST(unsigned char *s)
 		ptr++;
 	}
 #else
-	while (*ptr) *ptr = lower_win1251[(short)*ptr++];
+	while (*ptr) 
+        {
+	    *ptr = lower_win1251[(short)*ptr];
+	    ptr++;
+	}
 #endif /* RLOCALE */
 	return s;
 }
@@ -234,7 +250,11 @@ ARGLIST(unsigned char *s)
 {
 	unsigned char *ptr = s;
 
-	while (*ptr) *ptr = latin_win1251[(short)*ptr++];
+	while (*ptr) 
+	{
+	  *ptr = latin_win1251[(short)*ptr];
+	  ptr++;
+	}
 	return s;
 }
 
@@ -249,7 +269,7 @@ ARGLIST(long maxlength)
 
 	while (*sptr)
 	{
-		 if (r = translit_win1251[(short)*sptr])
+	  if ((r = translit_win1251[(short)*sptr]))
 		 {
 			i = 0;
 			 while ((buffer[l++] = TYP_win1251[r-1][i++]) && (l < maxlength));
@@ -293,7 +313,7 @@ ARGLIST(char *sGender)
 	long i, j, l = 0, nGender, mNum, tn;
 	long pNum, Divider;
 
-	// N - Neuter, M - Male, F - Female, P - Plural
+	/* N - Neuter, M - Male, F - Female, P - Plural */
 	switch (*sGender)
 	{
 		case 'M': Gender = 1; break;
@@ -310,7 +330,7 @@ ARGLIST(char *sGender)
 	else
 		pNum = *Sum;
 
-//	Divider = 1000000000000;
+	/* Divider = 1000000000000; */
 	Divider = 1000000000;
 	for (i = 0; i <= 3/*!*/; i++)
 	{
@@ -344,7 +364,7 @@ ARGLIST(char *sGender)
 			}
 			if (i < 3/*!*/)
 			{
-				// name of numeral
+				/* name of numeral */
 				tn = TestNum(&mNum) + 2;
 				j = 0; while ((buffer[l++] = aExp[i+1/*!*/][tn-1][j++]));
 				buffer[l-1] = ' ';

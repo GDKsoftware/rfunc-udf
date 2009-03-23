@@ -1,30 +1,38 @@
-/*====================================================================
-		rstring.c
+/** \file  rstring.c
+    
+    \brief String functions.
 
-		rFunc InterBase UDF library.
-		String functions.
+ **************************************************************************
+ *                                                                        *
+ *                  rfunc InterBase UDF library                           *
+ *                                                                        *
+ **************************************************************************
+    \Copyright
+      Copyright 2009 PoleSoft Technologies Group
+      http://www.polesoft.ru/project/rfunc
+      mailto:support@polesoft.ru
 
-		Copyright 1998-2003 Polaris Software
-		http://rfunc.sourceforge.net
-		mailto: rFunc@mail.ru
-
-	 This library is free software; you can redistribute it and/or
-	 modify it under the terms of the GNU Lesser General Public
-	 License as published by the Free Software Foundation; either
-	 version 2.1 of the License, or (at your option) any later version.
-	 See license.txt for more details.
-
-====================================================================== */
-
+      This library is free software; you can redistribute it and/or
+      modify it under the terms of the GNU Lesser General Public
+      License as published by the Free Software Foundation; either
+      version 2.1 of the License, or (at your option) any later version.
+      See license.txt for more details.
+      
+ **************************************************************************
+ Last Changes:
+   $Revision: 116 $ $Author: sandro $
+   $Date: 2009-03-16 13:47:58 +0300 (–ü–Ω–¥, 16 –ú–∞—Ä 2009) $
+ **************************************************************************/
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <ctype.h>
 #include "rfunc.h"
 #include "rstring.h"
 #include "rmath.h"
 
-char *delims = " "; // empty delimiters
+char *delims = " "; /* empty delimiters */
 
 unsigned char* EXPORT fn_chr(ARG(short*, i))
 ARGLIST(short *i)
@@ -72,15 +80,15 @@ ARGLIST(char *delim)
 {
 	char *s = str1, *d = str1;
 
-//	while (*s == ' ') s++;
+	/* while (*s == ' ') s++; */
 	if (delim[0])
 		while (*s)
 		{
 			while (*s && (*s != delim[0])) *d++ = *s++;
 			*d++ = *s++;
 			while (*s == delim[0]) s++;
-//			if (*s) *d++ = delim[0];
-//			else *d++ = '\0';
+			/* if (*s) *d++ = delim[0]; */
+			/* else *d++ = '\0'; */
 		}
 		*d = '\0';
 	return str1;
@@ -198,7 +206,7 @@ ARGLIST(long maxlength)
 	char *buffer = (char*) MALLOC (maxlength);
 	char *sptr = s, *ptr = s, *bptr = buffer;
 
-	while (ptr = strstr(ptr, froms))
+	while ((ptr = strstr(ptr, froms)) != NULL)
 	{
 		while (sptr != ptr && (bptr-buffer<maxlength-1)) *bptr++ = *sptr++;
 		sptr = tos;
@@ -254,7 +262,7 @@ ARGLIST(char *str2)
 
 	if (!len || !*str2) return 0;
 	ptr = str2;
-	while (ptr = strstr(ptr, str1))
+	while ((ptr = strstr(ptr, str1)) != NULL)
 	{
 		ptr += len;
 		r++;
@@ -282,10 +290,10 @@ ARGLIST(long *flag)
 	if (!*c) return r;
 	while (*c)
 		if (strchr(delim, *c++))
-			d++; // counting words
+			d++; /* counting words */
 		else {
 			while (*c && !strchr(delim, *c)) c++;
-			r++; // counting full words
+			r++;  /* counting full words */
 		}
 	if (*flag)
 		return d;
@@ -395,9 +403,9 @@ ARGLIST(char *fmt)
 	long	i;
 
 	buffer[0] = '\0';
-// –‡Á·Ë‡ÂÏ ÒÚÓÍÛ ÙÓÏ‡Ú‡, Ô˚Ú‡ˇÒ¸ ‚˚˜ËÒÎËÚ¸ ÔÂ‰ÔÓÎ‡„‡ÂÏ˚ ÚËÔ ‡„ÛÏÂÌÚ‡.
-	//  ‡Ê‰˚È ÒÔÂˆËÙËÍ‡ÚÓ ÔÂÓ·‡ÁÓ‚‡ÌËˇ Ì‡˜ËÌ‡ÂÚÒˇ ÒËÏ‚ÓÎÓÏ %
-	if (s = strstr(fmt, "%"))
+ /* –†–∞–∑–±–∏—Ä–∞–µ–º —Å—Ç—Ä–æ–∫—É —Ñ–æ—Ä–º–∞—Ç–∞, –ø—ã—Ç–∞—è—Å—å –≤—ã—á–∏—Å–ª–∏—Ç—å –ø—Ä–µ–¥–ø–æ–ª–∞–≥–∞–µ–º—ã —Ç–∏–ø –∞—Ä–≥—É–º–µ–Ω—Ç–∞. */
+ /* 	 –ö–∞–∂–¥—ã–π —Å–ø–µ—Ü–∏—Ñ–∏–∫–∞—Ç–æ—Ä –ø—Ä–µ–æ–±—Ä–∞–∑–æ–≤–∞–Ω–∏—è –Ω–∞—á–∏–Ω–∞–µ—Ç—Å—è —Å–∏–º–≤–æ–ª–æ–º % */
+	if ((s = strstr(fmt, "%")) != NULL)
 	{
 		i = 1;
 		while (strchr("+- #", s[i])) i++;
@@ -435,9 +443,529 @@ ARGLIST(char *target)
 {
 	char	*c = s, *p;
 	while (*c)
-		if (p = strchr(source, *c))
+	  if ((p = strchr(source, *c)) != NULL)
 			*c++ = target[p - source];
 		else
 			c++;
 	return s;
 }
+
+char * EXPORT fn_xmlencent (ARG (char *, str))
+  ARGLIST (char *str)
+{
+  size_t len = 0; /* length of the input str*/
+  char * result = NULL;
+
+  if (str == NULL)
+    return NULL;
+
+  len = strlen (str) + 1;
+  result = MALLOC (len);
+  
+  if (result == NULL)
+    return "";
+
+  result [0] = '\0';
+    
+  /* going through input string */
+  while (*str)
+    {
+      switch (*str)
+	{
+	case '<':
+	  len += 3;
+	  result = realloc (result, len);
+	  strcat (result, "&lt;");
+	  break;
+
+	case '>':
+	  len += 3;
+	  result = realloc (result, len);
+	  strcat (result, "&gt;");
+	  break;
+
+	case '\'':
+	  len += 5;
+	  result = realloc (result, len);
+	  strcat (result, "&apos;");
+	  break;
+
+	case '&': 
+	  len += 4;
+	  result = realloc (result, len);
+	  strcat (result, "&amp;");
+	  break;
+
+	case '\"':
+	  len += 5;
+	  result = realloc (result, len);
+	  strcat (result, "&quot;");
+	  break;
+
+	default:
+	  strncat (result, str, 1);	  
+	  break;
+	}
+      str++;
+    }
+  return result;
+}
+
+char * EXPORT fn_xmldecent (ARG (char *, str))
+  ARGLIST (char *str)
+{
+  size_t len = 0;
+  char * result = NULL;
+
+  if (str == NULL)
+    return NULL;
+
+  len = strlen (str) + 1;
+  result = MALLOC (len);
+  
+  if (result == NULL)   
+    return "";
+
+  result [0] = '\0';
+
+  /* going through input string*/
+  while (*str)
+    {
+      if (*str == '&')
+	{
+	  char * start = str;
+	  size_t slen = 1;
+
+	  /* TODO: seems to be not very effecive */
+	  while (*str != ';')
+	    slen++, str++;	    
+	  
+	  if (strncmp (start, "&lt;", slen) == 0)
+	    {
+	      len -= 3;
+	      result = realloc (result, len);
+	      strcat (result, "<");
+	    }
+	  else if (strncmp (start, "&gt;", slen) == 0)
+	    {
+	      len -= 3;
+	      result = realloc (result, len);
+	      strcat (result, ">");
+	    }
+	  else if (strncmp (start, "&apos;", slen) == 0)
+	    {
+	      len -= 5;
+	      result = realloc (result, len);
+	      strcat (result, "\'");
+	    }
+	  else if (strncmp (start, "&amp;", slen) == 0)
+	    {
+	      len -= 4;
+	      result = realloc (result, len);
+	      strcat (result, "&");
+	    }
+	  else if (strncmp (start, "&quot;", slen) == 0)
+	    {	      
+	      len += 5;
+	      result = realloc (result, len);
+	      strcat (result, "\"");
+	    }
+	  else if (strncmp (start, "&#62;", slen) == 0)
+	    {	      
+	      len += 4;
+	      result = realloc (result, len);
+	      strcat (result, ">");
+	    }
+	  else if (strncmp (start, "&#38;#60;", slen+4) == 0)
+	    {	
+	      len += 7;
+	      result = realloc (result, len);
+	      strcat (result, "<");
+              str= str+4;
+              slen= slen +4;
+	    }
+          else if (strncmp (start, "&#38;#38;", slen+4) == 0)
+	    {	      
+	      len += 7;
+	      result = realloc (result, len);
+	      strcat (result, "&");
+              str= str+4;
+              slen= slen +4;
+	    }
+          else if (strncmp (start, "&#39;", slen) == 0)
+	    {	      
+	      len += 4;
+	      result = realloc (result, len);
+	      strcat (result, "\'");
+	    }
+	  else if (strncmp (start, "&#34;", slen) == 0)
+	    {	      
+	      len += 4;
+	      result = realloc (result, len);
+	      strcat (result, "\"");
+	    }
+
+	  else
+	    /* TODO: may be better to rise some error?
+	       cause it seems, that xml is not valid.
+	     */
+	    strncat (result, start, slen);		    
+	}
+      else
+	strncat (result, str, 1);
+      str++;
+    }
+  return result;
+}
+
+int EXPORT fn_strnpos (ARG (char*, str1), 
+		       ARG (char*, str2), 
+		       ARG (int*, pos), 
+		       ARG (int*, num))
+
+ARGLIST (char* str1)
+ARGLIST (char* str2)
+ARGLIST (int* pos)
+ARGLIST (int* num)
+{  
+  char *ptr;
+  int i = 0;
+  
+  if (!*str1) 
+    return 0;
+  
+  if ((*pos < 1) || (*num < 1))
+    return 0;	
+
+  ptr = str2 + *pos;
+  
+  for (i = 0; i < *num; i++)
+    {	       
+      ptr = strstr (ptr, str1);
+
+      if (ptr == NULL)
+	return 0;
+
+      ptr++;
+    }
+  
+  return ptr - str2;
+}
+
+int EXPORT fn_strposr (ARG (char*, str1), ARG (char*, str2))
+ARGLIST (char* str1)
+ARGLIST (char* str2)
+{
+  size_t len = 0;
+  char * pos = NULL;
+
+  if (str1 == NULL)
+    return 0;
+
+  len = strlen (str2);
+  if (len < 1)
+    return 0;
+
+  pos = str2 + len - 1;  
+
+  while (*pos)
+    {   
+      if (strstr (pos, str1) != NULL)	
+	return len + (str2 - pos);
+
+      pos--;
+    }
+
+  return 0;
+}
+
+char * EXPORT str2hex (ARG (char*, str))
+ARGLIST (char* str)
+{
+  size_t len = 0;  
+  char * result = NULL;
+
+  if (str == NULL)
+    return "";  
+
+  len = strlen (str);    
+
+  if (len < 1)
+    return "";
+  
+  result = MALLOC (2 * len + 1);
+
+  if (result == NULL)
+    return "";
+
+  while (*str)
+  {
+    char c [2] = "";
+    if (*str < '\n')      
+      sprintf (c, "0%x",*str);      
+    else
+      sprintf (c, "%x",*str);
+
+    str++;
+    strcat (result, c);
+  }   
+  
+  return result;
+}
+
+char * EXPORT hex2str (ARG (char*, str))
+ARGLIST (char* str)
+{
+  size_t len = 0;  
+  char * result = NULL;
+  int i  = 0;
+
+  if (str == NULL)
+    return "";  
+
+  len = strlen (str);    
+
+  if (len < 1)
+    return "";
+  
+  result = MALLOC (len / 2 + 1);
+
+  if (result == NULL)
+    return "";
+  
+  while (*str)
+    {
+      sscanf (str, "%2x",(unsigned int*) &(result [i]));
+      str += 2;
+      i++;
+    } 
+  
+  result [i + 1] = '\0'; 
+
+  return result;
+}
+
+int EXPORT fn_strnposr (ARG (char*, str1), 
+			ARG (char*, str2), 
+			ARG (int*, pos),
+			ARG (int*, num))
+ARGLIST (char* str1)
+ARGLIST (char* str2)
+ARGLIST (int* pos)
+ARGLIST (int* num)
+{
+  size_t len = 0;
+  char *buf = NULL;
+  int i = 0;
+  int k = 0;
+  size_t orig = 0;
+
+  if (str1 == NULL)
+    return 0;
+  
+  orig = strlen (str2);
+
+  if (orig < 1)
+    return 0;
+
+  len = orig - *pos;
+  buf = malloc (len + 1);
+  if (buf == NULL)
+    return 0;
+
+  if (strncpy (buf, str2, len) == NULL)
+    return 0;
+
+  buf [len] = '\0';
+
+  if (!*str1) 
+    return 0;
+  
+  if ((*pos < 1) || (*num < 1))
+    return 0;	
+  
+  for (i = 0; i < *num; i++)
+    {	       
+      k = fn_strposr (str1, buf);
+      if (k == 0)
+	{
+	  free (buf);
+	  return 0;
+	}
+
+      len -= k;
+
+      buf = realloc (buf, len + 1);
+      strncpy (buf, str2, len);
+      buf [len] = '\0';
+    }
+
+  free (buf);
+  return orig - len;
+}
+
+char * EXPORT fn_substrr (ARG (char* ,str), ARG (size_t*, from), ARG (size_t*, len))
+ARGLIST (char* str)
+ARGLIST (size_t* from)
+ARGLIST (size_t* len)
+{
+  size_t l = 0;
+  char *result = NULL;
+  char *ptr = NULL;
+
+  if (str == NULL)
+    return "";
+
+  l = strlen (str);
+
+  if ((l < *len) || l < (*len + *from) || (l < 1))
+    return "";
+
+  result =  MALLOC (*len);
+  
+  if (result == NULL)
+    return "";
+
+  ptr = str + (l - *len - *from);
+  strncpy (result, ptr, *len);
+  result [*len] = '\0';
+  return result;
+}
+
+char * EXPORT fn_strmirror (ARG (char*, str))
+ARGLIST (char* str)
+{
+  int i=0;
+  size_t len=0;
+  char *result = NULL;
+
+  if (str==NULL)
+       return "";
+  len = strlen (str);
+  result = (char*) MALLOC (len+1);
+  for (i=0; i<len; i++)
+  {
+       result [i] = str [len-i-1];
+  }
+  result[len] = '\0';
+  return result;
+}
+
+char * EXPORT fn_cr()
+{
+  return "\r";
+}
+ 
+char * EXPORT fn_lf()
+{
+  return "\n";
+}
+
+char * EXPORT fn_crlf()
+{
+  return "\r\n";
+}
+
+char * EXPORT fn_tab()
+{
+  return "\t";
+}
+
+char * EXPORT fn_stresc (ARG(char*, str))
+ARGLIST(char *str)
+{
+  char * result = NULL;
+  char * ptr = NULL;
+  size_t act_len = 0;
+
+  if (str == NULL)
+    return "";
+  
+  act_len = strlen (str) + 1;
+  
+  result = MALLOC (act_len); 
+  
+  if (result == NULL)
+    return "";
+
+  ptr = result;  
+  while (*str)
+    {
+      if (*str == '\\')
+	{
+	  char c = *(str + 1);
+
+	  switch (c)
+	    {
+	    case 'a':
+	      --act_len;
+	      ++str;
+	      *ptr = '\a';
+	      break;
+	      
+	    case 'b':
+	      --act_len;
+	      ++str;
+	      *ptr = '\b';
+	      break;
+	      
+	    case 't':
+	      --act_len;
+	      ++str;
+	      *ptr = '\t';
+	      break;
+	      
+	    case 'n':
+	      --act_len;
+	      ++str;
+	      *ptr = '\n';
+	      break;
+	      
+	    case 'v':
+	      --act_len;
+	      ++str;
+	      *ptr = '\v';
+	      break;
+	      
+	    case 'f':
+	      --act_len;
+	      ++str;
+	      *ptr = '\f';
+	      break;
+	      
+	    case 'r':
+	      ++str;
+	      --act_len;
+	      *ptr = '\r';
+	      break;
+	      
+	    default:
+	      if (isdigit (c) && 
+		  isdigit (*(str + 2)) &&
+		  isdigit (*(str + 3)))
+		{		  
+		  int d;
+		  char num [4];
+		  strncpy (num, str + 1, 3);
+		  sscanf (num, "%d", &d);
+		  *ptr = d;
+		  str += 3;
+		  act_len -= 3;
+		}
+	      else	      
+		*ptr = *str;
+	      break;	      
+	    }
+	}
+      else
+	*ptr = *str;
+      ++ptr;
+      ++str;
+    } 
+
+  result = (char *)realloc ((void *)result, act_len);
+  result [act_len - 1] = '\0';
+
+  return result;
+}
+
