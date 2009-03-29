@@ -27,7 +27,7 @@
 #include "rt_util.h"
 #include <string.h>
 
-int main (int argc, char *argv[])
+int main ()
 {
   isc_db_handle   db_handle = 0;
   ISC_QUAD    blob_id;
