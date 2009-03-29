@@ -27,8 +27,8 @@
 CLEANFILES=*.o
 
 if MAINTAINER_MODE
-   CFLAGS+=-O0 -ggdb3 -Wall -Werror -pedantic
-   CXXFLAGS+=-O0 -ggdb3 -Wall -Werror -pedantic
+   CFLAGS+=-O0 -ggdb3 -Wall -Werror -pedantic -Wunused-parameter -Wswitch-default -Wswitch-enum	-Wextra -Wshadow -Wbad-function-cast -Wcast-qual
+   CXXFLAGS+=$CFLAGS
 else
    CFLAGS+= -O2 -Wall -pedantic
    CXXFLAGS+= -O2 -Wall -pedantic
