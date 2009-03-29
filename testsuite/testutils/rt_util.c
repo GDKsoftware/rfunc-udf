@@ -207,7 +207,7 @@ void rt_assert (isc_db_handle *db, const char *query, const char *control)
    */  
   while ((fetch_stat = isc_dsql_fetch (status, &stmt, 1, sqlda)) == 0)      
       if ((strcmp (result.vary_string, control) != 0) || 
-	(result.vary_length != strlen (control)))
+	  ((size_t)result.vary_length != strlen (control)))
 	{
 	  /* printf("\n%d : %s\n", result.vary_length, result.vary_string); */
 	  fprintf (stderr, "\n !!! Assertion Faild !!! \n");
