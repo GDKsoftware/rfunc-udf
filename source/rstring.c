@@ -835,7 +835,7 @@ ARGLIST (size_t* len)
 char * EXPORT fn_strmirror (ARG (char*, str))
 ARGLIST (char* str)
 {
-  int i=0;
+  size_t i=0;
   size_t len=0;
   char *result = NULL;
 
@@ -843,7 +843,7 @@ ARGLIST (char* str)
        return "";
   len = strlen (str);
   result = (char*) MALLOC (len+1);
-  for (i=0; i<len; i++)
+  for (i=0; i < len; i++)
   {
        result [i] = str [len-i-1];
   }

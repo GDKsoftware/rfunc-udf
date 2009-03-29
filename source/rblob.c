@@ -318,7 +318,7 @@ ARGLIST(short ignorecase)
   size_t s_len=0, found_len = 0;
 
   s_len = strlen(s);
-  if (!b->blob_handle || !b->blob_total_length || !s_len || (b->blob_total_length < s_len))
+  if (!b->blob_handle || !b->blob_total_length || !s_len || ((size_t)b->blob_total_length < s_len))
     return 0;
   max_len = (unsigned short) (b->blob_max_segment);
   buf =  malloc (max_len+1);

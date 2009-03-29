@@ -61,6 +61,8 @@ double Expr(char **S, VariablesStruct *Vars, long *P)
 				if (*P) return 0;
 				Result = Result-r;
 				break;
+		default:
+		  break;
 		}
 		SKIP_BLANKS(S);
 	}
@@ -77,23 +79,31 @@ double Addend(char **S, VariablesStruct *Vars, long *P)
 	SKIP_BLANKS(S);
 	while ((**S=='*') || (**S=='/'))
 	{
-		switch (**S)
-		{
-			case '*':
-				(*S)++;
-				r = Multiplier(S, Vars, P);
-				if (*P) return 0;
-				Result = Result*r;
-				break;
-			case '/':
-				(*S)++;
-				r = Multiplier(S, Vars, P);
-				if (*P) return 0;
-				if (!r) { *P = 101; return 0; }
-				Result = Result/r;
-				break;
+	  switch (**S)
+	    {
+	    case '*':
+	      (*S)++;
+	      r = Multiplier(S, Vars, P);
+	      if (*P) return 0;
+	      Result = Result*r;
+	      break;
+	    case '/':
+	      (*S)++;
+	      r = Multiplier(S, Vars, P);
+	      if (*P) 
+		return 0;
+	      if (!r) 
+		{ 
+		  *P = 101; 
+		  return 0; 
 		}
-		SKIP_BLANKS(S);
+	      Result = Result/r;
+	      break;
+
+	    default:
+	      break;
+	    }
+	  SKIP_BLANKS(S);
 	}
 	return Result;
 }
@@ -210,20 +220,24 @@ long BoolExpr(char **S, VariablesStruct *Vars, long *P)
 		C = Expr(S, Vars, P);
 		switch (T+10*T2)
 		{
-			case 44: if ((A< B) && (B< C)) return 1; break;
-			case 46: if ((A<=B) && (B< C)) return 1; break;
-			case 64: if ((A< B) && (B<=C)) return 1; break;
-			case 66: if ((A<=B) && (B<=C)) return 1; break;
+		case 44: if ((A< B) && (B< C)) return 1; break;
+		case 46: if ((A<=B) && (B< C)) return 1; break;
+		case 64: if ((A< B) && (B<=C)) return 1; break;
+		case 66: if ((A<=B) && (B<=C)) return 1; break;
+		default:
+		  break;
 		}
 	} else
 		switch (T)
 		{
-			case 1:if (A==B) return 1; break;
-			case 2:if (A>=B) return 1; break;
-			case 3:if (A> B) return 1; break;
-			case 4:if (A<=B) return 1; break;
-			case 5:if (A!=B) return 1; break;
-			case 6:if (A< B) return 1; break;
+		case 1:if (A==B) return 1; break;
+		case 2:if (A>=B) return 1; break;
+		case 3:if (A> B) return 1; break;
+		case 4:if (A<=B) return 1; break;
+		case 5:if (A!=B) return 1; break;
+		case 6:if (A< B) return 1; break;
+		default:
+		  break;
 		}
 	return 0;
 }
