@@ -129,6 +129,7 @@ long EXPORT fn_initRandom(ARG(long *, num))
 ARGLIST(long* num)
 {
 #if defined WIN32
+	#pragma warn -8057
 	randomize();
 #else
 	srandom(*num);
@@ -279,7 +280,7 @@ double	EXPORT fn_pi(){ return M_PI; }
 double EXPORT fn_fact (ARG (double*, x))
 ARGLIST(double *x)
 {
-  double i = 2;
+  double i;
   double result = 0;
 
   if (*x < 0)

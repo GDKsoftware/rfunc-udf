@@ -1,4 +1,4 @@
-/** \file  rdatetime.c
+/** \file  rdatetime.c                
     
     \brief Date&Time functions.
 
@@ -277,11 +277,11 @@ struct tm * _incdate(struct tm* tm1, long d, long m, long y)
 	yy = tm1->tm_year += IB_START_YEAR;
 
 	dpm = fn_daypermonth(&mm, &yy) - dd;
-	/* Р“РћР” */
+	/* ГОД */
 	yy += y;
 
-	/* РњР•РЎРЇР¦
-	   РџСЂРёР±Р°РІР»СЏРµРј РёР»Рё РІС‹С‡РёС‚Р°РµРј РіРѕРґР° */
+	/* МЕСЯЦ
+	   Прибавляем или вычитаем года */
 	dsign = (mm + m < 1) ? -1 : 1;
 
 	x = div(dsign * (mm + m - 1), 12);
@@ -296,22 +296,22 @@ struct tm * _incdate(struct tm* tm1, long d, long m, long y)
 		mm = 12 - x.rem + 1;
 	}
 
-	/* Р”Р•РќР¬
-	 Р•СЃР»Рё РґРµРЅСЊ Р±С‹Р» РїРѕСЃР»РµРґРЅРёРј РґРЅРµРј РІ РјРµСЃСЏС†Рµ - РѕРЅ РґРѕР»Р¶РµРЅ Рё РѕСЃС‚Р°С‚СЊСЃСЏ РїРѕСЃР»РµРґРЅРёРј 
-	 РґРЅРµРј РїРѕСЃР»Рµ РёР·РјРµРЅРµРЅРёСЏ РіРѕРґР° Рё РјРµСЃСЏС†Р°. */
+	/* ДЕНЬ
+	 Если день был последним днем в месяце - он должен и остаться последним 
+	 днем после изменения года и месяца. */
 	if (!dpm)
 		dd = fn_daypermonth(&mm, &yy);
 	else
 		dd = tm1->tm_mday;
-	/* Р•СЃР»Рё РґР°С‚Р° РІС‹РІР°Р»РёРІР°РµС‚СЃСЏ Р·Р° РєРѕРЅРµС† РјРµСЃСЏС†Р° РїРѕСЃР»Рµ РёР·РјРµРЅРµРЅРёСЏ РіРѕРґР° Рё РјРµСЃСЏС†Р° - */
-	/* СЃС‚Р°РІРёРј РїРѕСЃР»РµРґРЅРµРµ С‡РёСЃР»Рѕ РјРµСЃСЏС†Р°. */
+	/* Если дата вываливается за конец месяца после изменения года и месяца - */
+	/* ставим последнее число месяца. */
 	dd = (dd > fn_daypermonth(&mm, &yy)) ? fn_daypermonth(&mm, &yy) : dd;
 
-	 /* РџСЂРёР±Р°РІРёС‚СЊ РґРЅРё РёР»Рё РІС‹С‡РµСЃС‚СЊ? */
+	 /* Прибавить дни или вычесть? */
 	dd += d;
 	dsign = (dd < 0) ? 0 : 1;
-	/* Р—.Р«. Р‘С‹Р»Рѕ Р±С‹ РЅРµРїР»РѕС…Рѕ СЃСЂР°Р·Сѓ РїСЂРѕРІРµСЂСЏС‚СЊ РЅР° 365 РґРЅРµР№, С‡С‚РѕР±С‹ РїСЂРѕСЃРєР°РєРёРІР°С‚СЊ РіРѕРґ */
-	/* РїСЂРё РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё */
+	/* З.Ы. Было бы неплохо сразу проверять на 365 дней, чтобы проскакивать год */
+	/* при необходимости */
 	if (dsign==1)
 	{
 		while ((dpm = fn_daypermonth(&mm, &yy)) < dd)
@@ -382,8 +382,8 @@ ARGLIST(long *secs)
 	tm1.tm_hour += *hours;
 	tm1.tm_min += *mins;
 	tm1.tm_sec += *secs;
-/* Р’С‹СЃС‡РёС‚Р°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРёР±Р°РІР»СЏРµРјС‹С… РґРЅРµР№. */
-/* 	РџСЂРёР±Р°РІР»СЏРµРј РёР»Рё РІС‹С‡РёС‚Р°РµРј СЃРµРєСѓРЅРґС‹ */
+/* Высчитаем количество прибавляемых дней. */
+/* 	Прибавляем или вычитаем секунды */
 	x = div(tm1.tm_sec, 60);
 	if (x.rem < 0)
 	{
@@ -395,7 +395,7 @@ ARGLIST(long *secs)
 		tm1.tm_min += x.quot;
 		tm1.tm_sec = x.rem;
 	}
-/* РјРёРЅСѓС‚С‹ РІ С‡Р°СЃС‹ */
+/* минуты в часы */
 	x = div(tm1.tm_min, 60);
 	if (x.rem < 0)
 	{
@@ -407,7 +407,7 @@ ARGLIST(long *secs)
 		tm1.tm_hour += x.quot;
 		tm1.tm_min = x.rem;
 	}
-/* С‡Р°СЃС‹ РІ СЃСѓС‚РєРё */
+/* часы в сутки */
 	x = div(tm1.tm_hour, 24);
 	if (x.rem < 0)
 	{
@@ -465,10 +465,12 @@ ARGLIST(ISC_QUAD *dt)
 ISC_QUAD*	EXPORT fn_doubletodate(ARG(double*, d))
 ARGLIST(double *d)
 {
+	double tmp;
 	ISC_QUAD *bufquad = (ISC_QUAD *) MALLOC (sizeof(ISC_QUAD));
-	bufquad->gds_quad_high = *d;
+	bufquad->gds_quad_high = (long)*d;
 	*d = (*d - bufquad->gds_quad_high) * msec_in_day;
-	bufquad->gds_quad_low = ROUND(*d, 0);
+	tmp = ROUND(*d, 0.0);
+	bufquad->gds_quad_low = (long)tmp;
 
 	return bufquad;
 }
@@ -477,10 +479,12 @@ ISC_QUAD*	EXPORT fn_doubletotime(ARG(double*, d))
 ARGLIST(double *d)
 {
 	ISC_QUAD *bufquad = (ISC_QUAD *) MALLOC (sizeof(ISC_QUAD));
-	bufquad->gds_quad_high = *d;
+	double tmp;
+	bufquad->gds_quad_high = (long)*d;
 	*d = (*d - bufquad->gds_quad_high) * msec_in_day;
 	bufquad->gds_quad_high = 0;
-	bufquad->gds_quad_low = ROUND(*d, 0);
+	tmp = ROUND(*d, 0);
+	bufquad->gds_quad_low = (long)tmp;
 
 	return bufquad;
 }

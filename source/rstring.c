@@ -403,8 +403,8 @@ ARGLIST(char *fmt)
 	long	i;
 
 	buffer[0] = '\0';
- /* Ð Ð°Ð·Ð±Ð¸Ñ€Ð°ÐµÐ¼ ÑÑ‚Ñ€Ð¾ÐºÑƒ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ð°, Ð¿Ñ‹Ñ‚Ð°ÑÑÑŒ Ð²Ñ‹Ñ‡Ð¸ÑÐ»Ð¸Ñ‚ÑŒ Ð¿Ñ€ÐµÐ´Ð¿Ð¾Ð»Ð°Ð³Ð°ÐµÐ¼Ñ‹ Ñ‚Ð¸Ð¿ Ð°Ñ€Ð³ÑƒÐ¼ÐµÐ½Ñ‚Ð°. */
- /* 	 ÐšÐ°Ð¶Ð´Ñ‹Ð¹ ÑÐ¿ÐµÑ†Ð¸Ñ„Ð¸ÐºÐ°Ñ‚Ð¾Ñ€ Ð¿Ñ€ÐµÐ¾Ð±Ñ€Ð°Ð·Ð¾Ð²Ð°Ð½Ð¸Ñ Ð½Ð°Ñ‡Ð¸Ð½Ð°ÐµÑ‚ÑÑ ÑÐ¸Ð¼Ð²Ð¾Ð»Ð¾Ð¼ % */
+ /* Ðàçáèðàåì ñòðîêó ôîðìàòà, ïûòàÿñü âû÷èñëèòü ïðåäïîëàãàåìû òèï àðãóìåíòà. */
+ /* 	 Êàæäûé ñïåöèôèêàòîð ïðåîáðàçîâàíèÿ íà÷èíàåòñÿ ñèìâîëîì % */
 	if ((s = strstr(fmt, "%")) != NULL)
 	{
 		i = 1;
@@ -453,8 +453,8 @@ ARGLIST(char *target)
 char * EXPORT fn_xmlencent (ARG (char *, str))
   ARGLIST (char *str)
 {
-  size_t len = 0; /* length of the input str*/
-  char * result = NULL;
+  size_t len; /* length of the input str*/
+  char * result;
 
   if (str == NULL)
     return NULL;
@@ -514,8 +514,8 @@ char * EXPORT fn_xmlencent (ARG (char *, str))
 char * EXPORT fn_xmldecent (ARG (char *, str))
   ARGLIST (char *str)
 {
-  size_t len = 0;
-  char * result = NULL;
+  size_t len;
+  char * result;
 
   if (str == NULL)
     return NULL;
@@ -559,38 +559,37 @@ char * EXPORT fn_xmldecent (ARG (char *, str))
 	      strcat (result, "\'");
 	    }
 	  else if (strncmp (start, "&amp;", slen) == 0)
-	    {
-	      len -= 4;
-	      result = realloc (result, len);
-	      strcat (result, "&");
-	    }
+		{
+		  len -= 4;
+		  result = realloc (result, len);
+		  strcat (result, "&");
+		}
 	  else if (strncmp (start, "&quot;", slen) == 0)
-	    {	      
-	      len += 5;
-	      result = realloc (result, len);
-	      strcat (result, "\"");
-	    }
+		{
+		  len += 5;
+		  result = realloc (result, len);
+		  strcat (result, "\"");
+		}
 	  else if (strncmp (start, "&#62;", slen) == 0)
-	    {	      
-	      len += 4;
-	      result = realloc (result, len);
-	      strcat (result, ">");
-	    }
+		{
+		  len += 4;
+		  result = realloc (result, len);
+		  strcat (result, ">");
+		}
 	  else if (strncmp (start, "&#38;#60;", slen+4) == 0)
-	    {	
-	      len += 7;
-	      result = realloc (result, len);
-	      strcat (result, "<");
-              str= str+4;
-              slen= slen +4;
-	    }
-          else if (strncmp (start, "&#38;#38;", slen+4) == 0)
-	    {	      
-	      len += 7;
-	      result = realloc (result, len);
-	      strcat (result, "&");
-              str= str+4;
-              slen= slen +4;
+		{
+		  len += 7;
+		  result = realloc (result, len);
+		  strcat (result, "<");
+		  str= str+4;
+		}
+		  else if (strncmp (start, "&#38;#38;", slen+4) == 0)
+		{
+		  len += 7;
+		  result = realloc (result, len);
+		  strcat (result, "&");
+		  str= str+4;
+
 	    }
           else if (strncmp (start, "&#39;", slen) == 0)
 	    {	      
@@ -629,7 +628,7 @@ ARGLIST (int* pos)
 ARGLIST (int* num)
 {  
   char *ptr;
-  int i = 0;
+  int i;
   
   if (!*str1) 
     return 0;
@@ -656,8 +655,8 @@ int EXPORT fn_strposr (ARG (char*, str1), ARG (char*, str2))
 ARGLIST (char* str1)
 ARGLIST (char* str2)
 {
-  size_t len = 0;
-  char * pos = NULL;
+  size_t len;
+  char * pos;
 
   if (str1 == NULL)
     return 0;
@@ -682,8 +681,8 @@ ARGLIST (char* str2)
 char * EXPORT str2hex (ARG (char*, str))
 ARGLIST (char* str)
 {
-  size_t len = 0;  
-  char * result = NULL;
+  size_t len;  
+  char * result;
 
   if (str == NULL)
     return "";  
@@ -716,23 +715,23 @@ ARGLIST (char* str)
 char * EXPORT hex2str (ARG (char*, str))
 ARGLIST (char* str)
 {
-  size_t len = 0;  
-  char * result = NULL;
+  size_t len;
+  char * result;
   int i  = 0;
 
   if (str == NULL)
-    return "";  
+	return "";
 
-  len = strlen (str);    
+  len = strlen (str);
 
   if (len < 1)
-    return "";
-  
+	return "";
+
   result = MALLOC (len / 2 + 1);
 
   if (result == NULL)
-    return "";
-  
+	return "";
+
   while (*str)
     {
       sscanf (str, "%2x",(unsigned int*) &(result [i]));
@@ -754,11 +753,11 @@ ARGLIST (char* str2)
 ARGLIST (int* pos)
 ARGLIST (int* num)
 {
-  size_t len = 0;
-  char *buf = NULL;
-  int i = 0;
-  int k = 0;
-  size_t orig = 0;
+  size_t len;
+  char *buf;
+  int i;
+  int k;
+  size_t orig;
 
   if (str1 == NULL)
     return 0;
@@ -809,9 +808,9 @@ ARGLIST (char* str)
 ARGLIST (size_t* from)
 ARGLIST (size_t* len)
 {
-  size_t l = 0;
-  char *result = NULL;
-  char *ptr = NULL;
+  size_t l;
+  char *result;
+  char *ptr;
 
   if (str == NULL)
     return "";
@@ -835,9 +834,9 @@ ARGLIST (size_t* len)
 char * EXPORT fn_strmirror (ARG (char*, str))
 ARGLIST (char* str)
 {
-  size_t i=0;
-  size_t len=0;
-  char *result = NULL;
+  size_t i;
+  size_t len;
+  char *result;
 
   if (str==NULL)
        return "";
@@ -874,9 +873,9 @@ char * EXPORT fn_tab()
 char * EXPORT fn_stresc (ARG(char*, str))
 ARGLIST(char *str)
 {
-  char * result = NULL;
-  char * ptr = NULL;
-  size_t act_len = 0;
+  char * result;
+  char * ptr;
+  size_t act_len;
 
   if (str == NULL)
     return "";
@@ -948,7 +947,7 @@ ARGLIST(char *str)
 		  char num [4];
 		  strncpy (num, str + 1, 3);
 		  sscanf (num, "%d", &d);
-		  *ptr = d;
+		  *ptr = (char)d;
 		  str += 3;
 		  act_len -= 3;
 		}

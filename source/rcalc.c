@@ -473,7 +473,10 @@ VariablesStruct *MakeVars(char *inVar)
 	VariablesStruct *Vars;
 
 	if (*ptr) Len++;
-	while ((ptr = strchr(ptr, ';'))) { Len++; ptr++; }
+    
+	while ((ptr = strchr(ptr, ';')))
+	 { Len++; ptr++; }
+
 	Vars = (VariablesStruct*) malloc (sizeof(VariablesStruct)*Len);
 	while (*inVar && (j<Len-1))
 	{

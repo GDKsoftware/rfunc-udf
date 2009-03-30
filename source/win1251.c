@@ -269,10 +269,12 @@ ARGLIST(long maxlength)
 
 	while (*sptr)
 	{
-	  if ((r = translit_win1251[(short)*sptr]))
+	  r = translit_win1251[(short)*sptr];
+	  if (r)
 		 {
 			i = 0;
-			 while ((buffer[l++] = TYP_win1251[r-1][i++]) && (l < maxlength));
+			 while ((buffer[l++] = TYP_win1251[r-1][i++]) && (l < maxlength))
+			 /* empty loop */;
 			 l--;
 		 } else
 			 buffer[l++] = *sptr;
@@ -340,7 +342,8 @@ ARGLIST(char *sGender)
 			if (mNum > 99)
 			{
 				tn = ndiv(mNum, 100);
-				j = 0; while ((buffer[l++] = a100[tn][j++]));
+				j = 0;
+				while ((buffer[l++] = a100[tn][j++]));
 				buffer[l-1] = ' ';
 				mNum = nmod(mNum, 100);
 			}
@@ -374,7 +377,9 @@ ARGLIST(char *sGender)
 		Divider = ndiv(Divider, 1000);
 	}
 
-	j = 0; if (!l) while ((buffer[l++] = a1[0][0][j++]));
+	j = 0;
+	if (!l)
+		while ((buffer[l++] = a1[0][0][j++]));
 	buffer[l] = '\0';
 	return buffer;
 }

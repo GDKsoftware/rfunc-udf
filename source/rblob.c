@@ -315,7 +315,7 @@ ARGLIST(short ignorecase)
   unsigned char *buf;
   char *found;
   unsigned short max_len, al = 0;
-  size_t s_len=0, found_len = 0;
+  size_t s_len, found_len;
 
   s_len = strlen(s);
   if (!b->blob_handle || !b->blob_total_length || !s_len || ((size_t)b->blob_total_length < s_len))
@@ -367,10 +367,10 @@ void EXPORT fn_b_strupper(ARG(BLOB, b), ARG(BLOB, out))
 ARGLIST(BLOB b)
 ARGLIST(BLOB out)
 {
-  unsigned char *buf = NULL;
-  unsigned short length = 0;
+  unsigned char *buf;
+  unsigned short length;
   unsigned short actual_length = 0;
-  unsigned char *tmp = NULL;
+  unsigned char *tmp;
 
   if (!b->blob_handle)
     return;
@@ -400,10 +400,10 @@ void EXPORT fn_b_strlower(ARG(BLOB, b), ARG(BLOB, out))
 ARGLIST(BLOB b)
 ARGLIST(BLOB out)
 {
-  unsigned char *buf = NULL;
-  unsigned short length = 0;
+  unsigned char *buf;
+  unsigned short length;
   unsigned short actual_length = 0;
-  unsigned char *tmp = NULL;
+  unsigned char *tmp;
 
   if (!b->blob_handle)
     return;
