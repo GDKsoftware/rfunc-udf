@@ -86,10 +86,12 @@ IBUTIL=		"$(IBASE)/lib/ib_util.dll"
 !endif
 !endif
 RFUNCGDS32LIB	= $(GDS_NAME).lib
-GDS32			= "$(SYSDIR)/$(GDS_NAME).dll"
+#GDS32			= "$(SYSDIR)/$(GDS_NAME).dll"
+
+GDS32			= "$(IBASE)\bin\$(GDS_NAME).dll"
 
 INCLUDE			= -I"$(IBASE)$(SDKDIR)/include";"$(BCDIR)/include";"$(BCDIR)/include/windows"
-CFLAGS			= -x- -RT- -O1 -c -v- -w+ -a4 -tWM -u+ -DWIN32 $(EXTCFLAGS) $(INCLUDE)
+CFLAGS			= -x- -RT- -O1 -c -v- -w+ -w-pia -w-8017 -a4 -tWM -u+ -DWIN32 $(EXTCFLAGS) $(INCLUDE)
 LINKFLAGS		= -x -Tpd -j"$(BCDIR)/lib"
 IMPLIBFLAGS		= -f
 RCFLAGS			= -r
