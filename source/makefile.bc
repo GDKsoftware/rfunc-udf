@@ -3,9 +3,9 @@
 #
 #		rFunc InterBase UDF library.
 #
-#		Copyright 1998-2007, PSTG
-#		http://rfunc.sourceforge.net
-#		mailto:rFunc@mail.ru
+#		Copyright 1998-2009, PSTG
+#		http://www.polesoft.ru/project/rfunc
+#		mailto:support@polesoft.ru
 #
 #	 This library is free software; you can redistribute it and/or
 #	 modify it under the terms of the GNU Lesser General Public
@@ -91,7 +91,7 @@ RFUNCGDS32LIB	= $(GDS_NAME).lib
 GDS32			= "$(IBASE)\bin\$(GDS_NAME).dll"
 
 INCLUDE			= -I"$(IBASE)$(SDKDIR)/include";"$(BCDIR)/include";"$(BCDIR)/include/windows"
-CFLAGS			= -x- -RT- -O1 -c -v- -w+ -w-pia -w-8017 -a4 -tWM -u+ -DWIN32 $(EXTCFLAGS) $(INCLUDE)
+CFLAGS			= -x- -RT- -O1 -c -v- -w+ -w-pia -w-8017 -5 -a4 -tWM -u+ -DWIN32 $(EXTCFLAGS) $(INCLUDE)
 LINKFLAGS		= -x -Tpd -j"$(BCDIR)/lib"
 IMPLIBFLAGS		= -f
 RCFLAGS			= -r

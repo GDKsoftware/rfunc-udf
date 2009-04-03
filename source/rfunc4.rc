@@ -30,7 +30,7 @@ FILETYPE VFT_DLL
 		BLOCK "041904E3"
 		{
 			VALUE "CompanyName", "Polaris Software\000"
-			VALUE "FileDescription", "UDF library for InterBase 4.2\000"
+			VALUE "FileDescription", "UDF library for InterBase 4.2 RDBMS\000"
 			VALUE "FileVersion", "2.2.0.1\000"
 			VALUE "InternalName", "RFUNC\000"
 			VALUE "LegalCopyright", "Copyright \251 1998-2009 PSTG\000"
