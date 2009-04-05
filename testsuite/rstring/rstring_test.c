@@ -106,6 +106,10 @@ int main ()
   rt_assert_int (&db_handle,
   		 "SELECT STR_N_POS ('&', XML, 7, 3) from test_table",
   		 23);
+
+  rt_assert_int (&db_handle,
+  		 "SELECT STR_N_POS ('&', XML, 1, 1) from test_table",
+  		 1);
   END(3);
 
   BEGIN(4);

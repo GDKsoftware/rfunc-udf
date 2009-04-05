@@ -636,7 +636,7 @@ ARGLIST (int* num)
   if ((*pos < 1) || (*num < 1))
     return 0;	
 
-  ptr = str2 + *pos;
+  ptr = str2 + *pos - 1;
   
   for (i = 0; i < *num; i++)
     {	       
@@ -664,7 +664,7 @@ ARGLIST (char* str2)
   len = strlen (str2);
   if (len < 1)
     return 0;
-
+  /* Added -1 here, because string should begin from 1 */
   pos = str2 + len - 1;  
 
   while (*pos)
