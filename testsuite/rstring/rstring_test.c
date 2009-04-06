@@ -183,21 +183,43 @@ int main ()
 
   BEGIN(10);
   /* Updating testing value */
+  rt_exec_query
+    (&db_handle,
+     "UPDATE test_table SET XML='123&#60;&#62;&#38;&#39;&#34;&#38;&#60;'");
+
+  rt_assert (&db_handle,
+	     "SELECT XML_DEC_ENT (XML) from test_table",
+	     "123<>&\'\"&<");
+  END(10);
+
+  BEGIN(11);
+  /* Updating testing value */
+  rt_exec_query
+    (&db_handle,
+     "UPDATE test_table SET XML='123&#x3c;&#x3e;&#x26;&#x27;&#x22;&#x26;&#x3c;&#x2c;'");
+
+  rt_assert (&db_handle,
+	     "SELECT XML_DEC_ENT (XML) from test_table",
+	     "123<>&\'\"&<,");
+  END(11);
+
+  BEGIN(12);
+  /* Updating testing value */
   rt_exec_query (&db_handle, "UPDATE test_table SET XML='abc,'");
 
   rt_assert (&db_handle,
 	     "SELECT STR_2_HEX (XML) from test_table",
 	     "6162632c");
-  END(10);
+  END(12);
 
-  BEGIN(11);
+  BEGIN(13);
   /* Updating testing value */
   rt_exec_query (&db_handle, "UPDATE test_table SET XML='6162632c636261'");
 
   rt_assert (&db_handle,
 	     "SELECT HEX_2_STR (XML) from test_table",
 	     "abc,cba");
-  END(11);
+  END(13);
 
   isc_detach_database(status, &db_handle);
   free (db_file_name);

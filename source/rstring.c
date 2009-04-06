@@ -514,19 +514,19 @@ char * EXPORT fn_xmlencent (ARG (char *, str))
 char * EXPORT fn_xmldecent (ARG (char *, str))
   ARGLIST (char *str)
 {
-  size_t len;
+  size_t len = 0;
   char * result;
-
+  int dec; /* variable for dec value of char ref code */
+  unsigned int hex; /* variable for dec value of char ref code */
   if (str == NULL)
     return NULL;
 
-  len = strlen (str) + 1;
-  result = MALLOC (len);
+  result = MALLOC (strlen (str) + 1);
   
   if (result == NULL)   
     return "";
 
-  result [0] = '\0';
+  result [len] = '\0';
 
   /* going through input string*/
   while (*str)
@@ -534,7 +534,7 @@ char * EXPORT fn_xmldecent (ARG (char *, str))
       if (*str == '&')
 	{
 	  char * start = str;
-	  size_t slen = 1;
+	  size_t slen = 1; /* slice length from & to ; */
 
 	  /* TODO: seems to be not very effecive */
 	  while (*str != ';')
@@ -542,78 +542,84 @@ char * EXPORT fn_xmldecent (ARG (char *, str))
 	  
 	  if (strncmp (start, "&lt;", slen) == 0)
 	    {
-	      len -= 3;
-	      result = realloc (result, len);
-	      strcat (result, "<");
+	      result [len] = '<';
+	      ++len;
 	    }
 	  else if (strncmp (start, "&gt;", slen) == 0)
 	    {
-	      len -= 3;
-	      result = realloc (result, len);
-	      strcat (result, ">");
+	      result [len] = '>';
+	      ++len;
 	    }
 	  else if (strncmp (start, "&apos;", slen) == 0)
 	    {
-	      len -= 5;
-	      result = realloc (result, len);
-	      strcat (result, "\'");
+	      result [len] = '\'';
+	      ++len;
 	    }
 	  else if (strncmp (start, "&amp;", slen) == 0)
-		{
-		  len -= 4;
-		  result = realloc (result, len);
-		  strcat (result, "&");
-		}
+	    {
+	      result [len] = '&';
+	      ++len;
+	    }
 	  else if (strncmp (start, "&quot;", slen) == 0)
-		{
-		  len += 5;
-		  result = realloc (result, len);
-		  strcat (result, "\"");
-		}
-	  else if (strncmp (start, "&#62;", slen) == 0)
-		{
-		  len += 4;
-		  result = realloc (result, len);
-		  strcat (result, ">");
-		}
+	    {
+	      result [len] = '\"';
+	      ++len;
+	    }
 	  else if (strncmp (start, "&#38;#60;", slen+4) == 0)
-		{
-		  len += 7;
-		  result = realloc (result, len);
-		  strcat (result, "<");
-		  str= str+4;
-		}
-		  else if (strncmp (start, "&#38;#38;", slen+4) == 0)
-		{
-		  len += 7;
-		  result = realloc (result, len);
-		  strcat (result, "&");
-		  str= str+4;
-
+	    {
+	      result [len] = '<';
+	      ++len;
+	      str= str+4;
 	    }
-          else if (strncmp (start, "&#39;", slen) == 0)
-	    {	      
-	      len += 4;
-	      result = realloc (result, len);
-	      strcat (result, "\'");
-	    }
-	  else if (strncmp (start, "&#34;", slen) == 0)
-	    {	      
-	      len += 4;
-	      result = realloc (result, len);
-	      strcat (result, "\"");
+	  else if (strncmp (start, "&#38;#38;", slen+4) == 0)
+	    {
+	      result [len] = '&';
+	      ++len;
+	      str= str+4;
 	    }
 
+	  /* In this case we assumes that we got a character entities in */	  
 	  else
-	    /* TODO: may be better to rise some error?
-	       cause it seems, that xml is not valid.
-	     */
-	    strncat (result, start, slen);		    
+	    {
+	      char * tmp = malloc (slen + 1);
+	      if (tmp == NULL)
+		abort ();
+	      tmp = (char *)memset (tmp, 0, slen + 1);
+	      tmp = strncpy (tmp, start, slen);
+
+	      /* In this if dec format :  &#num; */
+	      if (sscanf (tmp, "&#%d;", &dec) == 1)
+		{
+		  result [len] = (char)dec;
+		  ++len;
+		}
+	      /* In this if hex format : &#xHex; */
+	      else if (sscanf (tmp, "&#x%x;", &hex) == 1)
+		{
+		  result [len] = (char)hex;
+		  ++len;
+		}
+	      else
+	      	{
+	      	  /* TODO: may be better to rise some error?
+	      	     cause it seems, that xml is not valid.
+	      	  */
+	      	  result [len] = 0;
+	      	  strcat (result, tmp);
+	      	}
+	      
+	      free ((void *)tmp);
+	    }
 	}
       else
-	strncat (result, str, 1);
+	{
+	  result [len] = *str;
+	  ++len;
+	}
       str++;
     }
+  result = realloc (result, len);
+  result [len] = 0;
   return result;
 }
 
