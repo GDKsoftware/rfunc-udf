@@ -825,7 +825,7 @@ ARGLIST (size_t* len)
   if (result == NULL)
     return "";
 
-  ptr = str + (l - *len - *from);
+  ptr = str + (l - *len - *from + 1);
   strncpy (result, ptr, *len);
   result [*len] = '\0';
   return result;

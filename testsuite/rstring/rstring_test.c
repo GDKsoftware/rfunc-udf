@@ -132,7 +132,12 @@ int main ()
 
   rt_assert (&db_handle,
 	     "SELECT SUBSTR_R (XML, 4, 14) from test_table",
-	     "C&apos;&amp;D&");
+	     "&apos;&amp;D&a");
+
+  rt_assert (&db_handle,
+	     "SELECT SUBSTR_R (XML, 1, 1) from test_table",
+	     ";");
+
   END(6);
 
   BEGIN(7);
