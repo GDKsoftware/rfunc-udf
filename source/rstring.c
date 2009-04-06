@@ -634,7 +634,10 @@ ARGLIST (int* num)
     return 0;
   
   if ((*pos < 1) || (*num < 1))
-    return 0;	
+    {
+      *pos = 1;	
+      *num = 1;
+    }
 
   ptr = str2 + *pos - 1;
   
