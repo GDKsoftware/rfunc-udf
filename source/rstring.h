@@ -78,9 +78,9 @@ int EXPORT fn_strnpos (ARG (char*, str1),
 
 int EXPORT fn_strposr (ARG (char*, str1), ARG (char*, str2));
 
-char * EXPORT str2hex (ARG (char*, str));
+char * EXPORT fn_str2hex (ARG (char*, str));
 
-char * EXPORT hex2str (ARG (char*, str));
+char * EXPORT fn_hex2str (ARG (char*, str));
 
 int EXPORT fn_strnposr (ARG (char*, str1), 
 			ARG (char*, str2), 

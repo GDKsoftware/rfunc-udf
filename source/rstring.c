@@ -681,16 +681,20 @@ ARGLIST (char* str2)
   return 0;
 }
 
-char * EXPORT str2hex (ARG (char*, str))
+char * EXPORT fn_str2hex (ARG (char*, str))
 ARGLIST (char* str)
 {
   size_t len;  
-  char * result;
+  char  *result;
+  char  *ptr;
+  char  *res_ptr;
 
   if (str == NULL)
     return "";  
 
-  len = strlen (str);    
+  ptr = str;
+
+  len = strlen (ptr);    
 
   if (len < 1)
     return "";
@@ -700,22 +704,20 @@ ARGLIST (char* str)
   if (result == NULL)
     return "";
 
-  while (*str)
-  {
-    char c [2] = "";
-    if (*str < '\n')      
-      sprintf (c, "0%x",*str);      
-    else
-      sprintf (c, "%x",*str);
+  result = (char *)memset (result, 0,  2 * len + 1);
+  res_ptr = result;
 
-    str++;
-    strcat (result, c);
+  while (*ptr)
+  {    
+    sprintf (res_ptr, "%x",*ptr);      
+    res_ptr += 2;
+    ++ptr;    
   }   
   
   return result;
 }
 
-char * EXPORT hex2str (ARG (char*, str))
+char * EXPORT fn_hex2str (ARG (char*, str))
 ARGLIST (char* str)
 {
   size_t len;

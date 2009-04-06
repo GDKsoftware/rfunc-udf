@@ -78,6 +78,14 @@ int main ()
 	       "STR_ESC", "CSTRING(256)", "CSTRING(256) FREE_IT",
 	       "fn_stresc");
 
+  rt_reg_func (&db_handle,
+	       "STR_2_HEX", "CSTRING(256)", "CSTRING(256) FREE_IT",
+	       "fn_str2hex");
+
+  rt_reg_func (&db_handle,
+	       "HEX_2_STR", "CSTRING(256)", "CSTRING(256) FREE_IT",
+	       "fn_hex2str");
+
   BEGIN(1);
   /* Insert 1 row into the new table. */
   rt_exec_query ( &db_handle,
@@ -162,7 +170,7 @@ int main ()
 	     "n\ts\tF\n");
   END(8);
 
-BEGIN(9);
+  BEGIN(9);
   /* Updating testing value */
   rt_exec_query
     (&db_handle,
@@ -172,6 +180,24 @@ BEGIN(9);
 	     "SELECT XML_DEC_ENT (XML) from test_table",
 	     "123<>&\'\"&<");
   END(9);
+
+  BEGIN(10);
+  /* Updating testing value */
+  rt_exec_query (&db_handle, "UPDATE test_table SET XML='abc,'");
+
+  rt_assert (&db_handle,
+	     "SELECT STR_2_HEX (XML) from test_table",
+	     "6162632c");
+  END(10);
+
+  BEGIN(11);
+  /* Updating testing value */
+  rt_exec_query (&db_handle, "UPDATE test_table SET XML='6162632c636261'");
+
+  rt_assert (&db_handle,
+	     "SELECT HEX_2_STR (XML) from test_table",
+	     "abc,cba");
+  END(11);
 
   isc_detach_database(status, &db_handle);
   free (db_file_name);
