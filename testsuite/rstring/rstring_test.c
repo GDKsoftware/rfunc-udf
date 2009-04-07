@@ -291,6 +291,50 @@ rt_reg_func (&db_handle,
   		 1);  
   END(18);
 
+  BEGIN(19);
+
+  /* Updating testing value */
+  rt_exec_query (&db_handle, "UPDATE test_table SET XML='&#124 rFunc UDF Library;'");
+  
+  rt_assert (&db_handle,
+	     "SELECT XML_DEC_ENT (XML) from test_table",
+	     "| rFunc UDF Library;");
+
+  END(19);
+
+  BEGIN(20);
+
+  /* Updating testing value */
+  rt_exec_query (&db_handle, "UPDATE test_table SET XML='ABC&#124 rFunc UDF Library;'");
+  
+  rt_assert (&db_handle,
+	     "SELECT XML_DEC_ENT (XML) from test_table",
+	     "ABC| rFunc UDF Library;");
+
+  END(20);
+
+  BEGIN(21);
+
+  /* Updating testing value */
+  rt_exec_query (&db_handle, "UPDATE test_table SET XML='&#AA rFunc UDF Library;'");
+  
+  rt_assert (&db_handle,
+	     "SELECT XML_DEC_ENT (XML) from test_table",
+	     "&#AA rFunc UDF Library;");
+
+  END(21);
+
+  BEGIN(22);
+
+  /* Updating testing value */
+  rt_exec_query (&db_handle, "UPDATE test_table SET XML='ABC&#x7C rFunc UDF Library;'");
+  
+  rt_assert (&db_handle,
+	     "SELECT XML_DEC_ENT (XML) from test_table",
+	     "ABC| rFunc UDF Library;");
+
+  END(22);
+
   isc_detach_database(status, &db_handle);
   free (db_file_name);
 
