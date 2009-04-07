@@ -86,7 +86,27 @@ int main ()
 	       "HEX_2_STR", "CSTRING(256)", "CSTRING(256) FREE_IT",
 	       "fn_hex2str");
 
-  BEGIN(1);
+  /*rt_reg_func (&db_handle,
+	       "CRLFTAB", "CSTRING(256)", "CSTRING(256) FREE_IT",
+	       "fn_crlftab");
+*/
+rt_reg_func (&db_handle,
+	       "CR", "", "CSTRING(256) FREE_IT",
+	       "fn_cr");
+
+rt_reg_func (&db_handle,
+	       "LF", "", "CSTRING(256) FREE_IT",
+	       "fn_lf");
+
+rt_reg_func (&db_handle,
+	       "CRLF", "", "CSTRING(256) FREE_IT",
+	       "fn_crlf");
+
+rt_reg_func (&db_handle,
+	       "TAB", "", "CSTRING(256) FREE_IT",
+	       "fn_tab");
+
+    BEGIN(1);
   /* Insert 1 row into the new table. */
   rt_exec_query ( &db_handle,
 		  "INSERT INTO test_table VALUES ('<A>\"B\"''C''&D&')");
@@ -137,6 +157,15 @@ int main ()
   rt_assert_int (&db_handle,
   		 "SELECT STR_N_POS_R ('&', XML, 7, 3) from test_table",
   		 24);
+
+
+  rt_assert_int (&db_handle,
+  		 "SELECT STR_N_POS_R (';', XML, 1, 3) from test_table",
+  		 12);
+
+  rt_assert_int (&db_handle,
+  		 "SELECT STR_N_POS_R (';', XML, 1, 1) from test_table",
+  		 1);
 
   END(5);
 
@@ -220,6 +249,47 @@ int main ()
 	     "SELECT HEX_2_STR (XML) from test_table",
 	     "abc,cba");
   END(13);
+
+  BEGIN(14);
+
+  rt_assert (&db_handle,
+	     "SELECT CR () from test_table",
+	     "\r");
+  END(14);
+
+  BEGIN(15);
+  
+  rt_assert (&db_handle,
+	     "SELECT LF ()  from test_table",
+	     "\n");
+  END(15);
+
+  BEGIN(16);
+  
+  rt_assert (&db_handle,
+	     "SELECT CRLF () from test_table",
+	     "\r\n");
+  END(16);
+
+  BEGIN(17);
+  
+  rt_assert (&db_handle,
+	     "SELECT TAB () from test_table",
+	     "\t");
+  END(17);
+
+  BEGIN(18);
+  /* Updating testing value */
+  rt_exec_query (&db_handle, "UPDATE test_table SET XML='123451'");
+
+  rt_assert_int (&db_handle,
+  		 "SELECT STR_N_POS_R ('1', XML, 1, 2) from test_table",
+  		 6);  
+
+  rt_assert_int (&db_handle,
+  		 "SELECT STR_N_POS_R ('1', XML, 1, 1) from test_table",
+  		 1);  
+  END(18);
 
   isc_detach_database(status, &db_handle);
   free (db_file_name);

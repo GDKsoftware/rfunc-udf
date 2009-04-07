@@ -403,8 +403,8 @@ ARGLIST(char *fmt)
 	long	i;
 
 	buffer[0] = '\0';
- /* Разбираем строку формата, пытаясь вычислить предполагаемы тип аргумента. */
- /* 	 Каждый спецификатор преобразования начинается символом % */
+ /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. */
+ /* 	 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ % */
 	if ((s = strstr(fmt, "%")) != NULL)
 	{
 		i = 1;
@@ -618,7 +618,8 @@ char * EXPORT fn_xmldecent (ARG (char *, str))
 	}
       str++;
     }
-  result = realloc (result, len+1);
+
+  result = realloc (result, len + 1);
   result [len] = 0;
   return result;
 }
@@ -778,7 +779,13 @@ ARGLIST (int* num)
   if (orig < 1)
     return 0;
 
-  len = orig - *pos;
+  /* If starting search from the first postition, actually, 
+     we should start from the 0 position*/
+  if (*pos == 1)
+    len = orig;
+  else
+    len = orig - *pos;
+
   buf = malloc (len + 1);
   if (buf == NULL)
     return 0;
@@ -794,6 +801,7 @@ ARGLIST (int* num)
   if ((*pos < 1) || (*num < 1))
     return 0;	
   
+  /* Going in loop up to num occurence*/
   for (i = 0; i < *num; i++)
     {	       
       k = fn_strposr (str1, buf);
@@ -863,22 +871,37 @@ ARGLIST (char* str)
 
 char * EXPORT fn_cr()
 {
-  return "\r";
+  char *result;
+  result = malloc (2);
+  memset (result, 0, 2);
+  result = strcat (result, "\r");
+  return result;
 }
  
 char * EXPORT fn_lf()
 {
-  return "\n";
-}
+  char *result;
+  result = malloc (2);
+  memset (result, 0, 2);
+  result = strcat (result, "\n");
+  return result;}
 
 char * EXPORT fn_crlf()
 {
-  return "\r\n";
+  char *result;
+  result = malloc (3);
+  memset (result, 0, 3);
+  result = strcat (result, "\r\n");
+  return result;
 }
 
 char * EXPORT fn_tab()
 {
-  return "\t";
+  char *result;
+  result = malloc (2);
+  memset (result, 0, 2);
+  result = strcat (result, "\t");
+  return result;
 }
 
 char * EXPORT fn_stresc (ARG(char*, str))
