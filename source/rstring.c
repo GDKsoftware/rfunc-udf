@@ -618,7 +618,7 @@ char * EXPORT fn_xmldecent (ARG (char *, str))
 	}
       str++;
     }
-  result = realloc (result, len);
+  result = realloc (result, len+1);
   result [len] = 0;
   return result;
 }
