@@ -587,27 +587,75 @@ char * EXPORT fn_xmldecent (ARG (char *, str))
 	      tmp = (char *)memset (tmp, 0, slen + 1);
 	      tmp = strncpy (tmp, start, slen);
 
-	      /* In this if dec format :  &#num; */
-	      if (sscanf (tmp, "&#%d;", &dec) == 1)
+	      /* In this if dec format :  &#num; */	      
+	      if (tmp [2] != 'x')
 		{
-		  result [len] = (char)dec;
-		  ++len;
+		  size_t idx = 2; /* the length of digits sequence after '#' */
+
+		  while (isdigit (tmp [idx]))
+		    ++idx;
+		  
+		  /* if one or more digits founded */
+		  if (idx > 2)
+		    {		      
+		      /* copy founded digit to result */
+		      if (sscanf (tmp, "&#%d", &dec) == 1)
+			{		  
+			  result [len] = dec;
+			  ++len;
+			}
+		    }
+		  else 
+		    idx = 0;
+		  
+		  /* skip ending ; symbol at entity's end, if entity os correct */
+		  if (tmp [idx] == ';')
+		    ++idx;
+		  
+		  /* copying rest part of the tmp string to result */
+		  for (; idx < slen; ++idx)
+		    {
+		      result [len] = tmp [idx];		  
+		      ++len;
+		    }		      
 		}
+
 	      /* In this if hex format : &#xHex; */
-	      else if (sscanf (tmp, "&#x%x;", &hex) == 1)
-		{
-		  result [len] = (char)hex;
-		  ++len;
-		}
 	      else
-	      	{
-	      	  /* TODO: may be better to rise some error?
-	      	     cause it seems, that xml is not valid.
-	      	  */
-	      	  result [len] = 0;
-	      	  strcat (result, tmp);
-	      	}
-	      
+		{
+		  size_t idx = 3; /* the length of digits sequence after '#' */
+
+		  /* checking if tmp is digit, or letters a,b,c,d,e,f */
+		  while (isdigit (tmp [idx]) || 
+			 ((tolower (tmp [idx]) > 'a') && 
+			  (tolower (tmp [idx]) < 'f')))
+		    ++idx;
+
+		  /* if one or more digits founded */
+		  if (idx > 3)
+		    {
+		      /* copy founded digit to result */
+		      if (sscanf (tmp, "&#x%x;", &hex) == 1)
+			{		  
+			  result [len] = hex;
+			  ++len;
+			}
+		    }
+		  else 
+		    idx = 0;		    
+		  
+		  /* skip ending ; symbol at entity's end, if entity os correct */
+		  if (tmp [idx] == ';')
+		    ++idx;
+
+		  /* copying rest part of the tmp string to result */
+		  for (; idx < slen; ++idx)
+		    {
+		      result [len] = tmp [idx];		  
+		      ++len;
+		    }		      
+		}
+      
 	      free ((void *)tmp);
 	    }
 	}
@@ -618,7 +666,6 @@ char * EXPORT fn_xmldecent (ARG (char *, str))
 	}
       str++;
     }
-
   result = realloc (result, len + 1);
   result [len] = 0;
   return result;
