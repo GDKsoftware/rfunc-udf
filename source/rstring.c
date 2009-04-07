@@ -601,7 +601,7 @@ char * EXPORT fn_xmldecent (ARG (char *, str))
 		      /* copy founded digit to result */
 		      if (sscanf (tmp, "&#%d", &dec) == 1)
 			{		  
-			  result [len] = dec;
+			  result [len] = (char)dec;
 			  ++len;
 			}
 		    }
@@ -637,7 +637,7 @@ char * EXPORT fn_xmldecent (ARG (char *, str))
 		      /* copy founded digit to result */
 		      if (sscanf (tmp, "&#x%x;", &hex) == 1)
 			{		  
-			  result [len] = hex;
+			  result [len] = (char)hex;
 			  ++len;
 			}
 		    }
