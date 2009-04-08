@@ -151,6 +151,10 @@ ARGLIST(char *fmt)
 	char *buffer = (char *) MALLOC (shortlen);
 	struct tm tm1;
 	isc_decode_date(d, &tm1);
+#if defined WIN32
+	tm1.year += 1900;
+#endif
+
 #if defined(RLOCALE)
 	setlocale(LC_ALL, "");
 #endif
