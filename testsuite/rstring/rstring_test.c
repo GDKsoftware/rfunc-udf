@@ -342,11 +342,28 @@ rt_reg_func (&db_handle,
 	     "SELECT SUBSTR_R (XML, 1, 5) from test_table",
 	     "12345");
 
+  END(23);
+
+  BEGIN(24);
   rt_assert (&db_handle,
-	     "SELECT SUBSTR_R (XML, 1, 7) from test_table",
+	     "SELECT SUBSTR_R (XML, 1, 6) from test_table",
 	     "12345");
 
-  END(23);
+  END(24);
+
+  BEGIN(25);
+  rt_assert (&db_handle,
+	     "SELECT SUBSTR_R (XML, 10, 6) from test_table",
+	     "12345");
+
+  END(25);
+
+  BEGIN(26);
+  rt_assert (&db_handle,
+	     "SELECT SUBSTR_R (XML, 10, 2) from test_table",
+	     "45");
+
+  END(26);
 
   isc_detach_database(status, &db_handle);
   free (db_file_name);

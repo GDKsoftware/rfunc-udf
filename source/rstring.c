@@ -878,7 +878,7 @@ ARGLIST (size_t* len)
   char *result;
   char *ptr;
   size_t _len = *len;
-  size_t slice;
+  size_t _from = *from;
 
   if (str == NULL)
     return "";
@@ -891,10 +891,8 @@ ARGLIST (size_t* len)
   if (l < _len)
     _len = l;
 
-  slice = _len + *from;
-  
-  if (l < slice)
-    slice = l;
+  if (l < _len + _from - 1)
+    _from = 1;
 
   if (l < 1)
     return "";
@@ -905,7 +903,7 @@ ARGLIST (size_t* len)
   if (result == NULL)
     return "";
 
-  ptr = str + (l - _len - *from + 1);
+  ptr = str + (l - _len - _from + 1);
   strncpy (result, ptr, _len);
   return result;
 }
