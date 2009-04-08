@@ -334,6 +334,19 @@ rt_reg_func (&db_handle,
 	     "ABC| rFunc UDF Library;");
 
   END(22);
+  
+  BEGIN(23);
+
+  rt_exec_query (&db_handle, "UPDATE test_table SET XML='12345'");
+  rt_assert (&db_handle,
+	     "SELECT SUBSTR_R (XML, 1, 5) from test_table",
+	     "12345");
+
+  rt_assert (&db_handle,
+	     "SELECT SUBSTR_R (XML, 1, 7) from test_table",
+	     "12345");
+
+  END(23);
 
   isc_detach_database(status, &db_handle);
   free (db_file_name);

@@ -877,23 +877,36 @@ ARGLIST (size_t* len)
   size_t l;
   char *result;
   char *ptr;
+  size_t _len = *len;
+  size_t slice;
 
   if (str == NULL)
     return "";
 
   l = strlen (str);
 
-  if ((l < *len) || l < (*len + *from) || (l < 1))
+  /* if asked len of substring grater then actucal len of the string, 
+     then using actual_len of the string as len of subsring
+   */
+  if (l < _len)
+    _len = l;
+
+  slice = _len + *from;
+  
+  if (l < slice)
+    slice = l;
+
+  if (l < 1)
     return "";
 
-  result =  MALLOC (*len);
+  result =  MALLOC (_len + 1);
+  result = (char*)memset (result, 0, _len  + 1);
   
   if (result == NULL)
     return "";
 
-  ptr = str + (l - *len - *from + 1);
-  strncpy (result, ptr, *len);
-  result [*len] = '\0';
+  ptr = str + (l - _len - *from + 1);
+  strncpy (result, ptr, _len);
   return result;
 }
 
