@@ -152,7 +152,7 @@ ARGLIST(char *fmt)
 	struct tm tm1;
 	isc_decode_date(d, &tm1);
 #if defined WIN32
-	tm1.year += 1900;
+	tm1.tm_year += 1900;
 #endif
 
 #if defined(RLOCALE)
@@ -281,11 +281,11 @@ struct tm * _incdate(struct tm* tm1, long d, long m, long y)
 	yy = tm1->tm_year += IB_START_YEAR;
 
 	dpm = fn_daypermonth(&mm, &yy) - dd;
-	/* ГОД */
+	/*  */
 	yy += y;
 
-	/* МЕСЯЦ
-	   Прибавляем или вычитаем года */
+	/* 
+	       */
 	dsign = (mm + m < 1) ? -1 : 1;
 
 	x = div(dsign * (mm + m - 1), 12);
@@ -300,22 +300,22 @@ struct tm * _incdate(struct tm* tm1, long d, long m, long y)
 		mm = 12 - x.rem + 1;
 	}
 
-	/* ДЕНЬ
-	 Если день был последним днем в месяце - он должен и остаться последним 
-	 днем после изменения года и месяца. */
+	/* 
+	        -      
+	      . */
 	if (!dpm)
 		dd = fn_daypermonth(&mm, &yy);
 	else
 		dd = tm1->tm_mday;
-	/* Если дата вываливается за конец месяца после изменения года и месяца - */
-	/* ставим последнее число месяца. */
+	/*            - */
+	/*    . */
 	dd = (dd > fn_daypermonth(&mm, &yy)) ? fn_daypermonth(&mm, &yy) : dd;
 
-	 /* Прибавить дни или вычесть? */
+	 /*    ? */
 	dd += d;
 	dsign = (dd < 0) ? 0 : 1;
-	/* З.Ы. Было бы неплохо сразу проверять на 365 дней, чтобы проскакивать год */
-	/* при необходимости */
+	/* ..       365 ,    */
+	/*   */
 	if (dsign==1)
 	{
 		while ((dpm = fn_daypermonth(&mm, &yy)) < dd)
@@ -386,8 +386,8 @@ ARGLIST(long *secs)
 	tm1.tm_hour += *hours;
 	tm1.tm_min += *mins;
 	tm1.tm_sec += *secs;
-/* Высчитаем количество прибавляемых дней. */
-/* 	Прибавляем или вычитаем секунды */
+/*    . */
+/* 	    */
 	x = div(tm1.tm_sec, 60);
 	if (x.rem < 0)
 	{
@@ -399,7 +399,7 @@ ARGLIST(long *secs)
 		tm1.tm_min += x.quot;
 		tm1.tm_sec = x.rem;
 	}
-/* минуты в часы */
+/*    */
 	x = div(tm1.tm_min, 60);
 	if (x.rem < 0)
 	{
@@ -411,7 +411,7 @@ ARGLIST(long *secs)
 		tm1.tm_hour += x.quot;
 		tm1.tm_min = x.rem;
 	}
-/* часы в сутки */
+/*    */
 	x = div(tm1.tm_hour, 24);
 	if (x.rem < 0)
 	{
