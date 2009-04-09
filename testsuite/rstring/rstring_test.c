@@ -364,9 +364,31 @@ rt_reg_func (&db_handle,
 	     "45");
 
   END(26);
+  
+  BEGIN(27);
+
+  rt_exec_query (&db_handle, "UPDATE test_table SET XML='&#58;&#x03A;'");
+  
+  rt_assert (&db_handle,
+	     "SELECT XML_DEC_ENT (XML) from test_table",
+	     "::");
+
+  END(27);
+
+  BEGIN(28);
+
+  rt_exec_query (&db_handle, "UPDATE test_table SET XML='&#63;&#x3F;'");
+  
+  rt_assert (&db_handle,
+	     "SELECT XML_DEC_ENT (XML) from test_table",
+	     "??");
+
+  END(28);
+
 
   isc_detach_database(status, &db_handle);
   free (db_file_name);
 
+    
   return 0;
 }

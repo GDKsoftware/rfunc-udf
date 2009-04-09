@@ -627,8 +627,8 @@ char * EXPORT fn_xmldecent (ARG (char *, str))
 
 		  /* checking if tmp is digit, or letters a,b,c,d,e,f */
 		  while (isdigit (tmp [idx]) || 
-			 ((tolower (tmp [idx]) > 'a') && 
-			  (tolower (tmp [idx]) < 'f')))
+			 ((tolower (tmp [idx]) >= 'a') && 
+			  (tolower (tmp [idx]) <= 'f')))
 		    ++idx;
 
 		  /* if one or more digits founded */
