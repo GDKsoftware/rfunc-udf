@@ -930,7 +930,7 @@ ARGLIST (char* str)
 char * EXPORT fn_cr()
 {
   char *result;
-  result = malloc (2);
+  result = MALLOC (2);
   memset (result, 0, 2);
   result = strcat (result, "\r");
   return result;
@@ -939,7 +939,7 @@ char * EXPORT fn_cr()
 char * EXPORT fn_lf()
 {
   char *result;
-  result = malloc (2);
+  result = MALLOC (2);
   memset (result, 0, 2);
   result = strcat (result, "\n");
   return result;}
@@ -947,7 +947,7 @@ char * EXPORT fn_lf()
 char * EXPORT fn_crlf()
 {
   char *result;
-  result = malloc (3);
+  result = MALLOC (3);
   memset (result, 0, 3);
   result = strcat (result, "\r\n");
   return result;
@@ -956,7 +956,7 @@ char * EXPORT fn_crlf()
 char * EXPORT fn_tab()
 {
   char *result;
-  result = malloc (2);
+  result = MALLOC (2);
   memset (result, 0, 2);
   result = strcat (result, "\t");
   return result;
