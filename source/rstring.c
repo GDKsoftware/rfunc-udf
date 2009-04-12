@@ -869,40 +869,49 @@ ARGLIST (int* num)
   return orig - len;
 }
 
-char * EXPORT fn_substrr (ARG (char* ,str), ARG (size_t*, from), ARG (size_t*, len))
+char * EXPORT fn_substrr (ARG (char* ,str), ARG (int*, from), ARG (int*, len))
 ARGLIST (char* str)
-ARGLIST (size_t* from)
-ARGLIST (size_t* len)
+ARGLIST (int* from)
+ARGLIST (int* len)
 {
   size_t l;
   char *result;
   char *ptr;
-  size_t _len = *len;
-  size_t _from = *from;
+  int _len = *len;
+  int _from = *from;
 
   if (str == NULL)
     return "";
-
+   
   l = strlen (str);
 
   /* if asked len of substring grater then actucal len of the string, 
      then using actual_len of the string as len of subsring
    */
-  if (l < _len)
+
+  if (_len < 0)
+    {
+      _len = 0 - _len;
+      
+      if (_from < 0)
+	_from += _len;
+    }
+
+  if (_from < 0)    
+    _from = 1 - _from;    
+
+  if ((int)l < _len)
     _len = l;
-
-  if (l < _len + _from - 1)
+  
+  if ((int)l < _len + _from - 1)
     _from = 1;
-
-  if (l < 1)
-    return "";
 
   result =  MALLOC (_len + 1);
   result = (char*)memset (result, 0, _len  + 1);
   
   if (result == NULL)
-    return "";
-
+    return "";  
+ 
   ptr = str + (l - _len - _from + 1);
   strncpy (result, ptr, _len);
   return result;

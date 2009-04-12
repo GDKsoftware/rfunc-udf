@@ -87,7 +87,7 @@ int EXPORT fn_strnposr (ARG (char*, str1),
 			ARG (int*, pos),
 			ARG (int*, num));
 
-char * EXPORT fn_substrr (ARG (char* ,str), ARG (size_t*, from), ARG (size_t*, len));
+char * EXPORT fn_substrr (ARG (char* ,str), ARG (int*, from), ARG (int*, len));
 
 char * EXPORT fn_strmirror (ARG (char*, str));
 
