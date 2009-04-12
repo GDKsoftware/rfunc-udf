@@ -353,19 +353,43 @@ rt_reg_func (&db_handle,
 
   BEGIN(25);
   rt_assert (&db_handle,
-	     "SELECT SUBSTR_R (XML, 10, 6) from test_table",
-	     "12345");
+	     "SELECT SUBSTR_R (XML, -3, 3) from test_table",
+	     "345");
 
   END(25);
 
   BEGIN(26);
   rt_assert (&db_handle,
+	     "SELECT SUBSTR_R (XML, -4, -2) from test_table",
+	     "23");
+
+  END(26);
+
+  BEGIN(27);
+
+  /*  12345 */
+
+  rt_assert (&db_handle,
+	     "SELECT SUBSTR_R (XML, 4, -1) from test_table",
+	     "2");
+
+  END(27);
+
+  BEGIN(28);
+  rt_assert (&db_handle,
+	     "SELECT SUBSTR_R (XML, 10, 6) from test_table",
+	     "12345");
+
+  END(28);
+
+  BEGIN(29);
+  rt_assert (&db_handle,
 	     "SELECT SUBSTR_R (XML, 10, 2) from test_table",
 	     "45");
 
-  END(26);
+  END(29);
   
-  BEGIN(27);
+  BEGIN(30);
 
   rt_exec_query (&db_handle, "UPDATE test_table SET XML='&#58;&#x03A;'");
   
@@ -373,9 +397,9 @@ rt_reg_func (&db_handle,
 	     "SELECT XML_DEC_ENT (XML) from test_table",
 	     "::");
 
-  END(27);
+  END(30);
 
-  BEGIN(28);
+  BEGIN(31);
 
   rt_exec_query (&db_handle, "UPDATE test_table SET XML='&#63;&#x3F;'");
   
@@ -383,7 +407,7 @@ rt_reg_func (&db_handle,
 	     "SELECT XML_DEC_ENT (XML) from test_table",
 	     "??");
 
-  END(28);
+  END(31);
 
 
   isc_detach_database(status, &db_handle);
