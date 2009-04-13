@@ -12,7 +12,7 @@
 :      See license.txt for more details.
 
 @echo off
-makecmd=C:\CBuilderX\free\Bin\make.exe
+set makecmd=C:\CBuilderX\free\Bin\make.exe
 
 : clear old files
 %makecmd% -f makefile.bc clean
