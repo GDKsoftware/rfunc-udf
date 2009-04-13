@@ -5,7 +5,7 @@
 		Update SQL-script for migrate DB from rFunc 2.1 to 2.2.
                 For InterBase 6 or later.
 
-      		Copyright 2009 PoleSoft Technologies Group
+ 		Copyright 2009 PoleSoft Technologies Group
 		http://www.polesoft.ru/project/rfunc
 		mailto:support@polesoft.ru
 
@@ -32,7 +32,6 @@
 /* Bugfix: Input string for SUBSTR increased */
 
 update RDB$FUNCTION_ARGUMENTS set RDB$field_length=16383 WHERE RDB$FUNCTION_name='SUBSTR' AND RDB$ARGUMENT_position=1;
-/*update RDB$FUNCTION_ARGUMENTS set RDB$mechanism=-1 WHERE RDB$FUNCTION_name='CHR' AND RDB$ARGUMENT_position=0;*/
 COMMIT;
 
 DECLARE EXTERNAL FUNCTION FACT
