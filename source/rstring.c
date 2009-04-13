@@ -869,52 +869,41 @@ ARGLIST (int* num)
   return orig - len;
 }
 
+/* Oh my god. This code works now */
 char * EXPORT fn_substrr (ARG (char* ,str), ARG (int*, from), ARG (int*, len))
 ARGLIST (char* str)
 ARGLIST (int* from)
 ARGLIST (int* len)
 {
-  size_t l;
-  char *result;
-  char *ptr;
-  int _len = *len;
-  int _from = *from;
+  int left;
+  int right;
+  int str_len = (int)strlen (str);
+  char * result;
+  char * ptr = str;
+  int t;
 
-  if (str == NULL)
-    return "";
-   
-  l = strlen (str);
-
-  /* if asked len of substring grater then actucal len of the string, 
-     then using actual_len of the string as len of subsring
-   */
-
-  if (_len < 0)
-    {
-      _len = 0 - _len;
-      
-      if (_from < 0)
-	_from += _len;
-    }
-
-  if (_from < 0)    
-    _from = 1 - _from;    
-
-  if ((int)l < _len)
-    _len = l;
+  left = (*from > 0) ? str_len - *from + 1 : -*from;
+  right = (*len > 0) ? left - 1 : left - 1 - *len - 1;
+  left = (*len > 0) ? left - *len : left - 1;
   
-  if ((int)l < _len + _from - 1)
-    _from = 1;
-
-  result =  MALLOC (_len + 1);
-  result = (char*)memset (result, 0, _len  + 1);
-  
-  if (result == NULL)
-    return "";  
+  left = (left < 0) ? 0 : left;
+  right = (right > str_len - 1) ? str_len - 1 : right;
  
-  ptr = str + (l - _len - _from + 1);
-  strncpy (result, ptr, _len);
-  return result;
+  if (*len == 0 || (left > str_len - 1) || (right < 0))
+    {
+      t = left - right + 1;
+      result = (char*)malloc (t + 1);
+      result = (char *)memset ((void*)result, 0, t + 1);
+      result = strncpy  (result, ptr + left, t); 
+    }
+  else  
+    {      
+      t = right - left + 1;
+      result = (char*)malloc (t + 1);
+      result = (char *)memset ((void*)result, 0, t + 1);
+      result = strncpy (result, ptr + left, t);
+    }
+  return result; 
 }
 
 char * EXPORT fn_strmirror (ARG (char*, str))
