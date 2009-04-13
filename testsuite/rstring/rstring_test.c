@@ -71,6 +71,11 @@ int main ()
 	       "fn_substrr");
 
   rt_reg_func (&db_handle,
+	       "SUBSTR", "CSTRING(256), INTEGER, INTEGER",  
+	       "CSTRING(256) FREE_IT",
+	       "fn_substr");
+
+  rt_reg_func (&db_handle,
 	       "STR_MIRROR", "CSTRING(256)", "CSTRING(256) FREE_IT",
 	       "fn_strmirror");
 
@@ -172,12 +177,12 @@ rt_reg_func (&db_handle,
   BEGIN(6);
 
   rt_assert (&db_handle,
-	     "SELECT SUBSTR_R (XML, 4, 14) from test_table",
-	     "&apos;&amp;D&a");
+  	     "SELECT SUBSTR_R (XML, 4, 14) from test_table",
+  	     "&apos;&amp;D&a");
 
   rt_assert (&db_handle,
-	     "SELECT SUBSTR_R (XML, 1, 1) from test_table",
-	     ";");
+  	     "SELECT SUBSTR_R (XML, 1, 1) from test_table",
+  	     ";");
 
   END(6);
 
@@ -353,15 +358,15 @@ rt_reg_func (&db_handle,
 
   BEGIN(25);
   rt_assert (&db_handle,
-	     "SELECT SUBSTR_R (XML, -3, 3) from test_table",
-	     "345");
+	     "SELECT SUBSTR_R (XML, 1, 2) from test_table",
+	     "45");
 
   END(25);
 
   BEGIN(26);
   rt_assert (&db_handle,
-	     "SELECT SUBSTR_R (XML, -4, -2) from test_table",
-	     "23");
+	     "SELECT SUBSTR_R (XML, -1, -2) from test_table",
+	     "12");
 
   END(26);
 
@@ -384,12 +389,19 @@ rt_reg_func (&db_handle,
 
   BEGIN(29);
   rt_assert (&db_handle,
-	     "SELECT SUBSTR_R (XML, 10, 2) from test_table",
-	     "45");
+  	     "SELECT SUBSTR_R (XML, -1, -2) from test_table",
+  	     "12");
 
   END(29);
-  
+
   BEGIN(30);
+  rt_assert (&db_handle,
+  	     "SELECT SUBSTR_R (XML, -2, -20) from test_table",
+  	     "2345");
+
+  END(30);
+ 
+  BEGIN(31);
 
   rt_exec_query (&db_handle, "UPDATE test_table SET XML='&#58;&#x03A;'");
   
@@ -397,9 +409,9 @@ rt_reg_func (&db_handle,
 	     "SELECT XML_DEC_ENT (XML) from test_table",
 	     "::");
 
-  END(30);
+  END(31);
 
-  BEGIN(31);
+  BEGIN(32);
 
   rt_exec_query (&db_handle, "UPDATE test_table SET XML='&#63;&#x3F;'");
   
@@ -407,7 +419,7 @@ rt_reg_func (&db_handle,
 	     "SELECT XML_DEC_ENT (XML) from test_table",
 	     "??");
 
-  END(31);
+  END(32);
 
 
   isc_detach_database(status, &db_handle);
