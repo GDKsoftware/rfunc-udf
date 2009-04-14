@@ -151,6 +151,7 @@ ARGLIST(char *fmt)
 	char *buffer = (char *) MALLOC (shortlen);
 	struct tm tm1;
 	isc_decode_date(d, &tm1);
+
 #if defined WIN32
 	tm1.tm_year += 1900;
 #endif
@@ -281,11 +282,12 @@ struct tm * _incdate(struct tm* tm1, long d, long m, long y)
 	yy = tm1->tm_year += IB_START_YEAR;
 
 	dpm = fn_daypermonth(&mm, &yy) - dd;
-	/*  */
+	/* Year */
 	yy += y;
 
-	/* 
-	       */
+	/* Month
+	   Adding or substracting years */
+
 	dsign = (mm + m < 1) ? -1 : 1;
 
 	x = div(dsign * (mm + m - 1), 12);
@@ -299,23 +301,28 @@ struct tm * _incdate(struct tm* tm1, long d, long m, long y)
 		yy = yy - 1;
 		mm = 12 - x.rem + 1;
 	}
+	/* Day 
+	   If the day was the last in month, than it should stay the last one
+	   after year and month changed
+	 */
 
-	/* 
-	        -      
-	      . */
 	if (!dpm)
 		dd = fn_daypermonth(&mm, &yy);
 	else
 		dd = tm1->tm_mday;
-	/*            - */
-	/*    . */
+
+	/* If the date is grater than the month's end, after we changed the year
+	 and the month, then we setting up last day of the month*/
+
 	dd = (dd > fn_daypermonth(&mm, &yy)) ? fn_daypermonth(&mm, &yy) : dd;
 
-	 /*    ? */
+	/* Should we add days or substract ?*/
 	dd += d;
 	dsign = (dd < 0) ? 0 : 1;
-	/* ..       365 ,    */
-	/*   */
+	/*
+	  It would be nice to check for 365 days 
+	  and to skip year if it is necessary
+	 */
 	if (dsign==1)
 	{
 		while ((dpm = fn_daypermonth(&mm, &yy)) < dd)
@@ -386,8 +393,10 @@ ARGLIST(long *secs)
 	tm1.tm_hour += *hours;
 	tm1.tm_min += *mins;
 	tm1.tm_sec += *secs;
-/*    . */
-/* 	    */
+
+	/* Computing number days to be added  */
+	/* adding or substracting seconds */
+
 	x = div(tm1.tm_sec, 60);
 	if (x.rem < 0)
 	{
@@ -399,7 +408,7 @@ ARGLIST(long *secs)
 		tm1.tm_min += x.quot;
 		tm1.tm_sec = x.rem;
 	}
-/*    */
+	/* minutes into hours */
 	x = div(tm1.tm_min, 60);
 	if (x.rem < 0)
 	{
@@ -411,7 +420,9 @@ ARGLIST(long *secs)
 		tm1.tm_hour += x.quot;
 		tm1.tm_min = x.rem;
 	}
-/*    */
+
+	/* hours into day */
+
 	x = div(tm1.tm_hour, 24);
 	if (x.rem < 0)
 	{
