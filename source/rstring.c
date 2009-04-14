@@ -403,8 +403,9 @@ ARGLIST(char *fmt)
 	long	i;
 
 	buffer[0] = '\0';
- /* ��������� ������ �������, ������� ��������� ������������� ��� ���������. */
- /* 	 ������ ������������ �������������� ���������� �������� % */
+	/* Parsing format string and trying to determine probable type of argument */
+	/* Each conversion specificator begins with '%' symbol */
+
 	if ((s = strstr(fmt, "%")) != NULL)
 	{
 		i = 1;
