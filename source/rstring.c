@@ -892,14 +892,14 @@ ARGLIST (int* len)
   if (*len == 0 || (left > str_len - 1) || (right < 0))
     {
       t = left - right + 1;
-      result = (char*)malloc (t + 1);
+      result = (char*)MALLOC (t + 1);
       result = (char *)memset ((void*)result, 0, t + 1);
       result = strncpy  (result, ptr + left, t); 
     }
   else  
     {      
       t = right - left + 1;
-      result = (char*)malloc (t + 1);
+      result = (char*)MALLOC (t + 1);
       result = (char *)memset ((void*)result, 0, t + 1);
       result = strncpy (result, ptr + left, t);
     }
