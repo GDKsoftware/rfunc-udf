@@ -389,8 +389,8 @@ rt_reg_func (&db_handle,
 
   BEGIN(29);
   rt_assert (&db_handle,
-  	     "SELECT SUBSTR_R (XML, -1, -2) from test_table",
-  	     "12");
+  	     "SELECT SUBSTR_R (XML, -3, -3) from test_table",
+  	     "345");
 
   END(29);
 
