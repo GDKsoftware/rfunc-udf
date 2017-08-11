@@ -196,6 +196,9 @@ ARGLIST(char *is)
 	return strnstuff(s, spos, dcount, is, longlen);
 }
 
+/*
+	note: returns "s" itself if "froms" string is empty
+*/
 char* strnreplace(ARG(char*, s), ARG(char*, froms), ARG(char*, tos), ARG(long, maxlength))
 ARGLIST(char *s)
 ARGLIST(char *froms)
@@ -204,19 +207,28 @@ ARGLIST(long maxlength)
 {
 	long sn = strlen(froms);
 	char *buffer = (char*) MALLOC (maxlength);
-	char *sptr = s, *ptr = s, *bptr = buffer;
-
-	while ((ptr = strstr(ptr, froms)) != NULL)
+	// if "froms" is an empty string
+	if (sn == 0)
 	{
-		while (sptr != ptr && (bptr-buffer<maxlength-1)) *bptr++ = *sptr++;
-		sptr = tos;
-		while (*sptr && (bptr-buffer<maxlength-1)) *bptr++ = *sptr++;
-		ptr = ptr + sn;
-		sptr = ptr;
+		strcpy(buffer, s);
 	}
-	while (*sptr && (bptr-buffer<maxlength-1))
-		*bptr++ = *sptr++;
-	*bptr = '\0';
+     else
+	{
+		char *sptr = s, *ptr = s, *bptr = buffer;
+
+		while ((ptr = strstr(ptr, froms)) != NULL)
+		{
+			while (sptr != ptr && (bptr -buffer < maxlength - 1)) 
+				*bptr++ = *sptr++;
+			sptr = tos;
+			while (*sptr && (bptr-buffer<maxlength-1)) 					*bptr++ = *sptr++;
+			ptr = ptr + sn;
+			sptr = ptr;
+		}
+		while (*sptr && (bptr-buffer<maxlength-1))
+			*bptr++ = *sptr++;
+		*bptr = '\0';
+	}
 	return buffer;
 }
 
