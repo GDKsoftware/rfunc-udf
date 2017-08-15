@@ -94,7 +94,7 @@ long	EXPORT fn_msgbox(ARG(char*, lpText), ARG(char*, lpCaption), ARG(long*, Flag
 ARGLIST(char *lpText)
 ARGLIST(char *lpCaption)
 ARGLIST(long *Flags)
-{ return MessageBox(NULL, lpText, lpCaption, *Flags); }
+{ return MessageBoxA(NULL, lpText, lpCaption, *Flags); }
 #endif
 
 short EXPORT fn_ean13cs(ARG(char*, s))
