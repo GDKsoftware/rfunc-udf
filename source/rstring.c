@@ -61,7 +61,7 @@ ARGLIST(char *s)
 char* EXPORT fn_rtrim(ARG(char*, s))
 ARGLIST(char *s)
 {
-	long n;
+	size_t n;
 	n = strlen(s);
 	while (n && strchr(delims, s[n-1])) n--;
 	s[n] = '\0';
@@ -99,8 +99,8 @@ ARGLIST(char *s)
 ARGLIST(long *m)
 ARGLIST(long *n)
 {
-	long left, right;
-	long len = strlen(s);
+	size_t left, right;
+	size_t len = strlen(s);
 
 	left = (*m < 0) ? len + *m + 1 : *m;
 	right = (*n < 0) ? left - 1 : left - 1 + *n - 1;
@@ -123,8 +123,8 @@ ARGLIST(long maxlength)
 {
 	long i = 0;
 	long j = 0;
-	long l = strlen(s);
-	long n = MIN(*c * l + 1L, maxlength);
+	size_t l = strlen(s);
+	size_t n = MIN(*c * l + 1L, maxlength);
 	char *buffer = (char*) MALLOC (n);
 
 	if (*s)
@@ -161,7 +161,9 @@ ARGLIST(long maxlength)
 	long i = 0;
 	long j = 0;
 	long l = 0;
-	long slen = strlen(s), n, len;
+	size_t slen = strlen(s);
+	long n;
+	size_t len;
 	char *buffer;
 
 	len = slen + strlen(is) + 1L;
@@ -205,7 +207,7 @@ ARGLIST(char *froms)
 ARGLIST(char *tos)
 ARGLIST(long maxlength)
 {
-	long sn = strlen(froms);
+	size_t sn = strlen(froms);
 	char *buffer = (char*) MALLOC (maxlength);
 	// if "froms" is an empty string
 	if (sn == 0)
@@ -270,7 +272,7 @@ ARGLIST(char *str2)
 {
 	char *ptr;
 	long  r = 0;
-	long  len = strlen(str1);
+	size_t  len = strlen(str1);
 
 	if (!len || !*str2) return 0;
 	ptr = str2;
@@ -378,7 +380,7 @@ ARGLIST(short *n)
 ARGLIST(char *c)
 ARGLIST(long maxlength)
 {
-	long l = strlen(s), i = 0;
+	size_t l = strlen(s), i = 0;
 	char *buffer;
 	char *ptr = s;
 	long len = MIN(*n + 1L, maxlength);

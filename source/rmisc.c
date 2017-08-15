@@ -94,13 +94,13 @@ long	EXPORT fn_msgbox(ARG(char*, lpText), ARG(char*, lpCaption), ARG(long*, Flag
 ARGLIST(char *lpText)
 ARGLIST(char *lpCaption)
 ARGLIST(long *Flags)
-{ return MessageBox(NULL, lpText, lpCaption, *Flags); }
+{ return MessageBoxA(NULL, lpText, lpCaption, *Flags); }
 #endif
 
 short EXPORT fn_ean13cs(ARG(char*, s))
 ARGLIST(char *s)
 {
-	long i = strlen(s);
+	size_t i = strlen(s);
 	long c = 0, a;
 
 	if (i != 12 || atoi(s) == 0) return -1;
@@ -117,7 +117,7 @@ ARGLIST(char *s)
 short EXPORT fn_bccheckdigit(ARG(char*, s))
 ARGLIST(char *s)
 {
-	long i = strlen(s);
+	size_t i = strlen(s);
 	long c = 0, a, j;
 
 	for (j = 0; j < i; j++ )

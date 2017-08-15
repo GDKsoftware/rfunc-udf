@@ -23,12 +23,20 @@
    $Revision$ $Author$
    $Date$
  **************************************************************************/
+#define _USE_MATH_DEFINES
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
 
 #include "rfunc.h"
 #include "rmath.h"
+
+#if defined _MSC_VER
+#define random() rand()
+#define srandom(i) srand(i)
+#else
+#define _FALLBACK_RANDOMIZE
+#endif
 
 double EXPORT fn_abs(ARG(double*, x))
 ARGLIST(double *x)
@@ -128,7 +136,7 @@ ARGLIST(double *def)
 long EXPORT fn_initRandom(ARG(long *, num))
 ARGLIST(long* num)
 {
-#if defined WIN32
+#if defined _FALLBACK_RANDOMIZE
 	#pragma warn -8057
 	randomize();
 #else
@@ -140,7 +148,7 @@ ARGLIST(long* num)
 long EXPORT fn_getRandom(ARG(long *, num))
 ARGLIST(long* num)
 {
-#if defined WIN32
+#if defined _FALLBACK_RANDOMIZE
 	return random(*num);
 #else
 	div_t x;

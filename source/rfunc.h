@@ -48,6 +48,10 @@
 
 #include <ibase.h>
 
+#if defined _MSC_VER && defined _WIN64
+#define WIN32
+#endif
+
 #if defined __STDC__ || defined __BORLANDC__ || defined _MSC_VER
 #define PROTO(args) args
 #define ARG(type, arg) type arg
